@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://prdwkgtyflru"]
+
+[ext_resource type="Script" uid="uid://vefuj3qrkdu8" path="res://Management/menu_principal.gd" id="1_qf04y"]
+[ext_resource type="FontFile" uid="uid://c4gm003h6v5kr" path="res://RevMiniPixel.ttf" id="2_ewq74"]
+[ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Sounds/som-clique.wav" id="2_jqhqg"]
+
+[node name="MenuPrincipal" type="Control" unique_id=65307335]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qf04y")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1373818268]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1565622618]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -64.0
+offset_right = 41.5
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Titulo" type="Label" parent="VBoxContainer" unique_id=1269673918]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ewq74")
+theme_override_font_sizes/font_size = 30
+text = "GeoRush"
+horizontal_alignment = 1
+
+[node name="BotaoJogar" type="Button" parent="VBoxContainer" unique_id=917930566]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ewq74")
+text = "Jogar"
+
+[node name="BotaoControles" type="Button" parent="VBoxContainer" unique_id=1714699439]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ewq74")
+text = "Controles"
+
+[node name="BotaoSair" type="Button" parent="VBoxContainer" unique_id=55095407]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ewq74")
+text = "Sair"
+
+[node name="PainelControles" type="Panel" parent="." unique_id=789616582]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_right = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="PainelControles" unique_id=1126664178]
+layout_mode = 0
+offset_left = 147.5
+offset_top = -52.0
+offset_right = 353.5
+offset_bottom = 75.0
+theme_override_fonts/font = ExtResource("2_ewq74")
+text = "WASD / Setas: Movimentar
+E: Pegar Produto
+R: Devolver Produto
+Tab: Abrir/Fechar Lista
+Esc: Abrir/Fechar Menu"
+
+[node name="BotaoVoltar" type="Button" parent="PainelControles" unique_id=1759887471]
+layout_mode = 0
+offset_left = 150.5
+offset_top = 84.0
+offset_right = 211.5
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("2_ewq74")
+text = "Fechar
+"
+
+[node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=1764810098]
+stream = ExtResource("2_jqhqg")
+
+[connection signal="pressed" from="VBoxContainer/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
+[connection signal="pressed" from="VBoxContainer/BotaoControles" to="." method="_on_botao_controles_pressed"]
+[connection signal="pressed" from="VBoxContainer/BotaoSair" to="." method="_on_botao_sair_pressed"]
+[connection signal="pressed" from="PainelControles/BotaoVoltar" to="." method="_on_botao_voltar_pressed"]

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ProductData" format=3 uid="uid://264v5b633plq"]
+
+[ext_resource type="Script" uid="uid://c213xc5ita54a" path="res://Products/product_data.gd" id="1_hl12l"]
+[ext_resource type="Texture2D" uid="uid://bbxjfxjnpxb0q" path="res://Products/Icons/CaixaCereais.PNG" id="1_m0kij"]
+
+[resource]
+script = ExtResource("1_hl12l")
+product_name = "Cereal"
+shape = 2
+category = 7
+icon = ExtResource("1_m0kij")
+metadata/_custom_type_script = "uid://c213xc5ita54a"

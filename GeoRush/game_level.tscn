@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://1jwewro28xg"]
+
+[ext_resource type="PackedScene" uid="uid://cyqoa4f8q1qh6" path="res://Terrain/mercado_manager.tscn" id="1_df5pp"]
+[ext_resource type="PackedScene" uid="uid://bq4iuja5vbq8" path="res://Characters/atendente.tscn" id="2_ibsu8"]
+[ext_resource type="PackedScene" uid="uid://c5had6bv036ny" path="res://Management/customer_manager.tscn" id="3_ibsu8"]
+[ext_resource type="PackedScene" uid="uid://bydthr3tmpqad" path="res://Interface/menu_pausa.tscn" id="4_qsd0w"]
+
+[node name="Test" type="Node2D" unique_id=179900688]
+y_sort_enabled = true
+
+[node name="MercadoManager" parent="." unique_id=200773861 instance=ExtResource("1_df5pp")]
+
+[node name="CustomerManager" parent="." unique_id=772701674 instance=ExtResource("3_ibsu8")]
+
+[node name="Atendente" parent="." unique_id=574071257 instance=ExtResource("2_ibsu8")]
+position = Vector2(110, 138)
+
+[node name="MenuPausa" parent="." unique_id=1644045645 instance=ExtResource("4_qsd0w")]

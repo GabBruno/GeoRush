@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://jss5aeax6m7k"]
+
+[ext_resource type="Script" uid="uid://cw0lklokllos5" path="res://Manegement/caixa_checkout.gd" id="1_ironu"]
+[ext_resource type="Texture2D" uid="uid://xwc0bu8aq7gt" path="res://Terrain/1.png" id="2_pwdo7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iwbq8"]
+size = Vector2(103, 60)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_anyd3"]
+texture = ExtResource("2_pwdo7")
+24:31/size_in_atlas = Vector2i(6, 5)
+24:31/0 = 0
+24:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-46.133762, 1.2590122, 47.66256, 1.0791521, 47.12299, 37.95019, -45.86397, 38.669624)
+
+[sub_resource type="TileSet" id="TileSet_ok278"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_anyd3")
+
+[node name="CaixaCheckout" type="Area2D" unique_id=376012579]
+y_sort_enabled = true
+position = Vector2(-19, -24)
+script = ExtResource("1_ironu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=210017220]
+position = Vector2(67, 49)
+shape = SubResource("RectangleShape2D_iwbq8")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1905715832]
+position = Vector2(27, 31)
+tile_map_data = PackedByteArray(0, 0, 2, 0, 0, 0, 0, 0, 24, 0, 31, 0, 0, 0)
+tile_set = SubResource("TileSet_ok278")
+
+[node name="Label" type="Label" parent="." unique_id=1415230882]
+modulate = Color(0, 0, 0, 1)
+offset_left = 124.0
+offset_top = 39.0
+offset_right = 164.0
+offset_bottom = 62.0
+
+[node name="TimerSpawn" type="Timer" parent="." unique_id=1521018025]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="TimerSpawn" to="." method="_on_timer_spawn_timeout"]
