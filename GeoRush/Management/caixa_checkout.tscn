@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cw0lklokllos5" path="res://Management/caixa_checkout.gd" id="1_ironu"]
 [ext_resource type="Texture2D" uid="uid://xwc0bu8aq7gt" path="res://Terrain/1.png" id="2_pwdo7"]
+[ext_resource type="FontFile" uid="uid://c4gm003h6v5kr" path="res://RevMiniPixel.ttf" id="3_5gip3"]
 [ext_resource type="AudioStream" uid="uid://clo0fg8ub20cs" path="res://Sounds/som-cliente-chegou.wav" id="3_pwdo7"]
 [ext_resource type="AudioStream" uid="uid://ckgfrel155cid" path="res://Sounds/som-sucesso.wav" id="4_anyd3"]
 [ext_resource type="AudioStream" uid="uid://crngcixu22nmo" path="res://Sounds/som-erro.wav" id="5_ok278"]
@@ -19,6 +20,17 @@ texture = ExtResource("2_pwdo7")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_anyd3")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gip3"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.36862746)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [node name="CaixaCheckout" type="Area2D" unique_id=376012579]
 y_sort_enabled = true
 position = Vector2(-19, -24)
@@ -35,11 +47,18 @@ tile_set = SubResource("TileSet_ok278")
 
 [node name="Label" type="Label" parent="." unique_id=1415230882]
 modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
 offset_left = 124.0
 offset_top = 39.0
 offset_right = 164.0
 offset_bottom = 62.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_5gip3")
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_5gip3")
+text = "(Aguardando Cliente)"
+vertical_alignment = 1
+visible_characters_behavior = 1
 
 [node name="TimerSpawn" type="Timer" parent="." unique_id=1521018025]
 wait_time = 10.0

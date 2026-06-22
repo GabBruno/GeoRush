@@ -40,6 +40,18 @@ size = Vector2(42, 21)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n2wvm"]
 size = Vector2(48, 43)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jcqfd"]
+bg_color = Color(0, 0, 0, 0.36862746)
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
 [node name="BaseProducts" type="Node2D" unique_id=1106355982]
 y_sort_enabled = true
 
@@ -68,14 +80,16 @@ position = Vector2(22, 19)
 shape = SubResource("RectangleShape2D_n2wvm")
 
 [node name="Label" type="Label" parent="Product" unique_id=903551863]
-offset_left = 48.0
-offset_top = 6.0
-offset_right = 133.0
-offset_bottom = 29.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 50.0
+offset_top = 12.0
+offset_right = 101.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_jcqfd")
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_jcqfd")
 text = "Mensagem"
 vertical_alignment = 1
 

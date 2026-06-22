@@ -153,7 +153,9 @@ position = Vector2(243, 319)
 position = Vector2(243, 392)
 
 [node name="SetorParalelepipedos" type="Node2D" parent="." unique_id=2096543584 groups=["setor_paralelepipedos"]]
+process_mode = 4
 visible = false
+y_sort_enabled = true
 position = Vector2(-1, 0)
 
 [node name="CaixaLeite" parent="SetorParalelepipedos" unique_id=81362155 instance=ExtResource("14_xvcm2")]

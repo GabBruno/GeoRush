@@ -32,8 +32,9 @@ position = Vector2(24, 65.5)
 position = Vector2(24.5, 57.5)
 
 [node name="Label" parent="Product" index="2" unique_id=903551863]
-offset_left = 50.0
+offset_left = 53.0
 offset_top = 45.0
-offset_right = 135.0
+offset_right = 138.0
 offset_bottom = 68.0
+visible_characters_behavior = 1
 metadata/_edit_use_anchors_ = true
