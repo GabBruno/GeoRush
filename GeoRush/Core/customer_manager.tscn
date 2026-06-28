@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://c5had6bv036ny"]
+
+[ext_resource type="Script" uid="uid://beow4h8gc16tj" path="res://Core/customer_manager.gd" id="1_ho1oh"]
+[ext_resource type="Script" uid="uid://c213xc5ita54a" path="res://Core/product_data.gd" id="2_kurqf"]
+[ext_resource type="Resource" uid="uid://dqnww6rnnn46l" path="res://Products/Data/laranja.tres" id="3_tokod"]
+[ext_resource type="Resource" uid="uid://bdc8ypv8y6ebo" path="res://Products/Data/limao.tres" id="4_cdoub"]
+[ext_resource type="Resource" uid="uid://dom1e26idchdi" path="res://Products/Data/maca.tres" id="5_nrb8n"]
+[ext_resource type="Resource" uid="uid://264v5b633plq" path="res://Products/Data/caixa_cereais.tres" id="6_cdoub"]
+[ext_resource type="Resource" uid="uid://bojmbo8y8fotv" path="res://Products/Data/garrafa_agua.tres" id="6_diynj"]
+[ext_resource type="Resource" uid="uid://b5wqd6p23fr0t" path="res://Products/Data/lata_milho.tres" id="7_nrb8n"]
+[ext_resource type="Resource" uid="uid://dixmijicmnxwg" path="res://Products/Data/refrigerante_cola.tres" id="7_u4eie"]
+[ext_resource type="Resource" uid="uid://01ttcb2v5l1n" path="res://Products/Data/caixa_leite.tres" id="9_qdxlb"]
+[ext_resource type="Resource" uid="uid://bkear40am75gl" path="res://Products/Data/batata_chips.tres" id="10_bhs5p"]
+
+[node name="CustomerManager" type="Node2D" unique_id=772701674]
+script = ExtResource("1_ho1oh")
+banco_de_produtos = Array[ExtResource("2_kurqf")]([ExtResource("5_nrb8n"), ExtResource("4_cdoub"), ExtResource("3_tokod"), ExtResource("6_diynj"), ExtResource("7_u4eie"), ExtResource("7_nrb8n"), ExtResource("9_qdxlb"), ExtResource("10_bhs5p"), ExtResource("6_cdoub")])
+
+[node name="TempoPedido" type="Timer" parent="." unique_id=1067079658]
+one_shot = true

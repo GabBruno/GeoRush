@@ -1,0 +1,243 @@
+[gd_scene format=3 uid="uid://cwqv5lg7wewf4"]
+
+[ext_resource type="Script" uid="uid://cmtylhylcmieg" path="res://Entities/Characters/base_character.gd" id="1_t6krv"]
+[ext_resource type="Texture2D" uid="uid://dyq20p5eto2k8" path="res://Assets/UI/Notepad.png" id="2_pcj28"]
+[ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="2_wpv76"]
+[ext_resource type="Script" uid="uid://2fxaubbewyaw" path="res://Core/hud_manager.gd" id="3_d7oy1"]
+[ext_resource type="AudioStream" uid="uid://cxmsm8kfdvwmx" path="res://Assets/Audio/SFX/som-abrir-notepad.wav" id="3_pxwdx"]
+[ext_resource type="AudioStream" uid="uid://cwrjvacxot6q" path="res://Assets/Audio/SFX/som-fechar-notepad.wav" id="4_o7ww3"]
+[ext_resource type="Texture2D" uid="uid://4tjbqnjbivx0" path="res://Assets/UI/IconeRelogio.png" id="6_no1pk"]
+[ext_resource type="AudioStream" uid="uid://c3ysbffi31qma" path="res://Assets/Audio/SFX/som_passo1.wav" id="7_8ap5g"]
+[ext_resource type="Texture2D" uid="uid://dwhdd2r5suces" path="res://Assets/UI/IconeReputacao.png" id="7_tmesv"]
+[ext_resource type="Texture2D" uid="uid://cmd5ktghfejt" path="res://Assets/UI/IconeDinheiro.png" id="8_af28n"]
+[ext_resource type="AudioStream" uid="uid://cibtuxocw2t5o" path="res://Assets/Audio/SFX/som_passo2.wav" id="8_tc2o5"]
+[ext_resource type="AudioStream" uid="uid://ddu3pgr670aef" path="res://Assets/Audio/SFX/som_passo3.wav" id="9_tmesv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d7oy1"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 0.5882353)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_no1pk"]
+streams_count = 3
+stream_0/stream = ExtResource("7_8ap5g")
+stream_1/stream = ExtResource("8_tc2o5")
+stream_2/stream = ExtResource("9_tmesv")
+
+[node name="BaseCharacter" type="CharacterBody2D" unique_id=574071257 node_paths=PackedStringArray("_sprite2D", "_animation")]
+y_sort_enabled = true
+script = ExtResource("1_t6krv")
+_sprite2D = NodePath("Texture")
+_animation = NodePath("Animation")
+
+[node name="Texture" type="Sprite2D" parent="." unique_id=1306458981]
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1549271126]
+
+[node name="Animation" type="AnimationPlayer" parent="." unique_id=1740124001]
+
+[node name="PlayerUI" type="CanvasLayer" parent="." unique_id=2042870417]
+
+[node name="Notificacao" type="Label" parent="PlayerUI" unique_id=1737547377]
+process_mode = 3
+offset_left = 23.0
+offset_top = 68.0
+offset_right = 63.0
+offset_bottom = 111.0
+theme_override_fonts/font = ExtResource("2_wpv76")
+theme_override_styles/normal = SubResource("StyleBoxFlat_d7oy1")
+
+[node name="Notepad" type="Control" parent="PlayerUI" unique_id=1161797488]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 42.0
+
+[node name="NotepadVisual" type="TextureRect" parent="PlayerUI/Notepad" unique_id=1631171778]
+layout_mode = 0
+offset_left = 954.0
+offset_top = 293.0
+offset_right = 2357.0
+offset_bottom = 2172.0
+scale = Vector2(0.1967129, 0.21544948)
+texture = ExtResource("2_pcj28")
+
+[node name="TitleList" type="Label" parent="PlayerUI/Notepad" unique_id=241917111]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 1020.0
+offset_top = 341.0
+offset_right = 1168.0
+offset_bottom = 364.0
+theme_override_fonts/font = ExtResource("2_wpv76")
+text = "LISTA DE COMPRAS"
+
+[node name="ItemsList" type="VBoxContainer" parent="PlayerUI/Notepad" unique_id=946811592 groups=["lista_de_pedidos"]]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 0
+offset_left = 983.0
+offset_top = 394.0
+offset_right = 1023.0
+offset_bottom = 434.0
+
+[node name="SomAbrirNotepad" type="AudioStreamPlayer" parent="PlayerUI/Notepad" unique_id=1840498425]
+stream = ExtResource("3_pxwdx")
+volume_db = -12.0
+
+[node name="SomFecharNotepad" type="AudioStreamPlayer" parent="PlayerUI/Notepad" unique_id=444656287]
+stream = ExtResource("4_o7ww3")
+volume_db = -15.0
+
+[node name="HUD" type="MarginContainer" parent="PlayerUI" unique_id=974091100]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+script = ExtResource("3_d7oy1")
+
+[node name="Container" type="HBoxContainer" parent="PlayerUI/HUD" unique_id=1910258977]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Tempo" type="HBoxContainer" parent="PlayerUI/HUD/Container" unique_id=1855848523]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="IconeTempo" type="TextureRect" parent="PlayerUI/HUD/Container/Tempo" unique_id=1620946019]
+layout_mode = 2
+texture = ExtResource("6_no1pk")
+expand_mode = 3
+
+[node name="LabelTempo" type="Label" parent="PlayerUI/HUD/Container/Tempo" unique_id=592434729]
+custom_minimum_size = Vector2(165, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_wpv76")
+theme_override_font_sizes/font_size = 24
+text = "Aguardando..."
+vertical_alignment = 1
+
+[node name="Dinheiro" type="HBoxContainer" parent="PlayerUI/HUD/Container" unique_id=742635388]
+layout_mode = 2
+
+[node name="IconeDinheiro" type="TextureRect" parent="PlayerUI/HUD/Container/Dinheiro" unique_id=863374428]
+layout_mode = 2
+texture = ExtResource("8_af28n")
+expand_mode = 3
+
+[node name="LabelDinheiro" type="Label" parent="PlayerUI/HUD/Container/Dinheiro" unique_id=706752037]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_wpv76")
+theme_override_font_sizes/font_size = 24
+text = "$ 1.000,00"
+
+[node name="Reputacao" type="HBoxContainer" parent="PlayerUI/HUD/Container" unique_id=1660086584]
+layout_mode = 2
+alignment = 1
+
+[node name="LabelReputacao" type="Label" parent="PlayerUI/HUD/Container/Reputacao" unique_id=666489204]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_wpv76")
+theme_override_font_sizes/font_size = 24
+text = "Reputação:"
+
+[node name="EstrelasContainer" type="HBoxContainer" parent="PlayerUI/HUD/Container/Reputacao" unique_id=1227267770]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="IconeReputacao" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=316809037]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="IconeReputacao2" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=17720151]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="IconeReputacao3" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=1606380405]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="IconeReputacao4" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=1291093699]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="IconeReputacao5" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=1628398756]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Expansao" type="HBoxContainer" parent="PlayerUI/HUD/Container" unique_id=813257457]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="LabelExpansao" type="Label" parent="PlayerUI/HUD/Container/Expansao" unique_id=1002983192]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_wpv76")
+theme_override_font_sizes/font_size = 24
+text = "Próxima Expansão: "
+
+[node name="BarraExpansao" type="ProgressBar" parent="PlayerUI/HUD/Container/Expansao" unique_id=996698951]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 18.1
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("2_wpv76")
+theme_override_font_sizes/font_size = 20
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=2118113154]
+zoom = Vector2(2, 2)
+
+[node name="SomPassos" type="AudioStreamPlayer2D" parent="." unique_id=258046376]
+stream = SubResource("AudioStreamRandomizer_no1pk")
+volume_db = -3.0

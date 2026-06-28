@@ -1,0 +1,23 @@
+[gd_resource type="Theme" format=3 uid="uid://du5donkx6irnw"]
+
+[ext_resource type="Texture2D" uid="uid://byxhki3yqff5j" path="res://Assets/UI/[3] Hover.png" id="1_c6oby"]
+[ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="1_skq4b"]
+[ext_resource type="Texture2D" uid="uid://d0cut1qvd51mv" path="res://Assets/UI/[1] Normal.png" id="2_skq4b"]
+[ext_resource type="Texture2D" uid="uid://cgwu5hjp263g7" path="res://Assets/UI/[2] Clicked.png" id="3_1hfiq"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_irisr"]
+texture = ExtResource("1_c6oby")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hsw81"]
+texture = ExtResource("2_skq4b")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8lcpf"]
+texture = ExtResource("3_1hfiq")
+
+[resource]
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/font_sizes/font_size = 14
+Button/fonts/font = ExtResource("1_skq4b")
+Button/styles/hover = SubResource("StyleBoxTexture_irisr")
+Button/styles/normal = SubResource("StyleBoxTexture_hsw81")
+Button/styles/pressed = SubResource("StyleBoxTexture_8lcpf")

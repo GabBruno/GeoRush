@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dnxyudg381pax"]
 
-[ext_resource type="Texture2D" uid="uid://dp7rp0475y3o4" path="res://Terrain/4.png" id="1_n6n4x"]
-[ext_resource type="Texture2D" uid="uid://xwc0bu8aq7gt" path="res://Terrain/1.png" id="1_oq8q5"]
+[ext_resource type="Texture2D" uid="uid://dp7rp0475y3o4" path="res://Assets/Enviroment/4.png" id="1_n6n4x"]
+[ext_resource type="Texture2D" uid="uid://xwc0bu8aq7gt" path="res://Assets/Enviroment/1.png" id="1_oq8q5"]
 [ext_resource type="Script" uid="uid://q5ug42flnxae" path="res://Products/product.gd" id="2_0klb1"]
-[ext_resource type="FontFile" uid="uid://c4gm003h6v5kr" path="res://RevMiniPixel.ttf" id="4_jcqfd"]
-[ext_resource type="AudioStream" uid="uid://bwt15vthsdmgc" path="res://Sounds/som-pegar.wav" id="5_jcqfd"]
-[ext_resource type="AudioStream" uid="uid://2wtu31ybvy1a" path="res://Sounds/som-devolver.wav" id="6_rq2ot"]
+[ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="4_jcqfd"]
+[ext_resource type="AudioStream" uid="uid://bwt15vthsdmgc" path="res://Assets/Audio/SFX/som-pegar.wav" id="5_jcqfd"]
+[ext_resource type="AudioStream" uid="uid://2wtu31ybvy1a" path="res://Assets/Audio/SFX/som-devolver.wav" id="6_rq2ot"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bwrqj"]
 texture = ExtResource("1_n6n4x")

@@ -1,0 +1,143 @@
+[gd_scene format=3 uid="uid://prdwkgtyflru"]
+
+[ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="1_cstiv"]
+[ext_resource type="Script" uid="uid://vefuj3qrkdu8" path="res://UI/menu_principal.gd" id="2_wtsn5"]
+[ext_resource type="Texture2D" uid="uid://ch0gelwftro5b" path="res://Assets/UI/FundoMenu.png" id="3_r4lhm"]
+[ext_resource type="Texture2D" uid="uid://din0iq24k1wx7" path="res://Assets/UI/LogoGeoRush.png" id="4_2kk8p"]
+[ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="5_cstiv"]
+[ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="6_m2ffh"]
+[ext_resource type="AudioStream" uid="uid://ieeqltuwmial" path="res://Assets/Audio/Music/musica_menu.mp3" id="7_h5p4b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_msr8j"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 0.5882353)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="MenuPrincipal" type="Control" unique_id=65307335]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cstiv")
+script = ExtResource("2_wtsn5")
+
+[node name="FundoMenu" type="TextureRect" parent="." unique_id=2119138683]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_r4lhm")
+expand_mode = 2
+
+[node name="Logo" type="TextureRect" parent="." unique_id=1753891177]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -312.0
+offset_top = -342.5
+offset_right = 312.0
+offset_bottom = -117.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_2kk8p")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1565622618]
+custom_minimum_size = Vector2(150, 0)
+propagate_maximum_size = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.25
+offset_top = -33.0
+offset_right = 140.25
+offset_bottom = 185.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="BotaoJogar" type="Button" parent="VBoxContainer" unique_id=917930566]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Jogar"
+
+[node name="BotaoControles" type="Button" parent="VBoxContainer" unique_id=1714699439]
+custom_minimum_size = Vector2(150, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Controles"
+
+[node name="BotaoSair" type="Button" parent="VBoxContainer" unique_id=55095407]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Sair"
+
+[node name="PainelControles" type="Panel" parent="." unique_id=789616582]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 19.0
+offset_top = 32.0
+offset_right = 102.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="PainelControles" unique_id=1126664178]
+layout_mode = 0
+offset_left = 147.5
+offset_top = -52.0
+offset_right = 355.5
+offset_bottom = 40.0
+theme_override_fonts/font = ExtResource("5_cstiv")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_msr8j")
+text = "WASD / Setas: Movimentar
+E: Pegar Produto
+R: Devolver Produto
+Tab: Abrir/Fechar Lista
+Esc: Abrir/Fechar Menu"
+
+[node name="BotaoVoltar" type="Button" parent="PainelControles" unique_id=1759887471]
+layout_mode = 0
+offset_left = 146.0
+offset_top = 92.0
+offset_right = 251.0
+offset_bottom = 136.0
+theme_override_font_sizes/font_size = 20
+text = " Fechar"
+icon_alignment = 1
+
+[node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=1764810098]
+stream = ExtResource("6_m2ffh")
+
+[node name="MusicaMenu" type="AudioStreamPlayer" parent="." unique_id=1115210472]
+stream = ExtResource("7_h5p4b")
+volume_db = -20.0
+autoplay = true
+parameters/looping = true
+
+[connection signal="pressed" from="VBoxContainer/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
+[connection signal="pressed" from="VBoxContainer/BotaoControles" to="." method="_on_botao_controles_pressed"]
+[connection signal="pressed" from="VBoxContainer/BotaoSair" to="." method="_on_botao_sair_pressed"]
+[connection signal="pressed" from="PainelControles/BotaoVoltar" to="." method="_on_botao_voltar_pressed"]

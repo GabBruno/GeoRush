@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dayxr6sote83"]
+
+[ext_resource type="PackedScene" uid="uid://dnxyudg381pax" path="res://Products/base_products.tscn" id="1_udvo3"]
+[ext_resource type="Resource" uid="uid://b5wqd6p23fr0t" path="res://Products/Data/lata_milho.tres" id="2_6a4e8"]
+
+[node name="LataMilho" unique_id=1106355982 instance=ExtResource("1_udvo3")]
+
+[node name="ProductGrid" parent="Visuals" parent_id_path=PackedInt32Array(1835841903) index="1" unique_id=1782954429]
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 39.0
+offset_bottom = 39.0
+theme_override_constants/h_separation = -4
+theme_override_constants/v_separation = -10
+columns = 4
+
+[node name="Product" parent="." index="1" unique_id=176288804]
+product_data = ExtResource("2_6a4e8")
+max_stock = 12

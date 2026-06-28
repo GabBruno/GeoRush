@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://bbu4o6floucei"]
+
+[ext_resource type="Script" uid="uid://bhchurrmp66q6" path="res://UI/popup_expansao.gd" id="1_jrfrq"]
+[ext_resource type="AudioStream" uid="uid://boyyxlt33s4r" path="res://Assets/Audio/SFX/som-expansao.mp3" id="2_cdo41"]
+[ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="2_kl13a"]
+[ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="3_7gx58"]
+[ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="3_sio4l"]
+
+[node name="PopupExpansao" type="CanvasLayer" unique_id=1525271330]
+process_mode = 3
+script = ExtResource("1_jrfrq")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=41607705]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=284334979]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -203.5
+offset_top = -20.0
+offset_right = 203.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=618927460]
+layout_mode = 2
+alignment = 1
+
+[node name="Titulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1204092890]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kl13a")
+theme_override_font_sizes/font_size = 20
+text = "NOVO SETOR DESBLOQUEADO: CONSERVAS E MATINAIS!"
+
+[node name="Subtitulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=491023860]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kl13a")
+theme_override_font_sizes/font_size = 20
+text = "Atenção aos novos formatos: Cilindro e Paralelepípedo!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1020264634]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=83650044]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1371350061]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1693223771]
+custom_minimum_size = Vector2(0, 50)
+custom_maximum_size = Vector2(280, -1)
+layout_mode = 2
+theme = ExtResource("3_7gx58")
+theme_override_font_sizes/font_size = 22
+text = "Continuar"
+
+[node name="SomExpansao" type="AudioStreamPlayer" parent="." unique_id=1059925971]
+process_mode = 3
+stream = ExtResource("2_cdo41")
+volume_db = -10.0
+
+[node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=349113748]
+process_mode = 3
+stream = ExtResource("3_sio4l")
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Button" to="." method="_on_button_continuar_pressed"]
