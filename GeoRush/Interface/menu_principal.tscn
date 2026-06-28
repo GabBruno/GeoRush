@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://c4gm003h6v5kr" path="res://RevMiniPixel.ttf" id="2_ewq74"]
 [ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Sounds/som-clique.wav" id="2_jqhqg"]
 [ext_resource type="Texture2D" uid="uid://din0iq24k1wx7" path="res://Interface/LogoGeoRush.png" id="3_l10o0"]
+[ext_resource type="AudioStream" uid="uid://ieeqltuwmial" path="res://Sounds/Music/musica_menu.mp3" id="6_comnx"]
 
 [node name="MenuPrincipal" type="Control" unique_id=65307335]
 layout_mode = 3
@@ -111,6 +112,12 @@ text = "Fechar
 
 [node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=1764810098]
 stream = ExtResource("2_jqhqg")
+
+[node name="MusicaMenu" type="AudioStreamPlayer" parent="." unique_id=1115210472]
+stream = ExtResource("6_comnx")
+volume_db = -20.0
+autoplay = true
+parameters/looping = true
 
 [connection signal="pressed" from="VBoxContainer/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
 [connection signal="pressed" from="VBoxContainer/BotaoControles" to="." method="_on_botao_controles_pressed"]

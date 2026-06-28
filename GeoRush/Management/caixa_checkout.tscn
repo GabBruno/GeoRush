@@ -66,11 +66,14 @@ autostart = true
 
 [node name="SomClienteChegou" type="AudioStreamPlayer" parent="." unique_id=868363180]
 stream = ExtResource("3_pwdo7")
+volume_db = -10.0
 
 [node name="SomSucesso" type="AudioStreamPlayer" parent="." unique_id=1426367657]
 stream = ExtResource("4_anyd3")
+volume_db = -8.0
 
 [node name="SomErro" type="AudioStreamPlayer" parent="." unique_id=492652443]
 stream = ExtResource("5_ok278")
+volume_db = -10.0
 
 [connection signal="timeout" from="TimerSpawn" to="." method="_on_timer_spawn_timeout"]

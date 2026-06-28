@@ -3,8 +3,8 @@ extends MarginContainer
 # --- Referências de Nodes (Interface) ---
 @onready var label_tempo: Label = $Container/Tempo/LabelTempo
 @onready var label_dinheiro: Label = $Container/Dinheiro/LabelDinheiro
-@onready var label_reputacao: Label = $Container/Reputacao/LabelReputacao
 @onready var barra_expansao: ProgressBar = $Container/Expansao/BarraExpansao
+@onready var estrelas_container: HBoxContainer = $Container/Reputacao/EstrelasContainer
 
 func _process(_delta: float) -> void:
 	
@@ -15,30 +15,30 @@ func _process(_delta: float) -> void:
 	
 	
 	# ==========================================
-	# --- 2. Atualização de Reputação (Estrelas) ---
+	# --- 2. Atualização de Reputação (Estrelas Visuais em Pixel Art) ---
 	# ==========================================
 	var rep = EconomyManager.reputacao
-	var estrelas = ""
+	var qtd_estrelas = 1
 	
 	# Define a quantidade de estrelas baseando-se nos marcos de reputação atingidos
 	if rep >= 50:
-		estrelas = "⭐⭐⭐⭐⭐"
-		label_reputacao.add_theme_color_override("font_color", Color.BLACK)
+		qtd_estrelas = 5
 	elif rep >= 30:
-		estrelas = "⭐⭐⭐⭐"
-		label_reputacao.add_theme_color_override("font_color", Color.BLACK)
+		qtd_estrelas = 4
 	elif rep >= 15:
-		estrelas = "⭐⭐⭐"
-		label_reputacao.add_theme_color_override("font_color", Color.BLACK)
+		qtd_estrelas = 3
 	elif rep > 0:
-		estrelas = "⭐⭐"
-		label_reputacao.add_theme_color_override("font_color", Color.BLACK)
+		qtd_estrelas = 2
 	else:
-		estrelas = "⭐"
-		label_reputacao.add_theme_color_override("font_color", Color.BLACK)
+		qtd_estrelas = 1
 		
-	# Concatena o texto base com as estrelas calculadas
-	label_reputacao.text = estrelas
+	# Percorre as 5 imagens no container e mostra apenas a quantidade calculada
+	if estrelas_container:
+		for i in range(estrelas_container.get_child_count()):
+			if i < qtd_estrelas:
+				estrelas_container.get_child(i).show()
+			else:
+				estrelas_container.get_child(i).hide()
 	
 	
 	# ==========================================
@@ -70,7 +70,7 @@ func _process(_delta: float) -> void:
 			# Altera a cor do texto para amarelo como alerta de tempo esgotando
 			if tempo > 10.0:
 				label_tempo.add_theme_color_override("font_color", Color.WHITE)
-			if tempo < 5.0:
+			elif tempo < 5.0:
 				label_tempo.add_theme_color_override("font_color", Color.ORANGE_RED)
 			else:
 				label_tempo.add_theme_color_override("font_color", Color.YELLOW)

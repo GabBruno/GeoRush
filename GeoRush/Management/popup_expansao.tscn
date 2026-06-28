@@ -56,6 +56,7 @@ text = "Continuar"
 [node name="SomExpansao" type="AudioStreamPlayer" parent="." unique_id=1059925971]
 process_mode = 3
 stream = ExtResource("2_cdo41")
+volume_db = -10.0
 
 [node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=349113748]
 process_mode = 3

@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bq4iuja5vbq8" path="res://Characters/atendente.tscn" id="2_ibsu8"]
 [ext_resource type="PackedScene" uid="uid://c5had6bv036ny" path="res://Management/customer_manager.tscn" id="3_ibsu8"]
 [ext_resource type="PackedScene" uid="uid://bydthr3tmpqad" path="res://Interface/menu_pausa.tscn" id="4_qsd0w"]
+[ext_resource type="AudioStream" uid="uid://ba1l8pbqh1wyf" path="res://Sounds/Music/musica_fundo.mp3" id="5_g7mx2"]
 
 [node name="Test" type="Node2D" unique_id=179900688]
 y_sort_enabled = true
@@ -16,3 +17,10 @@ y_sort_enabled = true
 position = Vector2(110, 138)
 
 [node name="MenuPausa" parent="." unique_id=1644045645 instance=ExtResource("4_qsd0w")]
+
+[node name="MusicaFundo" type="AudioStreamPlayer" parent="." unique_id=1907146482]
+process_mode = 3
+stream = ExtResource("5_g7mx2")
+volume_db = -22.0
+autoplay = true
+parameters/looping = true

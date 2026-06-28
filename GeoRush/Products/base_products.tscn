@@ -95,11 +95,11 @@ vertical_alignment = 1
 
 [node name="SomPegar" type="AudioStreamPlayer" parent="Product" unique_id=903054240]
 stream = ExtResource("5_jcqfd")
-volume_db = 3.0
+volume_db = -2.0
 
 [node name="SomDevolver" type="AudioStreamPlayer" parent="Product" unique_id=299546224]
 stream = ExtResource("6_rq2ot")
-volume_db = 2.0
+volume_db = -10.0
 
 [connection signal="body_shape_entered" from="Product/Area2D" to="Product" method="_on_area_2d_body_shape_entered"]
 [connection signal="body_shape_exited" from="Product/Area2D" to="Product" method="_on_area_2d_body_shape_exited"]

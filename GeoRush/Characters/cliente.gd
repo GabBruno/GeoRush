@@ -16,7 +16,7 @@ var posicao_frente_porta: Vector2 = Vector2(372, 88)
 @export_category("Referências de Nodes")
 @onready var som_chegou_caixa: AudioStreamPlayer = $SomChegouCaixa
 @onready var animacao: AnimationPlayer = $Animation 
-@onready var balao_fala: Label = $BalaoFala 
+#@onready var balao_fala: Label = $BalaoFala 
 @onready var emoji_feliz: Node2D = $EmojiFeliz
 @onready var emoji_raiva: Node2D = $EmojiRaiva
 
@@ -25,8 +25,8 @@ func _ready() -> void:
 	global_position = posicao_porta 
 	animacao.play("walk_down") 
 	
-	if balao_fala:
-		balao_fala.visible = false
+	#if balao_fala:
+		#balao_fala.visible = false
 
 func _physics_process(delta: float) -> void:
 	# ==========================================
@@ -91,15 +91,15 @@ func _physics_process(delta: float) -> void:
 
 func reagir_e_ir_embora(sucesso: bool) -> void:
 	# Exibe o balão de fala com o feedback da compra para o jogador
-	if balao_fala:
-		balao_fala.visible = true
+	#if balao_fala:
+		#balao_fala.visible = true
 		
 	if sucesso:
-		balao_fala.text = "Muito obrigado!"
+		#balao_fala.text = "Muito obrigado!"
 		if emoji_feliz: 
 			emoji_feliz.visible = true 
 	else:
-		balao_fala.text = "Que absurdo!"
+		#balao_fala.text = "Que absurdo!"
 		if emoji_raiva: 
 			emoji_raiva.visible = true 
 		

@@ -88,9 +88,11 @@ offset_bottom = 434.0
 
 [node name="SomAbrirNotepad" type="AudioStreamPlayer" parent="PlayerUI/Notepad" unique_id=1840498425]
 stream = ExtResource("3_pxwdx")
+volume_db = -12.0
 
 [node name="SomFecharNotepad" type="AudioStreamPlayer" parent="PlayerUI/Notepad" unique_id=444656287]
 stream = ExtResource("4_o7ww3")
+volume_db = -15.0
 
 [node name="HUD" type="MarginContainer" parent="PlayerUI" unique_id=974091100]
 anchors_preset = 15
@@ -108,7 +110,7 @@ script = ExtResource("3_d7oy1")
 [node name="Container" type="HBoxContainer" parent="PlayerUI/HUD" unique_id=1910258977]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_constants/separation = 150
+theme_override_constants/separation = 40
 alignment = 1
 
 [node name="Tempo" type="HBoxContainer" parent="PlayerUI/HUD/Container" unique_id=1855848523]
@@ -121,6 +123,7 @@ texture = ExtResource("6_no1pk")
 expand_mode = 3
 
 [node name="LabelTempo" type="Label" parent="PlayerUI/HUD/Container/Tempo" unique_id=592434729]
+custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
@@ -129,8 +132,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("7_tc2o5")
 theme_override_font_sizes/font_size = 24
-text = "00:45"
-horizontal_alignment = 1
+text = "Aguardando..."
 vertical_alignment = 1
 
 [node name="Dinheiro" type="HBoxContainer" parent="PlayerUI/HUD/Container" unique_id=742635388]
@@ -142,6 +144,7 @@ texture = ExtResource("8_af28n")
 expand_mode = 3
 
 [node name="LabelDinheiro" type="Label" parent="PlayerUI/HUD/Container/Dinheiro" unique_id=706752037]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
@@ -149,7 +152,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("7_tc2o5")
 theme_override_font_sizes/font_size = 24
-text = "$ 22,80"
+text = "$ 1.000,00"
 
 [node name="Reputacao" type="HBoxContainer" parent="PlayerUI/HUD/Container" unique_id=1660086584]
 layout_mode = 2
@@ -160,16 +163,50 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 8
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("7_tc2o5")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Reputação:"
 
-[node name="IconeReputacao" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao" unique_id=316809037]
+[node name="EstrelasContainer" type="HBoxContainer" parent="PlayerUI/HUD/Container/Reputacao" unique_id=1227267770]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="IconeReputacao" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=316809037]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 texture = ExtResource("7_tmesv")
 expand_mode = 3
+stretch_mode = 5
+
+[node name="IconeReputacao2" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=17720151]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="IconeReputacao3" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=1606380405]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="IconeReputacao4" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=1291093699]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="IconeReputacao5" type="TextureRect" parent="PlayerUI/HUD/Container/Reputacao/EstrelasContainer" unique_id=1628398756]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+texture = ExtResource("7_tmesv")
+expand_mode = 3
+stretch_mode = 5
 
 [node name="Expansao" type="HBoxContainer" parent="PlayerUI/HUD/Container" unique_id=813257457]
 custom_minimum_size = Vector2(100, 0)
@@ -181,9 +218,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 8
+theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("7_tc2o5")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 text = "Próxima Expansão: "
 
 [node name="BarraExpansao" type="ProgressBar" parent="PlayerUI/HUD/Container/Expansao" unique_id=996698951]
@@ -195,9 +232,6 @@ size_flags_stretch_ratio = 18.1
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("7_tc2o5")
 theme_override_font_sizes/font_size = 20
-
-[node name="LabelFPS" type="Label" parent="PlayerUI/HUD" unique_id=793552694]
-layout_mode = 2
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2118113154]
 zoom = Vector2(2, 2)

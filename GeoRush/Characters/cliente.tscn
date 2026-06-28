@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://bt0cwjxnc0y0n" path="res://Characters/cliente.gd" id="1_se5sa"]
 [ext_resource type="Texture2D" uid="uid://ciwl41mbovtaw" path="res://Characters/char_a_p1_0bas_humn_v00.png" id="2_7glik"]
 [ext_resource type="Texture2D" uid="uid://xytccnn2sqx6" path="res://Characters/char_a_p1_1out_boxr_v01.png" id="3_ksoej"]
-[ext_resource type="Texture2D" uid="uid://chtb1ttr2c4qh" path="res://Characters/EmojiFeliz.png" id="4_ksoej"]
-[ext_resource type="Texture2D" uid="uid://4st0k1fb63er" path="res://Characters/EmojiRaiva.png" id="5_ioneu"]
+[ext_resource type="Texture2D" uid="uid://3ta575lqgih8" path="res://Characters/Reacoes.png" id="4_8y8jn"]
 [ext_resource type="AudioStream" uid="uid://d03u6ui0tk3d0" path="res://Sounds/som-chegou-caixa.wav" id="7_8y8jn"]
 [ext_resource type="FontFile" uid="uid://c4gm003h6v5kr" path="res://RevMiniPixel.ttf" id="7_svov8"]
 
@@ -435,29 +434,34 @@ autoplay = &"idle_down"
 
 [node name="EmojiFeliz" type="Sprite2D" parent="." unique_id=496976185]
 visible = false
-position = Vector2(9.536743e-07, -66.99999)
-scale = Vector2(0.04415952, 0.045722708)
-texture = ExtResource("4_ksoej")
+position = Vector2(0, -64)
+scale = Vector2(1, 1.045)
+texture = ExtResource("4_8y8jn")
+region_enabled = true
+region_rect = Rect2(47.854313, 0, 16.336971, 16)
 
 [node name="EmojiRaiva" type="Sprite2D" parent="." unique_id=77904353]
 visible = false
-position = Vector2(-3.8146973e-06, -67)
-scale = Vector2(0.04353933, 0.047337282)
-texture = ExtResource("5_ioneu")
+position = Vector2(0, -64)
+scale = Vector2(1, 1.068)
+texture = ExtResource("4_8y8jn")
+region_enabled = true
+region_rect = Rect2(127.92489, 0, 16.075111, 16)
 
 [node name="BalaoFala" type="Label" parent="." unique_id=1208305751]
-offset_left = 18.0
-offset_top = -58.0
-offset_right = 58.0
-offset_bottom = -35.0
+visible = false
+offset_left = 19.0
+offset_top = -49.0
+offset_right = 59.0
+offset_bottom = -29.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("7_svov8")
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_8y8jn")
-text = "Fala"
+text = "Muito obrigado!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SomChegouCaixa" type="AudioStreamPlayer" parent="." unique_id=1620113404]
 stream = ExtResource("7_8y8jn")
-volume_db = -5.0
+volume_db = -12.0
