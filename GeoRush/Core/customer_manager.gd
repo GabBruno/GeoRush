@@ -18,7 +18,7 @@ func desbloquear_forma(nova_forma: ProductData.ShapeType) -> void:
 		formas_liberadas.append(nova_forma)
 		
 # --- Lógica de Pedidos ---
-func gerar_novo_pedido(quantidade_de_tipos: int) -> void:
+func gerar_novo_pedido(quantidade_de_tipos: int, carrinho_do_jogador: Array = []) -> void:
 	pedido_atual.clear()
 	
 	# Filtra os produtos disponíveis garantindo que apenas itens com formas liberadas sejam sorteados
@@ -59,7 +59,7 @@ func gerar_novo_pedido(quantidade_de_tipos: int) -> void:
 	timer_pedido.start(30.0)
 	
 	# Atualiza a interface visual para o formato definitivo (com ícones e feedback)
-	atualizar_lista_visual([])
+	atualizar_lista_visual(carrinho_do_jogador)
 
 func pegar_tempo_restante() -> float:
 	return timer_pedido.time_left
@@ -83,39 +83,89 @@ func atualizar_lista_visual(carrinho_do_jogador: Array) -> void:
 		for child in ui_lista_de_itens.get_children():
 			child.queue_free()
 			
-	# Reconstrói a lista iterando sobre os produtos do pedido atual
-	for produto in pedido_atual.keys():
-		var quantidade_pedida = pedido_atual[produto]
-		
-		# Calcula quantos itens desse produto já foram coletados pelo jogador
-		var quantidade_pega = 0
-		for item in carrinho_do_jogador:
-			if item.product_name == produto.product_name:
-				quantidade_pega += 1
+		# ==========================================
+		# 1. DESENHA OS ITENS QUE O CLIENTE PEDIU
+		# ==========================================
+		for produto in pedido_atual.keys():
+			var quantidade_pedida = pedido_atual[produto]
+			
+			var quantidade_no_carrinho = 0
+			for item in carrinho_do_jogador:
+				if item.product_name == produto.product_name:
+					quantidade_no_carrinho += 1
+					
+			var nome_forma = _pegar_nome_da_forma(produto.shape)
+			
+			var linha = HBoxContainer.new()
+			
+			if produto.icon:
+				var icone = TextureRect.new()
+				icone.texture = produto.icon
+				icone.custom_minimum_size = Vector2(32, 32)
+				icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				linha.add_child(icone)
 				
-		var nome_forma = _pegar_nome_da_forma(produto.shape)
-		
-		# --- Construção da Interface (HBoxContainer) ---
-		var linha = HBoxContainer.new()
-		
-		# Configuração do ícone do produto (se existir)
-		if produto.icon:
-			var icone = TextureRect.new()
-			icone.texture = produto.icon
-			icone.custom_minimum_size = Vector2(32, 32)
-			icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			linha.add_child(icone)
+			var texto = Label.new()
+			texto.text = str(produto.product_name) + " (" + nome_forma + "): " + str(quantidade_no_carrinho) + " / " + str(quantidade_pedida)
+			texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			texto.size_flags_horizontal = Control.SIZE_EXPAND_FILL			
 			
-		# Configuração do texto da lista (Produto: Atual/Total)
-		var texto = Label.new()
-		texto.text = str(produto.product_name) + ": " + str(quantidade_pega) + "/" + str(quantidade_pedida) + " (" + nome_forma + ")"
-		
-		# Aplica feedback visual (verde) caso o jogador tenha coletado a quantidade solicitada
-		if quantidade_pega >= quantidade_pedida:
-			texto.add_theme_color_override("font_color", Color.GREEN)
-			
-		linha.add_child(texto)
-		
-		# Adiciona a linha finalizada na prancheta visual do jogador
-		if ui_lista_de_itens:
+			if quantidade_no_carrinho > quantidade_pedida:
+				texto.add_theme_color_override("font_color", Color.ORANGE)
+			elif quantidade_no_carrinho == quantidade_pedida:
+				texto.add_theme_color_override("font_color", Color.GREEN)
+			else:
+				texto.add_theme_color_override("font_color", Color.BLACK)
+				
+			linha.add_child(texto)
 			ui_lista_de_itens.add_child(linha)
+			
+			
+		# ==========================================
+		# 2. IDENTIFICA E DESENHA ITENS ERRADOS/EXTRAS
+		# ==========================================
+		# Cria um dicionário temporário para agrupar e contar os produtos errados
+		var itens_errados = {} 
+		
+		for item in carrinho_do_jogador:
+			var faz_parte_do_pedido = false
+			
+			# Checa se o item que está na mão faz parte das chaves do pedido
+			for produto_pedido in pedido_atual.keys():
+				if item.product_name == produto_pedido.product_name:
+					faz_parte_do_pedido = true
+					break
+			
+			# Se não faz parte, adiciona na nossa contagem de intrusos
+			if not faz_parte_do_pedido:
+				if itens_errados.has(item):
+					itens_errados[item] += 1
+				else:
+					itens_errados[item] = 1
+					
+		# Agora cria as linhas visuais para avisar o jogador dos erros
+		for produto_errado in itens_errados.keys():
+			var quantidade_errada = itens_errados[produto_errado]
+			var nome_forma = _pegar_nome_da_forma(produto_errado.shape)
+			
+			var linha_errada = HBoxContainer.new()
+			
+			if produto_errado.icon:
+				var icone = TextureRect.new()
+				icone.texture = produto_errado.icon
+				icone.custom_minimum_size = Vector2(32, 32)
+				icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				linha_errada.add_child(icone)
+				
+			var texto_errado = Label.new()
+			# Adiciona a tag "(Não Pedido!)" para deixar claro o motivo de estar vermelho
+			texto_errado.text = str(produto_errado.product_name) + " (" + nome_forma + "): " + str(quantidade_errada) + " (Não Pedido!)"
+			
+			texto_errado.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			texto_errado.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			
+			# Força a cor vermelha para itens que não deveriam estar ali
+			texto_errado.add_theme_color_override("font_color", Color.RED)
+			
+			linha_errada.add_child(texto_errado)
+			ui_lista_de_itens.add_child(linha_errada)

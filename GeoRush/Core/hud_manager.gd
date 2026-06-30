@@ -3,7 +3,7 @@ extends MarginContainer
 # --- Referências de Nodes (Interface) ---
 @onready var label_tempo: Label = $Container/Tempo/LabelTempo
 @onready var label_dinheiro: Label = $Container/Dinheiro/LabelDinheiro
-@onready var barra_expansao: ProgressBar = $Container/Expansao/BarraExpansao
+@onready var barra_expansao: TextureProgressBar = $Container/Expansao/BarraExpansao
 @onready var estrelas_container: HBoxContainer = $Container/Reputacao/EstrelasContainer
 
 func _process(_delta: float) -> void:

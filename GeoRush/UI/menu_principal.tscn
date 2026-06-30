@@ -74,22 +74,26 @@ alignment = 1
 [node name="BotaoJogar" type="Button" parent="VBoxContainer" unique_id=917930566]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 40
 text = "Jogar"
 
 [node name="BotaoControles" type="Button" parent="VBoxContainer" unique_id=1714699439]
 custom_minimum_size = Vector2(150, 70)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 40
 text = "Controles"
 
 [node name="BotaoSair" type="Button" parent="VBoxContainer" unique_id=55095407]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 40
 text = "Sair"
 
 [node name="PainelControles" type="Panel" parent="." unique_id=789616582]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -124,6 +128,7 @@ offset_left = 146.0
 offset_top = 92.0
 offset_right = 251.0
 offset_bottom = 136.0
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 20
 text = " Fechar"
 icon_alignment = 1

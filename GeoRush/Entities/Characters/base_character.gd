@@ -26,6 +26,9 @@ var _is_running: bool = false
 var _posicao_original_notificacao: Vector2
 var _notificacao_tween: Tween 
 
+var _prancheta_aberta: bool = false
+var _posicao_original_notepad: Vector2
+
 # --- Variáveis para controlar o ritmo dos passos ---
 var _tempo_passo: float = 0.0
 var _intervalo_andando: float = 0.40 # Segundos entre passos ao andar (ajuste a gosto)
@@ -36,6 +39,8 @@ func _ready() -> void:
 	notepad.visible = false
 	notificacao_label.visible = false
 	_posicao_original_notificacao = notificacao_label.position
+	
+	_posicao_original_notepad = notepad.position
 	
 	# Registra a UI no gerenciador global de clientes
 	CustomerManager.ui_lista_de_itens = get_tree().get_first_node_in_group("lista_de_pedidos")
@@ -111,13 +116,33 @@ func remove_from_cart(product: ProductData) -> void:
 		
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_notepad"):
-		notepad.visible = not notepad.visible
+		alternar_prancheta()
+
+func alternar_prancheta() -> void:
+	_prancheta_aberta = not _prancheta_aberta
+	
+	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	
+	if _prancheta_aberta:
+		notepad.visible = true
 		
-		# Toca o som correspondente ao novo estado da prancheta
-		if notepad.visible and som_abrir_notepad:
+		# Joga a prancheta 600 pixels para BAIXO (para fora da tela, escondida na parte inferior)
+		notepad.position.y = _posicao_original_notepad.y + 600
+		
+		if som_abrir_notepad:
 			som_abrir_notepad.play()
-		elif not notepad.visible and som_fechar_notepad:
+			
+		# Anima a prancheta DESLIZANDO PARA CIMA até a posição original (onde ela fica visível) em 0.4s
+		tween.tween_property(notepad, "position", _posicao_original_notepad, 0.4)
+	else:
+		if som_fechar_notepad:
 			som_fechar_notepad.play()
+			
+		# Anima a prancheta deslizando DE VOLTA PARA BAIXO (saindo da tela por baixo)
+		tween.tween_property(notepad, "position:y", _posicao_original_notepad.y + 600, 0.3)
+		
+		# Oculta a prancheta só depois que a animação terminar
+		tween.tween_callback(func(): notepad.visible = false)
 		
 func mostrar_notificacao(mensagem: String, cor: Color) -> void:
 	notificacao_label.text = mensagem

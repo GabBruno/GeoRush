@@ -1,18 +1,70 @@
 [gd_scene format=3 uid="uid://c1lnql35v7paj"]
 
 [ext_resource type="Script" uid="uid://bt0cwjxnc0y0n" path="res://Entities/Characters/cliente.gd" id="1_echkx"]
-[ext_resource type="Texture2D" uid="uid://ciwl41mbovtaw" path="res://Entities/Characters/Visuals/char_a_p1_0bas_humn_v00.png" id="2_echkx"]
-[ext_resource type="Texture2D" uid="uid://xytccnn2sqx6" path="res://Entities/Characters/Visuals/char_a_p1_1out_boxr_v01.png" id="3_q4ogt"]
+[ext_resource type="Texture2D" uid="uid://ciwl41mbovtaw" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v00.png" id="2_echkx"]
+[ext_resource type="Texture2D" uid="uid://c42yvf50wnct3" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v01.png" id="3_t5oay"]
 [ext_resource type="Texture2D" uid="uid://3ta575lqgih8" path="res://Entities/Characters/Reactions/Reacoes.png" id="4_wpavl"]
+[ext_resource type="Texture2D" uid="uid://d4io3kmhyixu4" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v02.png" id="4_xt5x0"]
+[ext_resource type="Texture2D" uid="uid://ba2vg61ekhoug" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v03.png" id="5_dot8u"]
 [ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="5_qbl01"]
 [ext_resource type="AudioStream" uid="uid://d03u6ui0tk3d0" path="res://Assets/Audio/SFX/som-chegou-caixa.wav" id="6_es1rb"]
+[ext_resource type="Texture2D" uid="uid://cf8hc8ta58lyb" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v04.png" id="6_k6lot"]
+[ext_resource type="Texture2D" uid="uid://d3fjsbl74ie1d" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v05.png" id="7_i2imo"]
+[ext_resource type="Texture2D" uid="uid://bxcha1kkiinfv" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v06.png" id="8_u1y1t"]
+[ext_resource type="Texture2D" uid="uid://c7os7eifgsowf" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v07.png" id="9_0u0rb"]
+[ext_resource type="Texture2D" uid="uid://do86pwlj1tgmq" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v08.png" id="10_r155u"]
+[ext_resource type="Texture2D" uid="uid://ybiqk1lqy50i" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v09.png" id="11_uinvm"]
+[ext_resource type="Texture2D" uid="uid://i4m5q141us7f" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v10.png" id="12_pr3f3"]
+[ext_resource type="Texture2D" uid="uid://cw6cla3xe2hnn" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v00.png" id="13_4qsvf"]
+[ext_resource type="Texture2D" uid="uid://dddnh7ja4my87" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v01.png" id="14_gogcu"]
+[ext_resource type="Texture2D" uid="uid://doa21wt37fvx" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v02.png" id="15_ykbvi"]
+[ext_resource type="Texture2D" uid="uid://c4x2wo5tlemq4" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v03.png" id="16_fxi8o"]
+[ext_resource type="Texture2D" uid="uid://bgu0ih4ak085o" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v04.png" id="17_aau33"]
+[ext_resource type="Texture2D" uid="uid://cp1h10d3rm7p2" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v05.png" id="18_bwh6q"]
+[ext_resource type="Texture2D" uid="uid://ckkwv77imw8ni" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v06.png" id="19_hg8g6"]
+[ext_resource type="Texture2D" uid="uid://cclpokuxrwegv" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v07.png" id="20_30250"]
+[ext_resource type="Texture2D" uid="uid://ydjbr7mac406" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v08.png" id="21_ukid5"]
+[ext_resource type="Texture2D" uid="uid://djoes30bydhnj" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v09.png" id="22_cw6dv"]
+[ext_resource type="Texture2D" uid="uid://yno1iujavqt7" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v10.png" id="23_qosj4"]
+[ext_resource type="Texture2D" uid="uid://cxsflajh6xgdy" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v11.png" id="24_0t338"]
+[ext_resource type="Texture2D" uid="uid://c3sbri2syq6ky" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v12.png" id="25_5x5kw"]
+[ext_resource type="Texture2D" uid="uid://cgrrfrhhmfhsl" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_bob1_v13.png" id="26_orkq1"]
+[ext_resource type="Texture2D" uid="uid://dfnoifrj6p4h4" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v00.png" id="27_gjl72"]
+[ext_resource type="Texture2D" uid="uid://drm2afubwrcy1" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v01.png" id="28_phn0s"]
+[ext_resource type="Texture2D" uid="uid://ceq15eibf5ugh" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v02.png" id="29_5vyj1"]
+[ext_resource type="Texture2D" uid="uid://dam7r4seipxff" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v03.png" id="30_yifnf"]
+[ext_resource type="Texture2D" uid="uid://bdri0r25i7fb7" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v04.png" id="31_vfx48"]
+[ext_resource type="Texture2D" uid="uid://dya0235fcroxe" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v05.png" id="32_p2385"]
+[ext_resource type="Texture2D" uid="uid://bwadq6uvcjbhh" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v06.png" id="33_0e2px"]
+[ext_resource type="Texture2D" uid="uid://k8lcrqyc8pl8" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v07.png" id="34_g6jyt"]
+[ext_resource type="Texture2D" uid="uid://drei3dal3422r" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v08.png" id="35_u2vog"]
+[ext_resource type="Texture2D" uid="uid://bvukvvehd57cg" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v09.png" id="36_gt0tg"]
+[ext_resource type="Texture2D" uid="uid://codg2cx62didb" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v10.png" id="37_e2722"]
+[ext_resource type="Texture2D" uid="uid://dtk3wnbv82tq" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v11.png" id="38_32y7r"]
+[ext_resource type="Texture2D" uid="uid://bks5pykp6logw" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v12.png" id="39_6kr2p"]
+[ext_resource type="Texture2D" uid="uid://buaqor03b4cw" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_4har_dap1_v13.png" id="40_4t2p5"]
+[ext_resource type="Texture2D" uid="uid://dp32jbxq32v4h" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_5hat_pfht_v01.png" id="41_6dqnx"]
+[ext_resource type="Texture2D" uid="uid://bjsf1kqshtdt" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_5hat_pfht_v02.png" id="42_w47qh"]
+[ext_resource type="Texture2D" uid="uid://up54t08f04oj" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_5hat_pfht_v03.png" id="43_glwau"]
+[ext_resource type="Texture2D" uid="uid://eqvnw0yycdbs" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_5hat_pfht_v04.png" id="44_wccb8"]
+[ext_resource type="Texture2D" uid="uid://cches55ouns43" path="res://Entities/Characters/Visuals/Cabelo/char_a_p1_5hat_pfht_v05.png" id="45_dqjfu"]
+[ext_resource type="Texture2D" uid="uid://c1u2jtqaows7y" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_fstr_v01.png" id="46_nqgk6"]
+[ext_resource type="Texture2D" uid="uid://cygl8to004sa" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_fstr_v02.png" id="47_obmn3"]
+[ext_resource type="Texture2D" uid="uid://s5liq0qtj0ys" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_fstr_v03.png" id="48_huq5s"]
+[ext_resource type="Texture2D" uid="uid://cjjb7js4nw86w" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_fstr_v04.png" id="49_t1ft0"]
+[ext_resource type="Texture2D" uid="uid://djphi43tltyyt" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_fstr_v05.png" id="50_b7dqk"]
+[ext_resource type="Texture2D" uid="uid://c2rv8625qpogk" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_pfpn_v01.png" id="51_6uh3g"]
+[ext_resource type="Texture2D" uid="uid://cc7yq2kk6my56" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_pfpn_v02.png" id="52_o3tno"]
+[ext_resource type="Texture2D" uid="uid://do1b4cm3f8g5j" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_pfpn_v03.png" id="53_8h7jw"]
+[ext_resource type="Texture2D" uid="uid://dny8xbsot1n45" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_pfpn_v04.png" id="54_1ons2"]
+[ext_resource type="Texture2D" uid="uid://cxf1lkauwpj3n" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_pfpn_v05.png" id="55_lji6m"]
 
 [sub_resource type="Animation" id="Animation_qafmv"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -24,7 +76,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -33,13 +85,25 @@ tracks/1/keys = {
 "update": 0,
 "values": [8]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [33]
+}
 
 [sub_resource type="Animation" id="Animation_w67op"]
 resource_name = "idle_down"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -51,13 +115,25 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
 "values": [0]
 }
 
@@ -66,7 +142,7 @@ resource_name = "idle_left"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -78,13 +154,25 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
+"values": [24]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
 "values": [24]
 }
 
@@ -93,7 +181,7 @@ resource_name = "idle_right"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -105,7 +193,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -114,13 +202,25 @@ tracks/1/keys = {
 "update": 0,
 "values": [16]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
 
 [sub_resource type="Animation" id="Animation_wuqi8"]
 resource_name = "idle_up"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -132,13 +232,25 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
 "values": [8]
 }
 
@@ -150,7 +262,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -162,13 +274,25 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
+"values": [32, 33, 38, 35, 36, 39]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
 "values": [32, 33, 38, 35, 36, 39]
 }
 
@@ -179,7 +303,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -191,13 +315,13 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
 "values": [56, 57, 62, 59, 60, 63]
 }
 
@@ -209,7 +333,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -221,13 +345,13 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
 "values": [48, 49, 54, 51, 52, 55]
 }
 
@@ -239,7 +363,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -251,13 +375,13 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
 "values": [40, 41, 46, 43, 44, 47]
 }
 
@@ -269,7 +393,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -281,13 +405,25 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
+"values": [32, 33, 34, 35, 36, 37]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
 "values": [32, 33, 34, 35, 36, 37]
 }
 
@@ -299,7 +435,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -311,13 +447,25 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
+"values": [56, 57, 58, 59, 60, 61]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
 "values": [56, 57, 58, 59, 60, 61]
 }
 
@@ -329,7 +477,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -341,13 +489,25 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
+"values": [48, 49, 50, 51, 52, 53]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
 "values": [48, 49, 50, 51, 52, 53]
 }
 
@@ -359,7 +519,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -371,13 +531,25 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
+"values": [40, 41, 42, 43, 44, 45]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpriteCabelo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
 "values": [40, 41, 42, 43, 44, 45]
 }
 
@@ -412,21 +584,32 @@ corner_detail = 5
 
 [node name="Cliente" type="CharacterBody2D" unique_id=1174278224]
 script = ExtResource("1_echkx")
+texturas_corpo = Array[Texture2D]([ExtResource("2_echkx"), ExtResource("3_t5oay"), ExtResource("4_xt5x0"), ExtResource("5_dot8u"), ExtResource("6_k6lot"), ExtResource("7_i2imo"), ExtResource("8_u1y1t"), ExtResource("9_0u0rb"), ExtResource("10_r155u"), ExtResource("11_uinvm"), ExtResource("12_pr3f3")])
+texturas_cabelo = Array[Texture2D]([ExtResource("13_4qsvf"), ExtResource("14_gogcu"), ExtResource("15_ykbvi"), ExtResource("16_fxi8o"), ExtResource("17_aau33"), ExtResource("18_bwh6q"), ExtResource("19_hg8g6"), ExtResource("20_30250"), ExtResource("21_ukid5"), ExtResource("22_cw6dv"), ExtResource("23_qosj4"), ExtResource("24_0t338"), ExtResource("25_5x5kw"), ExtResource("26_orkq1"), ExtResource("27_gjl72"), ExtResource("28_phn0s"), ExtResource("29_5vyj1"), ExtResource("30_yifnf"), ExtResource("31_vfx48"), ExtResource("32_p2385"), ExtResource("33_0e2px"), ExtResource("34_g6jyt"), ExtResource("35_u2vog"), ExtResource("36_gt0tg"), ExtResource("37_e2722"), ExtResource("38_32y7r"), ExtResource("39_6kr2p"), ExtResource("40_4t2p5"), ExtResource("41_6dqnx"), ExtResource("42_w47qh"), ExtResource("43_glwau"), ExtResource("44_wccb8"), ExtResource("45_dqjfu")])
+texturas_roupa = Array[Texture2D]([ExtResource("46_nqgk6"), ExtResource("47_obmn3"), ExtResource("48_huq5s"), ExtResource("49_t1ft0"), ExtResource("50_b7dqk"), ExtResource("51_6uh3g"), ExtResource("52_o3tno"), ExtResource("53_8h7jw"), ExtResource("54_1ons2"), ExtResource("55_lji6m")])
 
-[node name="Texture" type="Sprite2D" parent="." unique_id=404953013]
+[node name="SpriteCorpo" type="Sprite2D" parent="." unique_id=404953013]
 position = Vector2(1, -21)
-scale = Vector2(1.9453124, 1.78125)
+scale = Vector2(2, 2)
 texture = ExtResource("2_echkx")
 hframes = 8
 vframes = 8
 
-[node name="Clothes" type="Sprite2D" parent="." unique_id=1426477716]
-position = Vector2(-1.1920929e-07, -21.000002)
-scale = Vector2(1.8583986, 1.5458984)
-texture = ExtResource("3_q4ogt")
+[node name="SpriteRoupa" type="Sprite2D" parent="." unique_id=1426477716]
+position = Vector2(1, -21)
+scale = Vector2(2, 2)
+texture = ExtResource("46_nqgk6")
 hframes = 8
 vframes = 8
 frame = 8
+
+[node name="SpriteCabelo" type="Sprite2D" parent="." unique_id=1412983198]
+position = Vector2(0.9999999, -20.999998)
+scale = Vector2(2, 2)
+texture = ExtResource("13_4qsvf")
+hframes = 8
+vframes = 8
+frame = 33
 
 [node name="Animation" type="AnimationPlayer" parent="." unique_id=2140166735]
 libraries/ = SubResource("AnimationLibrary_ioneu")
@@ -434,7 +617,7 @@ autoplay = &"idle_down"
 
 [node name="EmojiFeliz" type="Sprite2D" parent="." unique_id=496976185]
 visible = false
-position = Vector2(0, -64)
+position = Vector2(0, -70)
 scale = Vector2(1, 1.045)
 texture = ExtResource("4_wpavl")
 region_enabled = true
@@ -442,7 +625,7 @@ region_rect = Rect2(47.854313, 0, 16.336971, 16)
 
 [node name="EmojiRaiva" type="Sprite2D" parent="." unique_id=77904353]
 visible = false
-position = Vector2(0, -64)
+position = Vector2(0, -70)
 scale = Vector2(1, 1.068)
 texture = ExtResource("4_wpavl")
 region_enabled = true

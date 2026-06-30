@@ -6,6 +6,17 @@
 [ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="3_7gx58"]
 [ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="3_sio4l"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kl13a"]
+bg_color = Color(0, 0, 0, 0.5882353)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 20.0
+expand_margin_top = 20.0
+expand_margin_right = 20.0
+expand_margin_bottom = 20.0
+
 [node name="PopupExpansao" type="CanvasLayer" unique_id=1525271330]
 process_mode = 3
 script = ExtResource("1_jrfrq")
@@ -16,7 +27,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.5882353)
+color = Color(0, 0, 0, 0.39215687)
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=284334979]
 anchors_preset = 8
@@ -31,9 +42,11 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_kl13a")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=618927460]
 layout_mode = 2
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Titulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1204092890]
@@ -41,12 +54,14 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_kl13a")
 theme_override_font_sizes/font_size = 20
 text = "NOVO SETOR DESBLOQUEADO: CONSERVAS E MATINAIS!"
+horizontal_alignment = 1
 
 [node name="Subtitulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=491023860]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_kl13a")
 theme_override_font_sizes/font_size = 20
 text = "Atenção aos novos formatos: Cilindro e Paralelepípedo!"
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1020264634]
 layout_mode = 2
@@ -58,9 +73,10 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Button" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1693223771]
-custom_minimum_size = Vector2(0, 50)
-custom_maximum_size = Vector2(280, -1)
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
 theme = ExtResource("3_7gx58")
 theme_override_font_sizes/font_size = 22
 text = "Continuar"

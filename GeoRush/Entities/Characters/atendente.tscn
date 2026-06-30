@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bq4iuja5vbq8"]
 
 [ext_resource type="PackedScene" uid="uid://cwqv5lg7wewf4" path="res://Entities/Characters/base_character.tscn" id="1_ri1x8"]
-[ext_resource type="Texture2D" uid="uid://ciwl41mbovtaw" path="res://Entities/Characters/Visuals/char_a_p1_0bas_humn_v00.png" id="2_x80s1"]
-[ext_resource type="Texture2D" uid="uid://cygl8to004sa" path="res://Entities/Characters/Visuals/char_a_p1_1out_fstr_v02.png" id="3_qafmv"]
+[ext_resource type="Texture2D" uid="uid://ciwl41mbovtaw" path="res://Entities/Characters/Visuals/Corpo/char_a_p1_0bas_humn_v00.png" id="2_x80s1"]
+[ext_resource type="Texture2D" uid="uid://cygl8to004sa" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_fstr_v02.png" id="3_qafmv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x80s1"]
 radius = 3.0
@@ -13,26 +13,26 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [33]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [8]
+"update": 1,
+"values": [33]
 }
 
 [sub_resource type="Animation" id="Animation_w67op"]
@@ -40,7 +40,7 @@ resource_name = "idle_down"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteRoupa:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -52,7 +52,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteCorpo:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -67,7 +67,7 @@ resource_name = "idle_left"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -79,7 +79,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -94,7 +94,7 @@ resource_name = "idle_right"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteRoupa:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -106,7 +106,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteCorpo:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -121,7 +121,7 @@ resource_name = "idle_up"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -133,7 +133,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -151,11 +151,11 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [32, 33, 38, 35, 36, 39]
@@ -163,11 +163,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [32, 33, 38, 35, 36, 39]
@@ -176,15 +176,16 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_ygmoh"]
 resource_name = "run_left"
 length = 0.6
+loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [56, 57, 62, 59, 60, 63]
@@ -192,11 +193,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [56, 57, 62, 59, 60, 63]
@@ -210,11 +211,11 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [48, 49, 54, 51, 52, 55]
@@ -222,11 +223,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [48, 49, 54, 51, 52, 55]
@@ -240,11 +241,11 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [40, 41, 46, 43, 44, 47]
@@ -252,11 +253,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.19999999, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [40, 41, 46, 43, 44, 47]
@@ -270,11 +271,11 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [32, 33, 34, 35, 36, 37]
@@ -282,11 +283,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [32, 33, 34, 35, 36, 37]
@@ -300,11 +301,11 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [56, 57, 58, 59, 60, 61]
@@ -312,11 +313,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [56, 57, 58, 59, 60, 61]
@@ -330,11 +331,11 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [48, 49, 50, 51, 52, 53]
@@ -342,11 +343,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [48, 49, 50, 51, 52, 53]
@@ -360,11 +361,11 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Texture:frame")
+tracks/0/path = NodePath("SpriteCorpo:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [40, 41, 42, 43, 44, 45]
@@ -372,11 +373,11 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Clothes:frame")
+tracks/1/path = NodePath("SpriteRoupa:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [40, 41, 42, 43, 44, 45]
@@ -406,29 +407,30 @@ Label/fonts/font = null
 
 [node name="Atendente" unique_id=574071257 instance=ExtResource("1_ri1x8")]
 
-[node name="Texture" parent="." index="0" unique_id=1306458981]
+[node name="SpriteCorpo" parent="." index="0" unique_id=1306458981]
 position = Vector2(1, -21)
-scale = Vector2(1.9453124, 1.78125)
+scale = Vector2(2, 2)
 texture = ExtResource("2_x80s1")
 hframes = 8
 vframes = 8
+frame = 33
 
-[node name="Clothes" type="Sprite2D" parent="." index="1" unique_id=793398105]
-position = Vector2(1, -17)
-scale = Vector2(2.035614, 1.8016967)
+[node name="SpriteRoupa" parent="." index="1" unique_id=987274423]
+position = Vector2(1, -16)
+scale = Vector2(2, 2)
 texture = ExtResource("3_qafmv")
-offset = Vector2(-5.9604645e-08, -2.7751617)
+offset = Vector2(0, -2.775)
 hframes = 8
 vframes = 8
-frame = 8
+frame = 33
 
-[node name="Collision" parent="." index="2" unique_id=1549271126]
+[node name="Collision" parent="." index="3" unique_id=1549271126]
 show_behind_parent = true
 position = Vector2(-1, -2)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_x80s1")
 
-[node name="Animation" parent="." index="3" unique_id=1740124001]
+[node name="Animation" parent="." index="4" unique_id=1740124001]
 libraries/ = SubResource("AnimationLibrary_f3sm2")
 autoplay = &"idle_down"
 
@@ -469,5 +471,5 @@ theme = SubResource("Theme_qafmv")
 [node name="HUD" parent="PlayerUI" parent_id_path=PackedInt32Array(2042870417) index="2" unique_id=974091100]
 offset_bottom = 40.0
 
-[node name="Camera2D" parent="." index="5" unique_id=2118113154]
+[node name="Camera2D" parent="." index="6" unique_id=2118113154]
 position = Vector2(0, 2)

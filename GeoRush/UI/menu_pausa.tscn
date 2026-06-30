@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="2_pfpnl"]
 
 [node name="MenuPausa" type="CanvasLayer" unique_id=1644045645]
+layer = 10
 script = ExtResource("1_yx4i8")
 
 [node name="PainelPausa" type="Panel" parent="." unique_id=1503943714]
@@ -33,6 +34,7 @@ grow_vertical = 2
 [node name="Continuar" type="Button" parent="PainelPausa/Botoes" unique_id=1179880848]
 custom_minimum_size = Vector2(280, 70)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("2_eycnl")
 theme_override_font_sizes/font_size = 35
 text = "Continuar"
@@ -40,6 +42,7 @@ text = "Continuar"
 [node name="MenuPrincipal" type="Button" parent="PainelPausa/Botoes" unique_id=1808499382]
 custom_minimum_size = Vector2(280, 70)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("2_eycnl")
 theme_override_font_sizes/font_size = 35
 text = "Menu Principal"
@@ -47,6 +50,7 @@ text = "Menu Principal"
 [node name="Sair" type="Button" parent="PainelPausa/Botoes" unique_id=571286739]
 custom_minimum_size = Vector2(280, 70)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("2_eycnl")
 theme_override_font_sizes/font_size = 35
 text = "Sair"

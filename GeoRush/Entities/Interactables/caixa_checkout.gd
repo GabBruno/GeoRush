@@ -70,7 +70,7 @@ func _input(event: InputEvent) -> void:
 			if CustomerManager.pedido_atual.is_empty():
 				if cliente_atual and cliente_atual.estado == "esperando":
 					var quantidade_tipos = randi_range(1, 3) 
-					CustomerManager.gerar_novo_pedido(quantidade_tipos)
+					CustomerManager.gerar_novo_pedido(quantidade_tipos, _jogador_na_area.shopping_cart)
 					
 					# Define o tempo baseando-se na quantidade de tipos de itens solicitados
 					var tempo_calculado = 5.0 + (quantidade_tipos * 2.0)

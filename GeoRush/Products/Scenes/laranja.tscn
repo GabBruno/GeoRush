@@ -30,8 +30,8 @@ position = Vector2(3, 22)
 position = Vector2(19, -4)
 
 [node name="Label" parent="Product" index="2" unique_id=903551863]
-offset_top = 5.0
-offset_bottom = 28.0
+offset_top = 10.0
+offset_bottom = 21.0
 
-[node name="SomPegar" parent="." index="2" unique_id=903054240]
+[node name="SomPegar" parent="Product" index="3" unique_id=903054240]
 volume_db = 0.0

@@ -13,7 +13,7 @@ config_version=5
 config/name="GeoRush"
 run/main_scene="uid://prdwkgtyflru"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://c358d0slbtu6f"
 
 [autoload]
 
@@ -24,6 +24,7 @@ CustomerManager="*uid://c5had6bv036ny"
 
 window/size/viewport_width=1296
 window/size/viewport_height=768
+window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=0

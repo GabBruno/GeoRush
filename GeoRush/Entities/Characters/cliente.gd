@@ -13,22 +13,54 @@ var posicao_recuo_caixa: Vector2 = Vector2(145, 248)
 var posicao_corredor_saida: Vector2 = Vector2(352, 248) 
 var posicao_frente_porta: Vector2 = Vector2(372, 88) 
 
+@export_category("Visuais do Cliente")
+@export var texturas_corpo: Array[Texture2D] = []
+@export var texturas_cabelo: Array[Texture2D] = []
+@export var texturas_roupa: Array[Texture2D] = []
+
 @export_category("Referências de Nodes")
 @onready var som_chegou_caixa: AudioStreamPlayer = $SomChegouCaixa
+@onready var sprite_corpo: Sprite2D = $SpriteCorpo
+@onready var sprite_cabelo: Sprite2D = $SpriteCabelo
+@onready var sprite_roupa: Sprite2D = $SpriteRoupa
 @onready var animacao: AnimationPlayer = $Animation 
 #@onready var balao_fala: Label = $BalaoFala 
 @onready var emoji_feliz: Node2D = $EmojiFeliz
 @onready var emoji_raiva: Node2D = $EmojiRaiva
 
 func _ready() -> void:
-	# Define a posição inicial na porta e inicia a caminhada
-	global_position = posicao_porta 
-	animacao.play("walk_down") 
+	# ==========================================
+	# 1. GERAÇÃO DO VISUAL ÚNICO (Sorteio dos PNGs)
+	# ==========================================
 	
+	# Escolhe um tom de pele aleatório
+	if sprite_corpo and texturas_corpo.size() > 0:
+		sprite_corpo.texture = texturas_corpo.pick_random()
+		
+	# Escolhe um cabelo aleatório
+	if sprite_cabelo and texturas_cabelo.size() > 0:
+		sprite_cabelo.texture = texturas_cabelo.pick_random()
+		
+	# Escolhe uma roupa aleatória
+	if sprite_roupa and texturas_roupa.size() > 0:
+		sprite_roupa.texture = texturas_roupa.pick_random()
+
+	# ==========================================
+	# 2. INICIA O COMPORTAMENTO ORIGINAL
+	# ==========================================
+	global_position = posicao_porta 
+	animacao.play("walk_down")
 	#if balao_fala:
 		#balao_fala.visible = false
 
 func _physics_process(delta: float) -> void:
+	
+	if sprite_corpo:
+		if sprite_cabelo:
+			sprite_cabelo.frame = sprite_corpo.frame 
+		if sprite_roupa:
+			sprite_roupa.frame = sprite_corpo.frame 
+	
 	# ==========================================
 	# --- ROTA DE IDA (Em direção ao caixa) ---
 	# ==========================================
