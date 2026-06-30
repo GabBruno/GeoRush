@@ -158,3 +158,9 @@ func mostrar_notificacao(mensagem: String, cor: Color) -> void:
 	_notificacao_tween = create_tween()
 	_notificacao_tween.tween_interval(1.0) # Duração da mensagem na tela
 	_notificacao_tween.tween_property(notificacao_label, "modulate:a", 0.0, 0.2) # Fade out
+
+func abrir_prancheta() -> void:
+	# Verifica se a prancheta está fechada. 
+	# Se já estiver aberta (_prancheta_aberta == true), o código não faz nada e ela continua aberta!
+	if not _prancheta_aberta:
+		alternar_prancheta()

@@ -53,6 +53,7 @@ offset_left = 124.0
 offset_top = 39.0
 offset_right = 164.0
 offset_bottom = 62.0
+pivot_offset = Vector2(57, 11.5)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_sgidv")
 theme_override_font_sizes/font_size = 10

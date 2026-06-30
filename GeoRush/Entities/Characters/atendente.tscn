@@ -442,30 +442,30 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Notepad" parent="PlayerUI" parent_id_path=PackedInt32Array(2042870417) index="1" unique_id=1161797488]
-offset_left = 841.0
-offset_top = 217.0
-offset_right = 1296.0
-offset_bottom = 768.0
+offset_left = 840.0
+offset_top = 216.0
+offset_right = 1295.0
+offset_bottom = 767.0
 
 [node name="NotepadVisual" parent="PlayerUI/Notepad" index="0" unique_id=1631171778]
-offset_left = 132.99998
-offset_top = 87.999985
-offset_right = 1536.0
-offset_bottom = 1967.0
+offset_left = 183.99998
+offset_top = 127.999985
+offset_right = 1587.0
+offset_bottom = 2007.0
 
 [node name="TitleList" parent="PlayerUI/Notepad" index="1" unique_id=241917111]
-offset_left = 198.99994
-offset_top = 135.99997
-offset_right = 346.99994
-offset_bottom = 158.99997
+offset_left = 249.99994
+offset_top = 175.99997
+offset_right = 397.99994
+offset_bottom = 198.99997
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 
 [node name="ItemsList" parent="PlayerUI/Notepad" index="2" unique_id=946811592]
 modulate = Color(1, 1, 1, 1)
-offset_left = 161.99994
-offset_top = 188.99997
-offset_right = 379.99994
-offset_bottom = 463.99997
+offset_left = 212.99994
+offset_top = 228.99997
+offset_right = 430.99994
+offset_bottom = 503.99997
 theme = SubResource("Theme_qafmv")
 
 [node name="HUD" parent="PlayerUI" parent_id_path=PackedInt32Array(2042870417) index="2" unique_id=974091100]

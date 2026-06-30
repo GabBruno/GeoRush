@@ -72,6 +72,9 @@ func _input(event: InputEvent) -> void:
 					var quantidade_tipos = randi_range(1, 3) 
 					CustomerManager.gerar_novo_pedido(quantidade_tipos, _jogador_na_area.shopping_cart)
 					
+					# Força a prancheta do jogador a abrir com a nova lista!
+					_jogador_na_area.abrir_prancheta()
+					
 					# Define o tempo baseando-se na quantidade de tipos de itens solicitados
 					var tempo_calculado = 5.0 + (quantidade_tipos * 2.0)
 					CustomerManager.timer_pedido.wait_time = tempo_calculado
@@ -173,12 +176,20 @@ func validar_compra() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body is BaseCharacter:
 		_jogador_na_area = body
+		
 		popup_label.visible = true
+		popup_label.scale = Vector2.ZERO
+		
+		var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tween.tween_property(popup_label, "scale", Vector2(1, 1), 0.3)
 
 func _on_body_exited(body: Node2D) -> void:
 	if body is BaseCharacter:
 		_jogador_na_area = null
-		popup_label.visible = false
+		
+		var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		tween.tween_property(popup_label, "scale", Vector2.ZERO, 0.2)
+		tween.tween_callback(func(): popup_label.visible = false)
 
 # --- Lógica de Fila ---
 func _on_timer_spawn_timeout() -> void:

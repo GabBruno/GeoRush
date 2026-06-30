@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="4_jcqfd"]
 [ext_resource type="AudioStream" uid="uid://bwt15vthsdmgc" path="res://Assets/Audio/SFX/som-pegar.wav" id="5_jcqfd"]
 [ext_resource type="AudioStream" uid="uid://2wtu31ybvy1a" path="res://Assets/Audio/SFX/som-devolver.wav" id="6_rq2ot"]
+[ext_resource type="AudioStream" uid="uid://buce7fbkojis" path="res://Assets/Audio/SFX/som-reposicao.mp3" id="7_rq2ot"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bwrqj"]
 texture = ExtResource("1_n6n4x")
@@ -88,6 +89,7 @@ offset_left = 50.0
 offset_top = 12.0
 offset_right = 101.0
 offset_bottom = 23.0
+pivot_offset = Vector2(25, 5)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_jcqfd")
 theme_override_font_sizes/font_size = 8
@@ -102,6 +104,10 @@ volume_db = -2.0
 [node name="SomDevolver" type="AudioStreamPlayer" parent="Product" unique_id=299546224]
 stream = ExtResource("6_rq2ot")
 volume_db = -10.0
+
+[node name="SomReposicao" type="AudioStreamPlayer" parent="Product" unique_id=1004624920]
+stream = ExtResource("7_rq2ot")
+volume_db = -5.0
 
 [connection signal="body_shape_entered" from="Product/Area2D" to="Product" method="_on_area_2d_body_shape_entered"]
 [connection signal="body_shape_exited" from="Product/Area2D" to="Product" method="_on_area_2d_body_shape_exited"]

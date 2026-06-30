@@ -11,6 +11,7 @@ class_name BaseProducts
 @onready var popup_label: Label = $Label 
 @onready var som_pegar: AudioStreamPlayer = $SomPegar
 @onready var som_devolver: AudioStreamPlayer = $SomDevolver
+@onready var som_reposicao: AudioStreamPlayer = $SomReposicao
 @onready var product_grid: GridContainer = $"../Visuals/ProductGrid"
 
 # --- Estado da Prateleira ---
@@ -118,14 +119,21 @@ func _on_body_entered(body: Node2D) -> void:
 		_player_in_range = true
 		_current_player = body 
 		update_visuals()
+		
 		popup_label.visible = true
+		popup_label.scale = Vector2.ZERO
+		var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tween.tween_property(popup_label, "scale", Vector2(1, 1), 0.3)
 
 func _on_body_exited(body: Node2D) -> void:
 	if body is BaseCharacter:
 		_jogador_na_area = null 
 		_player_in_range = false
 		_current_player = null 
-		popup_label.visible = false
+		
+		var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		tween.tween_property(popup_label, "scale", Vector2.ZERO, 0.2)
+		tween.tween_callback(func(): popup_label.visible = false)
 		
 # --- Gestão de Estoque ---
 func resetar_itens_pegos() -> void:
@@ -155,9 +163,17 @@ func repor_estoque() -> void:
 		EconomyManager.dinheiro -= custo_reposicao
 		_current_stock = max_stock
 		update_visuals()
-		print("📦 Estoque reposto! Você pagou $", custo_reposicao)
+		
+		if som_reposicao:
+			som_reposicao.play()
+		
+		if _jogador_na_area:
+			# Mostra o texto verde com o valor descontado
+			_jogador_na_area.mostrar_notificacao("📦 Estoque reposto! -$" + str(custo_reposicao), Color.GREEN)
 	else:
-		print("❌ Dinheiro insuficiente! Você precisa de $", custo_reposicao, " para repor o estoque.")
+		if _jogador_na_area:
+			# Mostra um alerta em vermelho de falta de dinheiro
+			_jogador_na_area.mostrar_notificacao("Dinheiro insuficiente!", Color.RED)
 		
 func atualizar_texto_do_painel() -> void:
 	"""Atualiza dinamicamente as instruções no painel flutuante de interação."""

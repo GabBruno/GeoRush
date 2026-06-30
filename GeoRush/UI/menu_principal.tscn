@@ -93,7 +93,6 @@ theme_override_font_sizes/font_size = 40
 text = "Sair"
 
 [node name="PainelControles" type="Panel" parent="." unique_id=789616582]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -109,25 +108,27 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="PainelControles" unique_id=1126664178]
 layout_mode = 0
-offset_left = 147.5
-offset_top = -52.0
-offset_right = 355.5
-offset_bottom = 40.0
+offset_left = 146.0
+offset_top = -45.0
+offset_right = 427.0
+offset_bottom = 133.0
 theme_override_fonts/font = ExtResource("5_cstiv")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_msr8j")
 text = "WASD / Setas: Movimentar
+Shift: Correr
 E: Pegar Produto
 R: Devolver Produto
+F: Repor Estoque
 Tab: Abrir/Fechar Lista
 Esc: Abrir/Fechar Menu"
 
 [node name="BotaoVoltar" type="Button" parent="PainelControles" unique_id=1759887471]
 layout_mode = 0
 offset_left = 146.0
-offset_top = 92.0
+offset_top = 153.0
 offset_right = 251.0
-offset_bottom = 136.0
+offset_bottom = 197.0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 20
 text = " Fechar"
