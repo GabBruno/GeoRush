@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ProductData" format=3 uid="uid://dixmijicmnxwg"]
+
+[ext_resource type="Texture2D" uid="uid://cbei4vqmts1ux" path="res://Products/Icons/RefrigeranteCola.png" id="1_1ljw3"]
+[ext_resource type="Script" uid="uid://c213xc5ita54a" path="res://Core/product_data.gd" id="1_mim4c"]
+
+[resource]
+script = ExtResource("1_mim4c")
+product_name = "Refrigerante de Cola"
+shape = 1
+category = 2
+icon = ExtResource("1_1ljw3")
+metadata/_custom_type_script = "uid://c213xc5ita54a"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ProductData" format=3 uid="uid://dqnww6rnnn46l"]
+
+[ext_resource type="Texture2D" uid="uid://cu535480206tx" path="res://Products/Icons/Laranja.png" id="1_iivmt"]
+[ext_resource type="Script" uid="uid://c213xc5ita54a" path="res://Core/product_data.gd" id="1_s6ckj"]
+
+[resource]
+script = ExtResource("1_s6ckj")
+product_name = "Laranja"
+icon = ExtResource("1_iivmt")
+metadata/_custom_type_script = "uid://c213xc5ita54a"
