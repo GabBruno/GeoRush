@@ -246,7 +246,7 @@ flowchart TD
 | **Gabriel Aguiar Bruno** | 💻 Desenvolvedor Líder |
 | **Gabriel da Cunha** | 🎲 Game Design e QA |
 | **Iasmin Krueger** | 📋 Gestão do Projeto |
-| **Julia Seger** | 🎨 UI/UX e Arte |
+| **Julia Seger** | 🎨 UI/UX e Artes |
 | **Vitor Turmina** | 🎧 Áudio e Testes |
 
 </div>
