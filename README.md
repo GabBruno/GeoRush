@@ -243,7 +243,7 @@ flowchart TD
 
 | Integrante | Função |
 |:---|:---|
-| **Gabriel Aguiar Bruno** | 💻 Desenvolvedor Líder (Godot / GDScript) |
+| **Gabriel Aguiar Bruno** | 💻 Desenvolvedor Líder |
 | **Gabriel da Cunha** | 🎲 Game Design e QA |
 | **Iasmin Krueger** | 📋 Gestão do Projeto |
 | **Julia Seger** | 🎨 UI/UX e Arte |
