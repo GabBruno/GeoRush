@@ -147,7 +147,7 @@ O projeto usa a arquitetura nativa da **Godot Engine**, portanto **não requer b
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/SEU-USUARIO/GeoRush.git
+git clone https://github.com/GabBruno/GeoRush.git
 ```
 
 1. Abra a **Godot Engine** e clique em **Import**.
