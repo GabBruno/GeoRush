@@ -180,8 +180,6 @@ Escolha a melhor forma de experimentar o **GeoRush** de acordo com sua preferên
 
 > 💡 **Procurando tutoriais?** Caso queira entender as regras, os comandos de teclado e o fluxo de gameplay detalhado, siga as instruções completas listadas na seção [**Como Executar**](#️-como-executar) abaixo.
 
-</div>
-
 ---
 
 ## 💻 Requisitos do Sistema
@@ -260,6 +258,14 @@ git clone https://github.com/GabBruno/GeoRush.git
 
 ---
 
+## 📄 Documentos
+
+Todos os documentos de projeto, planejamento e arquitetura estão listados na pasta `Docs/` deste repositório. O documento principal é o **Game Design Document (GDD)**, onde você pode acessar a visão detalhada, as regras e toda a documentação de interface do jogo.
+
+👉 Você pode acessar o GDD diretamente aqui: [`Docs/GeoRush GDD.pdf`](Docs/GeoRush%20GDD.pdf)
+
+---
+
 ## 🏗️ Arquitetura do Código
 
 O projeto adota boas práticas de **separação de responsabilidades** e **orientação a eventos**, organizado por **domínio** (núcleo, entidades, produtos, UI e fases) em vez de por tipo de arquivo.
@@ -271,6 +277,9 @@ GeoRush/
 │   ├── Enviroment/               #   Tiles do cenário e porta
 │   ├── Fonts/                    #   Pixelify Sans e RevMiniPixel
 │   └── UI/                       #   Logo, ícones, prancheta, botões e barras
+│
+├── 📂 Docs/                      # Documentação do projeto
+│   └── 📄 GeoRush GDD.pdf        # Game Design Document
 │
 ├── 📂 Core/                      # Cérebro do jogo (regras e sistemas globais)
 │   ├── customer_manager.gd/.tscn #   Pedidos, timers de paciência e sólidos liberados
@@ -340,13 +349,13 @@ flowchart TD
 
 <div align="center">
 
-|        Integrantes       |
-|:---|
-| **Gabriel Aguiar Bruno** |
-| **Gabriel da Cunha**     |
-| **Iasmin Krueger**       |
-| **Julia Seger**          |
-| **Vitor Turmina**        |
+| Integrantes |
+| :---: |
+| [**Gabriel Bruno**](https://github.com/GabBruno)        |
+| [**Gabriel da Cunha**](https://github.com/GChandrone)   |
+| [**Iasmin Krueger**](https://github.com/Iasminkrueger)  |
+| [**Julia Seger**](https://github.com/juliasgr)          |
+| [**Vitor Turmina**](https://github.com/vTurmina)        |
 
 </div>
 
