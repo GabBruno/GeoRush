@@ -26,8 +26,14 @@ func _ready() -> void:
 # ==========================================
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
+		# Se a loja de upgrades estiver aberta, o Esc fecha apenas a loja e não pausa o jogo
+		var loja = get_tree().get_first_node_in_group("loja_upgrades")
+		if loja and loja._loja_aberta:
+			loja.fechar_loja()
+			get_viewport().set_input_as_handled()
+			return
+			
 		alternar_pausa()
-
 
 # ==========================================
 # --- LÓGICA PRINCIPAL DE PAUSA ---

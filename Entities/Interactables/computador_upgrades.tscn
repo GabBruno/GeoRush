@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://b7dj4jyogt31y"]
+
+[ext_resource type="Script" uid="uid://dohy6rm0su6f4" path="res://Entities/Interactables/computador_upgrades.gd" id="1_4qpmh"]
+[ext_resource type="Texture2D" uid="uid://xwc0bu8aq7gt" path="res://Assets/Enviroment/1.png" id="1_ngbee"]
+[ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="2_8n6e2"]
+[ext_resource type="PackedScene" uid="uid://cqktmurbupc4d" path="res://Assets/UI/loja_upgrades.tscn" id="4_gbyic"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8n6e2"]
+texture = ExtResource("1_ngbee")
+27:8/size_in_atlas = Vector2i(3, 4)
+27:8/0 = 0
+27:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-24.043097, -11.16781, 23.858505, -10.983219, 23.858505, 31.842102, -24.135391, 31.934399)
+
+[sub_resource type="TileSet" id="TileSet_yf5fn"]
+tile_size = Vector2i(1, 1)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_8n6e2")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(60, 41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gbyic"]
+bg_color = Color(0, 0, 0, 0.36862746)
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+anti_aliasing = false
+
+[node name="ComputadorUpgrades" type="Area2D" unique_id=478220299]
+script = ExtResource("1_4qpmh")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1265059928]
+tile_map_data = PackedByteArray(0, 0, 2, 0, 240, 255, 0, 0, 27, 0, 8, 0, 0, 0)
+tile_set = SubResource("TileSet_yf5fn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=397695015]
+position = Vector2(2, 4.5)
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="Label" type="Label" parent="." unique_id=402622868]
+z_index = 10
+offset_left = 40.0
+offset_top = -8.0
+offset_right = 96.0
+pivot_offset = Vector2(25, 5)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_8n6e2")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_gbyic")
+text = "[E]  Melhorias"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerRepositor" type="Timer" parent="." unique_id=85949845]
+wait_time = 12.0
+
+[node name="LojaUpgrades" parent="." unique_id=1955568483 instance=ExtResource("4_gbyic")]
+visible = false

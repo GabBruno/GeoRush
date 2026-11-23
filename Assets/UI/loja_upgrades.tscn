@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://cqktmurbupc4d"]
+
+[ext_resource type="Script" uid="uid://bi1n75soqqgeb" path="res://Assets/UI/loja_upgrades.gd" id="1_6opsm"]
+[ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="1_g6is7"]
+[ext_resource type="Texture2D" uid="uid://cmj1bum83lmy3" path="res://Assets/UI/InterfaceComputador.png" id="2_0go2d"]
+[ext_resource type="AudioStream" uid="uid://buce7fbkojis" path="res://Assets/Audio/SFX/som-reposicao.mp3" id="4_4nsef"]
+[ext_resource type="AudioStream" uid="uid://b1f6ib67b0nop" path="res://Assets/Audio/SFX/som-ligar-computador.wav" id="4_r0caj"]
+[ext_resource type="AudioStream" uid="uid://dtemryu0hdrhj" path="res://Assets/Audio/SFX/som-desligar-computador.wav" id="5_i8vjy"]
+
+[node name="LojaUpgrades" type="CanvasLayer" unique_id=1955568483]
+layer = 7
+script = ExtResource("1_6opsm")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1442328622]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -504.0
+offset_top = -456.0
+offset_right = 496.0
+offset_bottom = 544.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_0go2d")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1119381476]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -127.0
+offset_top = -56.0
+offset_right = 127.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_g6is7")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=620898506]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=2014209516]
+layout_mode = 2
+
+[node name="Titulo" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=2066897303]
+layout_mode = 2
+text = "COMPUTADOR DE GESTÃO"
+
+[node name="LabelSaldo" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=285487622]
+layout_mode = 2
+text = "Saldo:"
+
+[node name="BotaoVelocidade" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=953235710]
+layout_mode = 2
+text = "Tênis Veloz"
+
+[node name="BotaoEstoque" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1647149430]
+layout_mode = 2
+text = "Gôndolas Maiores (+3 Estoque)"
+
+[node name="BotaoRepositor" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1559779058]
+layout_mode = 2
+text = "   Contratar Repositor Automático   "
+
+[node name="BotaoFechar" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=664724289]
+layout_mode = 2
+text = "Fechar
+"
+
+[node name="SomAbrir" type="AudioStreamPlayer" parent="." unique_id=843792239]
+stream = ExtResource("4_r0caj")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="SomFechar" type="AudioStreamPlayer" parent="." unique_id=621421803]
+stream = ExtResource("5_i8vjy")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="SomComprar" type="AudioStreamPlayer" parent="." unique_id=1400189696]
+stream = ExtResource("4_4nsef")
+bus = &"SFX"

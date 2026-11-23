@@ -60,6 +60,9 @@ var _intervalo_correndo: float = 0.30 # Segundos entre passos ao correr (mais r�
 # --- INICIALIZAÇÃO ---
 # ==========================================
 func _ready() -> void:
+	
+	add_to_group("jogador")
+	
 	# Inicializa o estado da interface garantindo que os painéis comecem ocultos
 	notepad.visible = false
 	notificacao_label.visible = false
@@ -227,3 +230,7 @@ func abrir_prancheta() -> void:
 	# Se já estiver aberta (_prancheta_aberta == true), o código não faz nada e ela continua aberta!
 	if not _prancheta_aberta:
 		alternar_prancheta()
+
+func aumentar_velocidade(bonus: float) -> void:
+	_move_speed += bonus
+	_run_speed += bonus * 1.5

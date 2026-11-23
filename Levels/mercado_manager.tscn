@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bqg561f12eakq" path="res://Assets/Enviroment/9.png" id="3_3suwo"]
 [ext_resource type="PackedScene" uid="uid://btd4pp2nydyuv" path="res://Products/Scenes/maca.tscn" id="3_dcnpp"]
 [ext_resource type="Texture2D" uid="uid://uax1sbhs7qbd" path="res://Assets/Enviroment/Porta.png" id="3_wd6yx"]
+[ext_resource type="PackedScene" uid="uid://b7dj4jyogt31y" path="res://Entities/Interactables/computador_upgrades.tscn" id="4_hmtnh"]
 [ext_resource type="PackedScene" uid="uid://bemg6pvs70lwf" path="res://Products/Scenes/limao.tscn" id="4_ix0dx"]
 [ext_resource type="PackedScene" uid="uid://c1stiap2kl6nj" path="res://Products/Scenes/laranja.tscn" id="5_mtkvb"]
 [ext_resource type="PackedScene" uid="uid://c5had6bv036ny" path="res://Core/customer_manager.tscn" id="6_70eew"]
@@ -185,6 +186,9 @@ tile_set = SubResource("TileSet_wd6yx")
 [node name="Decoracoes" type="TileMapLayer" parent="." unique_id=1224160274]
 tile_map_data = PackedByteArray("AAAcAToAAAASACEAAAC8ADoAAAAVACEAAABVADkAAAAVAB4AAADZAToAAAAVAB4AAAA=")
 tile_set = SubResource("TileSet_bhunq")
+
+[node name="ComputadorUpgrades" parent="Decoracoes" unique_id=478220299 instance=ExtResource("4_hmtnh")]
+position = Vector2(49, 104)
 
 [node name="Maca" parent="." unique_id=1106355982 instance=ExtResource("3_dcnpp")]
 position = Vector2(75, 248)
