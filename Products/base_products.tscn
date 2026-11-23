@@ -39,7 +39,7 @@ sources/0 = SubResource("TileSetAtlasSource_bwrqj")
 size = Vector2(42, 21)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n2wvm"]
-size = Vector2(48, 43)
+size = Vector2(54, 50)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jcqfd"]
 bg_color = Color(0, 0, 0, 0.36862746)
@@ -98,14 +98,17 @@ vertical_alignment = 1
 [node name="SomPegar" type="AudioStreamPlayer" parent="Product" unique_id=903054240]
 stream = ExtResource("5_jcqfd")
 volume_db = -2.0
+bus = &"SFX"
 
 [node name="SomDevolver" type="AudioStreamPlayer" parent="Product" unique_id=299546224]
 stream = ExtResource("6_rq2ot")
 volume_db = -10.0
+bus = &"SFX"
 
 [node name="SomReposicao" type="AudioStreamPlayer" parent="Product" unique_id=1004624920]
 stream = ExtResource("7_rq2ot")
 volume_db = -5.0
+bus = &"SFX"
 
 [connection signal="body_shape_entered" from="Product/Area2D" to="Product" method="_on_area_2d_body_shape_entered"]
 [connection signal="body_shape_exited" from="Product/Area2D" to="Product" method="_on_area_2d_body_shape_exited"]

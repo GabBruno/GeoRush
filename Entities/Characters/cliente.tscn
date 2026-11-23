@@ -648,3 +648,4 @@ vertical_alignment = 1
 [node name="SomChegouCaixa" type="AudioStreamPlayer" parent="." unique_id=1620113404]
 stream = ExtResource("6_es1rb")
 volume_db = -12.0
+bus = &"SFX"

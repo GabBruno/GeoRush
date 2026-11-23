@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="2_eycnl"]
 [ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="2_gl1ya"]
 [ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="2_pfpnl"]
+[ext_resource type="Script" uid="uid://it0an3adn8c2" path="res://UI/painel_configuracoes.gd" id="5_1ljg4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqmju"]
 content_margin_left = 10.0
@@ -57,6 +58,13 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 35
 text = "Controles"
 
+[node name="BotaoConfiguracoes" type="Button" parent="PainelPausa/Botoes" unique_id=101688112]
+custom_minimum_size = Vector2(150, 70)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+text = "   Configurações   "
+
 [node name="MenuPrincipal" type="Button" parent="PainelPausa/Botoes" unique_id=1808499382]
 custom_minimum_size = Vector2(280, 70)
 layout_mode = 2
@@ -75,6 +83,7 @@ text = "Sair"
 
 [node name="SomClique" type="AudioStreamPlayer" parent="PainelPausa" unique_id=1021794201]
 stream = ExtResource("2_gl1ya")
+bus = &"SFX"
 
 [node name="PainelControles" type="Panel" parent="PainelPausa" unique_id=2004040021]
 visible = false
@@ -84,19 +93,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 19.0
-offset_top = 32.0
-offset_right = 102.0
-offset_bottom = 32.0
+offset_left = 56.0
+offset_top = 64.0
+offset_right = 139.0
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="PainelPausa/PainelControles" unique_id=331825499]
 layout_mode = 0
-offset_left = 141.0
-offset_top = -168.0
-offset_right = 447.0
-offset_bottom = 31.0
+offset_left = 144.0
+offset_top = -176.0
+offset_right = 479.0
+offset_bottom = 49.0
 theme_override_constants/outline_size = 14
 theme_override_fonts/font = ExtResource("2_eycnl")
 theme_override_font_sizes/font_size = 22
@@ -105,6 +114,7 @@ text = "WASD / Setas: Movimentar
 Shift: Correr
 E: Pegar Produto
 R: Devolver Produto
+Shift + R: Devolver em Massa
 F: Repor Estoque
 Tab: Abrir/Fechar Lista
 Esc: Abrir/Fechar Menu"
@@ -121,8 +131,72 @@ theme_override_font_sizes/font_size = 22
 text = " Fechar"
 icon_alignment = 1
 
+[node name="PainelConfiguracoes" type="Panel" parent="PainelPausa" unique_id=2039924781]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 208.0
+offset_top = -88.0
+offset_right = 507.0
+offset_bottom = 79.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_1ljg4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PainelPausa/PainelConfiguracoes" unique_id=897445889]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 14.0
+offset_right = 279.0
+offset_bottom = 147.0
+theme_override_constants/separation = 10
+
+[node name="Titulo" type="Label" parent="PainelPausa/PainelConfiguracoes/VBoxContainer" unique_id=1196186733]
+layout_mode = 2
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 22
+text = "Configurações"
+horizontal_alignment = 1
+
+[node name="LabelMusica" type="Label" parent="PainelPausa/PainelConfiguracoes/VBoxContainer" unique_id=1287368681]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 18
+text = "Música:"
+
+[node name="SliderMusica" type="HSlider" parent="PainelPausa/PainelConfiguracoes/VBoxContainer" unique_id=1837838840]
+self_modulate = Color(3.2944162, 3.2944162, 3.2944162, 1)
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+max_value = 1.0
+step = 0.05
+
+[node name="LabelSFX" type="Label" parent="PainelPausa/PainelConfiguracoes/VBoxContainer" unique_id=1528174961]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 18
+text = "Efeitos:"
+
+[node name="SliderSFX" type="HSlider" parent="PainelPausa/PainelConfiguracoes/VBoxContainer" unique_id=1121193974]
+self_modulate = Color(3.2944162, 3.2944162, 3.2944162, 1)
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+max_value = 1.0
+step = 0.05
+
+[node name="SomTeste" type="AudioStreamPlayer" parent="PainelPausa/PainelConfiguracoes/VBoxContainer" unique_id=1030133237]
+stream = ExtResource("2_gl1ya")
+bus = &"SFX"
+
 [connection signal="pressed" from="PainelPausa/Botoes/Continuar" to="." method="_on_botao_continuar_pressed"]
 [connection signal="pressed" from="PainelPausa/Botoes/BotaoControles" to="." method="_on_botao_controles_pressed"]
+[connection signal="pressed" from="PainelPausa/Botoes/BotaoConfiguracoes" to="." method="_on_botao_configuracoes_pressed"]
 [connection signal="pressed" from="PainelPausa/Botoes/MenuPrincipal" to="." method="_on_botao_menu_principal_pressed"]
 [connection signal="pressed" from="PainelPausa/Botoes/Sair" to="." method="_on_botao_sair_pressed"]
 [connection signal="pressed" from="PainelPausa/PainelControles/BotaoVoltar" to="." method="_on_botao_voltar_pressed"]

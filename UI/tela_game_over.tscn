@@ -88,3 +88,4 @@ text = "Menu Principal"
 [node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=317621501]
 process_mode = 3
 stream = ExtResource("3_5pctn")
+bus = &"SFX"

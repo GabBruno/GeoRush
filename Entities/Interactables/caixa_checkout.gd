@@ -118,38 +118,8 @@ func _input(event: InputEvent) -> void:
 
 func validar_compra() -> void:
 	var carrinho = _jogador_na_area.shopping_cart
-	var pedido_restante = CustomerManager.pedido_atual.duplicate()
-	var formas_restantes = CustomerManager.pedido_por_forma.duplicate()
-	var erros = 0
-	
-	# 1. Varredura e filtragem: Compara os itens reais com as strings de comando do pedido
-	for item in carrinho:
-		var item_correto_encontrado = false
-		for produto_pedido in pedido_restante.keys():
-			# Tratamento rigoroso de strings para evitar quebras por espaços ou caixa alta/baixa
-			var nome_pedido = str(produto_pedido.product_name).to_lower().strip_edges()
-			var nome_carrinho = str(item.product_name).to_lower().strip_edges()
-			
-			if nome_pedido == nome_carrinho:
-				if pedido_restante[produto_pedido] > 0:
-					pedido_restante[produto_pedido] -= 1
-					item_correto_encontrado = true
-					break
-		if not item_correto_encontrado:
-			if formas_restantes.has(item.shape) and formas_restantes[item.shape] > 0:
-				formas_restantes[item.shape] -= 1
-				item_correto_encontrado = true
-			else: 
-				erros += 1
-			
-	# 2. Contabilização de itens faltantes que o jogador esqueceu de coletar nas gôndolas
-	var faltantes = 0
-	for quantidade_restante in pedido_restante.values():
-		faltantes += quantidade_restante
+	var resultado = CustomerManager.avaliar_carrinho(carrinho)
 
-	for quantidade_forma_restante in formas_restantes.values():
-		faltantes += quantidade_forma_restante
-		
 	# Captura o estado cronometrado antes de pausar o relógio global
 	var tempo_sobrou = CustomerManager.pegar_tempo_restante()
 	CustomerManager.timer_pedido.stop()
@@ -157,54 +127,72 @@ func validar_compra() -> void:
 	# ==========================================
 	# --- SISTEMA DE RECOMPENSAS / PENALIDADES ---
 	# ==========================================
-	if erros == 0 and faltantes == 0:
+	if resultado["perfeito"]:
 		# --- CENÁRIO DE SUCESSO ABSOLUTO (LISTA PERFEITA) ---
 		if som_sucesso:
 			som_sucesso.play()
-			
+
 		var multiplicador_rep = EconomyManager.obter_multiplicador_reputacao()
+		var eh_vip = CustomerManager.cliente_vip_ativo
+		var multiplicador_vip = 2.0 if eh_vip else 1.0
+
 		var total_de_itens = carrinho.size()
-		var ganho_pelas_vendas = total_de_itens * preco_venda_por_item * multiplicador_rep
-		var ganho_pelo_tempo = tempo_sobrou * multiplicador_gorjeta_tempo * multiplicador_rep
+		var ganho_pelas_vendas = total_de_itens * preco_venda_por_item * multiplicador_rep * multiplicador_vip
+		var ganho_pelo_tempo = tempo_sobrou * multiplicador_gorjeta_tempo * multiplicador_rep * multiplicador_vip
 		var recompensa_final = ganho_pelas_vendas + ganho_pelo_tempo
-			
+
 		if tempo_sobrou > 0:
-			# Atendimento dentro do prazo: Ganha valor integral + gorjeta + 5 de reputação
-			EconomyManager.adicionar_recompensa(recompensa_final, 5)
-			var texto = "✅ SUCESSO! (x" + str(multiplicador_rep) + " Rep)\n+$" + str(snapped(recompensa_final, 0.1)) + " | +5 Reputação"
-			_jogador_na_area.mostrar_notificacao(texto, Color.GREEN)
-			
-			# Verifica se o progresso de atendimentos atingiu o teto necessário para expandir a loja
-			if EconomyManager.nivel_expansao < EconomyManager.expansoes_maximas and EconomyManager.clientes_atendidos >= EconomyManager.meta_expansao:
-				_agendar_popup_expansao()
+			# Atendimento dentro do prazo: valor integral + gorjeta + reputação (dobrada se VIP)
+			var rep_ganha = 10 if eh_vip else 5
+			EconomyManager.adicionar_recompensa(recompensa_final, rep_ganha)
+
+			var prefixo = "⭐ VIP SUCESSO!" if eh_vip else "✅ SUCESSO!"
+			var texto = "%s (x%s Rep)\n+$%s | +%d Reputação" % [
+				prefixo,
+				str(multiplicador_rep),
+				str(snapped(recompensa_final, 0.1)),
+				rep_ganha
+			]
+			_jogador_na_area.mostrar_notificacao(texto, Color.GOLD if eh_vip else Color.GREEN)
 		else:
-			# Atendimento em atraso (Tempo esgotado): Recebe apenas valor base bruto + 1 de reputação
-			EconomyManager.adicionar_recompensa(ganho_pelas_vendas, 1)
-			var texto = "⚠️ SUCESSO (Atrasado)!\n+$" + str(snapped(ganho_pelas_vendas, 0.1)) + " | +1 Reputação"
+			# Atendimento em atraso (Tempo esgotado): valor base + reputação reduzida
+			var rep_atraso = 2 if eh_vip else 1
+			EconomyManager.adicionar_recompensa(ganho_pelas_vendas, rep_atraso)
+
+			var texto = "⚠️ SUCESSO (Atrasado)!\n+$%s | +%d Reputação" % [
+				str(snapped(ganho_pelas_vendas, 0.1)),
+				rep_atraso
+			]
 			_jogador_na_area.mostrar_notificacao(texto, Color.YELLOW)
-			
-			if EconomyManager.nivel_expansao < EconomyManager.expansoes_maximas and EconomyManager.clientes_atendidos >= EconomyManager.meta_expansao:
-				_agendar_popup_expansao()
-		
+
+		# Verifica progresso de expansão ou vitória (vale para entrega no prazo ou atrasada)
+		if EconomyManager.nivel_expansao < EconomyManager.expansoes_maximas and EconomyManager.clientes_atendidos >= EconomyManager.meta_expansao:
+			_agendar_popup_expansao()
+		elif not EconomyManager.modo_infinito and EconomyManager.nivel_expansao >= EconomyManager.expansoes_maximas and EconomyManager.clientes_atendidos >= EconomyManager.meta_vitoria:
+			_agendar_tela_vitoria()
+
 		# Libera o NPC cliente com feedback positivo
 		if cliente_atual:
 			cliente_atual.reagir_e_ir_embora(true)
-			
+
 	else:
 		# --- CENÁRIO DE FALHA (PRODUTO INCORRETO OU EM FALTA) ---
 		if som_erro:
 			som_erro.play()
-			
+
 		# Aplica uma taxa mínima de consolação, mas pune severamente a reputação da loja (-10)
 		EconomyManager.dinheiro += 5.0
-		EconomyManager.aplicar_punicao(0, 10) 
-		var texto = "❌ ERRO NO PEDIDO!\nGanhou apenas $5.0 | Perdeu 10 Reputação!"
+		EconomyManager.aplicar_punicao(0, 10)
+		var texto = "❌ ERRO NO PEDIDO! (Extras/Errados: %d | Faltando: %d)\nGanhou apenas $5.0 | Perdeu 10 Reputação!" % [
+			resultado["erros"],
+			resultado["faltantes"]
+		]
 		_jogador_na_area.mostrar_notificacao(texto, Color.RED)
-		
+
 		# Libera o NPC cliente com feedback de insatisfação/irritação
 		if cliente_atual:
 			cliente_atual.reagir_e_ir_embora(false)
-		
+
 	# ==========================================
 	# --- ETAPA DE LIMPEZA E RESET DE DADOS ---
 	# Limpa buffers e prepara as estruturas de UI para o próximo cliente da fila.
@@ -213,13 +201,14 @@ func validar_compra() -> void:
 	get_tree().call_group("prateleiras", "resetar_itens_pegos")
 	CustomerManager.pedido_atual.clear()
 	CustomerManager.pedido_por_forma.clear()
-	
+	CustomerManager.cliente_vip_ativo = false
+
 	if CustomerManager.ui_lista_de_itens:
 		for child in CustomerManager.ui_lista_de_itens.get_children():
 			child.queue_free()
-	
+
 	get_tree().call_group("tutorial", "avancar_passo", "entregou_pedido")
-	
+
 	# Desloca a fila de espera do mercado
 	avancar_fila()
 
@@ -303,4 +292,8 @@ func _agendar_popup_expansao() -> void:
 	
 	# O reset da barra ocorre somente quando a tela de expansão já estiver visível
 	EconomyManager.clientes_atendidos = 0
-	EconomyManager.meta_expansao += 5
+
+func _agendar_tela_vitoria() -> void:
+	await get_tree().create_timer(0.3).timeout
+	var tela = preload("res://UI/tela_vitoria.tscn").instantiate()
+	get_tree().current_scene.add_child(tela)

@@ -68,9 +68,13 @@ func _process(delta: float) -> void:
 			take_product()
 			_interact_timer = _interact_delay 
 			
-		# --- Lógica de devolver produto ---
+		# --- Lógica de devolver produto (R = 1 item | Shift + R = todos desta prateleira) ---
 		elif Input.is_action_pressed("interact_r") and _products_taken_count > 0 and _interact_timer <= 0.0:
-			return_product()
+			if Input.is_action_pressed("run"):
+				while _products_taken_count > 0:
+					return_product()
+			else:
+				return_product()
 			_interact_timer = _interact_delay
 			
 		# Zera o delay se nenhuma ação de interação estiver sendo pressionada, permitindo cliques rápidos e responsivos
@@ -195,10 +199,10 @@ func repor_estoque() -> void:
 	e impedindo transações desnecessárias ou trapaças no processo de devolução.
 	"""
 	# Bloqueia a reposição caso o jogador possua itens pendentes para devolução (evita bugs de duplicação)
-	if _products_taken_count > 0:
-		if _jogador_na_area:
-			_jogador_na_area.mostrar_notificacao("Devolva o item antes de repor!", Color.YELLOW)
-		return
+	#if _products_taken_count > 0:
+		#if _jogador_na_area:
+			#_jogador_na_area.mostrar_notificacao("Devolva o item antes de repor!", Color.YELLOW)
+		#return
 
 	# Impede gasto financeiro desnecessário em prateleiras que já estão cheias
 	if _current_stock >= max_stock:
@@ -259,3 +263,17 @@ func atualizar_texto_do_painel() -> void:
 		
 	# Aplica o texto final removendo quebras de linha (\n) excedentes na última string
 	popup_label.text = texto_interacao.strip_edges()
+
+func aumentar_estoque_maximo(extra: int) -> void:
+	max_stock += extra
+	_current_stock = max_stock
+	update_visuals()
+	atualizar_texto_do_painel()
+
+func repor_automaticamente() -> bool:
+	if _current_stock < max_stock:
+		_current_stock = max_stock
+		update_visuals()
+		atualizar_texto_do_painel()
+		return true
+	return false

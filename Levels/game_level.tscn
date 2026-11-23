@@ -26,4 +26,5 @@ process_mode = 3
 stream = ExtResource("5_ese5x")
 volume_db = -22.0
 autoplay = true
+bus = &"Musica"
 parameters/looping = true
