@@ -10,7 +10,9 @@ extends Node
 # --- ESTADO E PROGRESSÃO ---
 # ==========================================
 var formas_liberadas: Array = [ProductData.ShapeType.ESFERA]
+var pedido_por_forma: Dictionary = {}
 var pedido_atual: Dictionary = {}
+var tutorial_concluido: bool = false
 
 # ==========================================
 # --- REFERÊNCIAS DE NODES ---
@@ -27,11 +29,32 @@ func desbloquear_forma(nova_forma: ProductData.ShapeType) -> void:
 	if not formas_liberadas.has(nova_forma):
 		formas_liberadas.append(nova_forma)
 		
+func tem_pedido_ativo() -> bool: 
+	return not pedido_atual.is_empty() or not pedido_por_forma.is_empty()	
 # ==========================================
 # --- LÓGICA DE PEDIDOS ---
 # ==========================================
 func gerar_novo_pedido(carrinho_do_jogador: Array = []) -> void:
+	pedido_por_forma.clear()
 	pedido_atual.clear()
+	
+	# --- PEDIDO FIXO DO TUTORIAL (1º ATENDIMENTO) ---
+	if not tutorial_concluido:
+		var produto_tutorial: ProductData = null
+		for produto in banco_de_produtos:
+			if produto.product_name.to_lower().strip_edges() == "maçã":
+				produto_tutorial = produto
+				break
+
+		# Segurança caso o nome do produto tenha mudado
+		if produto_tutorial == null and not banco_de_produtos.is_empty():
+			produto_tutorial = banco_de_produtos[0]
+
+		if produto_tutorial != null:
+			pedido_atual[produto_tutorial] = 2
+			timer_pedido.start(120.0) # Tempo bem folgado para o 1º atendimento
+			atualizar_lista_visual(carrinho_do_jogador)
+			return
 	
 	# ==========================================
 	# 1. Ajuste Automático de Dificuldade
@@ -111,8 +134,19 @@ func gerar_novo_pedido(carrinho_do_jogador: Array = []) -> void:
 			
 			ui_lista_de_itens.add_child(texto_item)
 				
-	# Inicia o cronômetro base ajustado pela dificuldade (30s na fase 1, 45s na fase 2, etc.)
-	var tempo_base = 30.0 + (EconomyManager.nivel_expansao * 15.0)
+	# A partir da 1ª expansão, inclui um desafio por forma geométrica
+	if EconomyManager.nivel_expansao >= 1: 
+		var formas_avancadas := formas_liberadas.filter(func(f): return f != ProductData.ShapeType.ESFERA)
+		if not formas_avancadas.is_empty():
+			var forma_sorteada = formas_avancadas.pick_random()
+			var qtd_forma = randi_range(2, 3)
+			pedido_por_forma[forma_sorteada] = qtd_forma
+		
+	# Inicia o cronômetro base ajustado pela dificuldade (25s na fase 1, 35s na fase 2, etc.)
+	var total_unidades := 0
+	for qtd in pedido_atual.values(): 
+		total_unidades += qtd
+	var tempo_base := 5.0 + (EconomyManager.nivel_expansao * 2.0) + (total_unidades * 4.0)
 	timer_pedido.start(tempo_base)
 	
 	# Atualiza a interface visual para o formato definitivo (com ícones e feedback)
@@ -138,6 +172,7 @@ func _pegar_nome_da_forma(shape_enum: int) -> String:
 	
 func atualizar_lista_visual(carrinho_do_jogador: Array) -> void:
 	# Limpa os itens visuais antigos para reconstruir a lista atualizada
+	var sobras_carrinho := carrinho_do_jogador.duplicate()
 	if ui_lista_de_itens:
 		for child in ui_lista_de_itens.get_children():
 			child.queue_free()
@@ -184,6 +219,29 @@ func atualizar_lista_visual(carrinho_do_jogador: Array) -> void:
 			ui_lista_de_itens.add_child(linha)
 			
 			
+		# Desenha pedidos por forma geométrica (aceita qualquer produto daquela forma)
+		for forma in pedido_por_forma.keys():
+			var qtd_pedida = pedido_por_forma[forma]
+			var qtd_no_carrinho = 0
+			for item in sobras_carrinho:
+				if item.shape == forma:
+					qtd_no_carrinho += 1
+
+			var texto = Label.new()
+			var nome_forma = _pegar_nome_da_forma(forma)
+			texto.text = "Qualquer " + nome_forma + ": " + str(qtd_no_carrinho) + " / " + str(qtd_pedida)
+			texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			texto.add_theme_font_size_override("font_size", 14)
+
+			if qtd_no_carrinho > qtd_pedida:
+				texto.add_theme_color_override("font_color", Color.ORANGE)
+			elif qtd_no_carrinho == qtd_pedida:
+				texto.add_theme_color_override("font_color", Color.GREEN)
+			else:
+				texto.add_theme_color_override("font_color", Color.DARK_BLUE)
+
+			ui_lista_de_itens.add_child(texto)
+		
 		# ==========================================
 		# 2. IDENTIFICA E DESENHA ITENS ERRADOS/EXTRAS
 		# ==========================================
@@ -243,6 +301,9 @@ func atualizar_lista_visual(carrinho_do_jogador: Array) -> void:
 # ==========================================
 func resetar_clientes() -> void:
 	""" Limpa os pedidos antigos e bloqueia as formas avançadas novamente. """
+	
+	pedido_por_forma.clear()
+	
 	# Volta a ter apenas a Esfera liberada (Fase 1)
 	formas_liberadas = [ProductData.ShapeType.ESFERA] 
 	pedido_atual.clear()
@@ -255,3 +316,6 @@ func resetar_clientes() -> void:
 	if ui_lista_de_itens:
 		for filho in ui_lista_de_itens.get_children():
 			filho.queue_free()
+			
+	
+	tutorial_concluido = false

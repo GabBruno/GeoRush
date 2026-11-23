@@ -61,7 +61,7 @@ func _process(_delta: float) -> void:
 	# Controla dinamicamente as mensagens flutuantes com base no progresso do nível.
 	# ==========================================
 	if _jogador_na_area:
-		if CustomerManager.pedido_atual.is_empty():
+		if not CustomerManager.tem_pedido_ativo():
 			# Cenário: Não há nenhum pedido ativo sendo recolhido
 			if cliente_atual and cliente_atual.estado == "esperando":
 				popup_label.text = "[E] Pegar Pedido"
@@ -94,7 +94,7 @@ func _input(event: InputEvent) -> void:
 			
 		if apertou_botao:
 			# --- CASO 1: Pegar nova lista com o cliente da vez ---
-			if CustomerManager.pedido_atual.is_empty():
+			if not CustomerManager.tem_pedido_ativo():
 				if cliente_atual and cliente_atual.estado == "esperando":
 					var quantidade_tipos = randi_range(1, 3) 
 					CustomerManager.gerar_novo_pedido(_jogador_na_area.shopping_cart)
@@ -102,10 +102,7 @@ func _input(event: InputEvent) -> void:
 					# Força a prancheta de notas (Notepad UI) do atendente a se abrir visualmente
 					_jogador_na_area.abrir_prancheta()
 					
-					# Escala o tempo limite do Timer com base na complexidade do pedido gerado
-					var tempo_calculado = 5.0 + (quantidade_tipos * 2.0)
-					CustomerManager.timer_pedido.wait_time = tempo_calculado
-					CustomerManager.timer_pedido.start()
+					get_tree().call_group("tutorial", "avancar_passo", "pegou_pedido")
 					
 					_jogador_na_area.mostrar_notificacao("Novo Pedido Recebido! Abra a lista de compras! (Tab)", Color.CYAN)
 			
@@ -122,6 +119,7 @@ func _input(event: InputEvent) -> void:
 func validar_compra() -> void:
 	var carrinho = _jogador_na_area.shopping_cart
 	var pedido_restante = CustomerManager.pedido_atual.duplicate()
+	var formas_restantes = CustomerManager.pedido_por_forma.duplicate()
 	var erros = 0
 	
 	# 1. Varredura e filtragem: Compara os itens reais com as strings de comando do pedido
@@ -138,12 +136,19 @@ func validar_compra() -> void:
 					item_correto_encontrado = true
 					break
 		if not item_correto_encontrado:
-			erros += 1 
+			if formas_restantes.has(item.shape) and formas_restantes[item.shape] > 0:
+				formas_restantes[item.shape] -= 1
+				item_correto_encontrado = true
+			else: 
+				erros += 1
 			
 	# 2. Contabilização de itens faltantes que o jogador esqueceu de coletar nas gôndolas
 	var faltantes = 0
 	for quantidade_restante in pedido_restante.values():
 		faltantes += quantidade_restante
+
+	for quantidade_forma_restante in formas_restantes.values():
+		faltantes += quantidade_forma_restante
 		
 	# Captura o estado cronometrado antes de pausar o relógio global
 	var tempo_sobrou = CustomerManager.pegar_tempo_restante()
@@ -206,10 +211,13 @@ func validar_compra() -> void:
 	_jogador_na_area.shopping_cart.clear()
 	get_tree().call_group("prateleiras", "resetar_itens_pegos")
 	CustomerManager.pedido_atual.clear()
+	CustomerManager.pedido_por_forma.clear()
 	
 	if CustomerManager.ui_lista_de_itens:
 		for child in CustomerManager.ui_lista_de_itens.get_children():
 			child.queue_free()
+	
+	get_tree().call_group("tutorial", "avancar_passo", "entregou_pedido")
 	
 	# Desloca a fila de espera do mercado
 	avancar_fila()

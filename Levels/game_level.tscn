@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c5had6bv036ny" path="res://Core/customer_manager.tscn" id="2_34xkg"]
 [ext_resource type="PackedScene" uid="uid://bq4iuja5vbq8" path="res://Entities/Characters/atendente.tscn" id="3_xk4lf"]
 [ext_resource type="PackedScene" uid="uid://bydthr3tmpqad" path="res://UI/menu_pausa.tscn" id="4_afl82"]
+[ext_resource type="PackedScene" uid="uid://crvs7cpgexnln" path="res://UI/tutorial_overlay.tscn" id="5_34xkg"]
 [ext_resource type="AudioStream" uid="uid://ba1l8pbqh1wyf" path="res://Assets/Audio/Music/musica_fundo.mp3" id="5_ese5x"]
 
 [node name="GameLevel" type="Node2D" unique_id=179900688]
@@ -17,6 +18,8 @@ y_sort_enabled = true
 position = Vector2(110, 138)
 
 [node name="MenuPausa" parent="." unique_id=1644045645 instance=ExtResource("4_afl82")]
+
+[node name="TutorialOverlay" parent="." unique_id=357736755 instance=ExtResource("5_34xkg")]
 
 [node name="MusicaFundo" type="AudioStreamPlayer" parent="." unique_id=1907146482]
 process_mode = 3

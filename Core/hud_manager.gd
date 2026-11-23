@@ -98,7 +98,7 @@ func _process(_delta: float) -> void:
 	# --- 4. ATUALIZAÇÃO DO RELÓGIO DO PEDIDO ---
 	# Feedback dinâmico de cor que aumenta a urgência visual conforme o tempo acaba.
 	# ==========================================
-	if CustomerManager.pedido_atual.is_empty():
+	if not CustomerManager.tem_pedido_ativo():
 		label_tempo.text = "Aguardando..."
 		label_tempo.add_theme_color_override("font_color", Color.WHITE)
 	else:

@@ -152,6 +152,7 @@ func add_to_cart(product: ProductData) -> void:
 	shopping_cart.append(product)
 	mostrar_notificacao("+ " + product.product_name, Color.GREEN)
 	CustomerManager.atualizar_lista_visual(shopping_cart)
+	get_tree().call_group("tutorial", "verificar_coleta", shopping_cart)
 
 func remove_from_cart(product: ProductData) -> void:
 	var index = shopping_cart.find(product)
@@ -160,6 +161,7 @@ func remove_from_cart(product: ProductData) -> void:
 		shopping_cart.remove_at(index)
 		mostrar_notificacao("- " + product.product_name + " (Devolvido)", Color.ORANGE)
 		CustomerManager.atualizar_lista_visual(shopping_cart)
+		get_tree().call_group("tutorial", "verificar_coleta", shopping_cart)
 		
 
 # ==========================================
