@@ -38,6 +38,8 @@ func _ready() -> void:
 		(tamanho_tela.x / 2.0) - (texto_wip.size.x / 2.0), # Centraliza no X
 		tamanho_tela.y - 30.0 # Posiciona 30 pixels acima do final da tela no Y
 	)
+	EconomyManager.reputacao_alterada.connect(_on_reputacao_alterada)
+	EconomyManager.game_over_acionado.connect(_on_game_over)
 
 # ==========================================
 # --- LOOP DE ATUALIZAÇÃO DA INTERFACE (UI) ---
@@ -118,3 +120,15 @@ func _process(_delta: float) -> void:
 		else:
 			label_tempo.text = "ESGOTADO!"
 			label_tempo.add_theme_color_override("font_color", Color.RED)
+			
+func _on_reputacao_alterada(_nova_rep: int, delta: int) -> void:
+	if not estrelas_container:
+		return
+	var cor_piscada := Color.GREEN if delta >= 0 else Color.RED
+	estrelas_container.modulate = cor_piscada
+	var tween := create_tween()
+	tween.tween_property(estrelas_container, "modulate", Color.WHITE, 0.5)
+
+func _on_game_over() -> void:
+	var tela = preload("res://UI/tela_game_over.tscn").instantiate()
+	get_tree().current_scene.add_child(tela)

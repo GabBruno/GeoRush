@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://b706h2nj16tsk"]
+
+[ext_resource type="Script" uid="uid://br8ns151dt6tf" path="res://UI/tela_game_over.gd" id="1_km07e"]
+[ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="1_odt8m"]
+[ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="2_km07e"]
+[ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="3_5pctn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tk3ny"]
+bg_color = Color(0, 0, 0, 0.5882353)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 20.0
+expand_margin_top = 20.0
+expand_margin_right = 20.0
+expand_margin_bottom = 20.0
+
+[node name="TelaGameOver" type="CanvasLayer" unique_id=469532430]
+script = ExtResource("1_km07e")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=423452255]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.39215687)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=784781309]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -203.5
+offset_top = -20.0
+offset_right = 203.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_tk3ny")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=2129840709]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Titulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=323842370]
+layout_mode = 2
+theme_override_constants/outline_size = 14
+theme_override_fonts/font = ExtResource("1_odt8m")
+theme_override_font_sizes/font_size = 20
+text = "NOVO SETOR DESBLOQUEADO: CONSERVAS E MATINAIS!"
+horizontal_alignment = 1
+
+[node name="Subtitulo" type="Label" parent="PanelContainer/VBoxContainer" unique_id=43250741]
+layout_mode = 2
+theme_override_constants/outline_size = 14
+theme_override_fonts/font = ExtResource("1_odt8m")
+theme_override_font_sizes/font_size = 20
+text = "Atenção aos novos formatos: Cilindro e Paralelepípedo!"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1628351332]
+layout_mode = 2
+alignment = 1
+
+[node name="BotaoTentarNovamente" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=84994988]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_km07e")
+theme_override_font_sizes/font_size = 22
+text = "Recomeçar"
+
+[node name="BotaoMenu" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=863070794]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_km07e")
+theme_override_font_sizes/font_size = 22
+text = "Menu Principal"
+
+[node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=317621501]
+process_mode = 3
+stream = ExtResource("3_5pctn")

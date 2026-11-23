@@ -162,15 +162,16 @@ func validar_compra() -> void:
 		if som_sucesso:
 			som_sucesso.play()
 			
+		var multiplicador_rep = EconomyManager.obter_multiplicador_reputacao()
 		var total_de_itens = carrinho.size()
-		var ganho_pelas_vendas = total_de_itens * preco_venda_por_item
-		var ganho_pelo_tempo = tempo_sobrou * multiplicador_gorjeta_tempo
+		var ganho_pelas_vendas = total_de_itens * preco_venda_por_item * multiplicador_rep
+		var ganho_pelo_tempo = tempo_sobrou * multiplicador_gorjeta_tempo * multiplicador_rep
 		var recompensa_final = ganho_pelas_vendas + ganho_pelo_tempo
 			
 		if tempo_sobrou > 0:
 			# Atendimento dentro do prazo: Ganha valor integral + gorjeta + 5 de reputação
 			EconomyManager.adicionar_recompensa(recompensa_final, 5)
-			var texto = "✅ SUCESSO!\n+$" + str(snapped(recompensa_final, 0.1)) + " | +5 Reputação"
+			var texto = "✅ SUCESSO! (x" + str(multiplicador_rep) + " Rep)\n+$" + str(snapped(recompensa_final, 0.1)) + " | +5 Reputação"
 			_jogador_na_area.mostrar_notificacao(texto, Color.GREEN)
 			
 			# Verifica se o progresso de atendimentos atingiu o teto necessário para expandir a loja
