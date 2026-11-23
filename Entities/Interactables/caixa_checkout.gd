@@ -17,6 +17,10 @@ class_name CaixaCheckout
 @export var preco_venda_por_item: float = 10.0 # Valor bruto por produto entregue
 @export var multiplicador_gorjeta_tempo: float = 2.0 # Bônus financeiro por segundo restante
 
+@onready var timer_spawn: Timer = $TimerSpawn
+
+var boss_vip_em_cena: bool = false
+
 # ==========================================
 # --- VARIÁVEIS DE ESTADO DO CAIXA ---
 # ==========================================
@@ -40,6 +44,9 @@ var posicoes_da_fila: Array[Vector2] = [
 # ==========================================
 
 func _ready() -> void:
+	
+	CustomerManager.timer_pedido.timeout.connect(_on_tempo_pedido_esgotado)
+	
 	# Conecta os sinais de colisão da Área 2D para identificar a presença do atendente
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
@@ -83,6 +90,10 @@ func _process(_delta: float) -> void:
 # ==========================================
 
 func _input(event: InputEvent) -> void:
+	
+	if not _jogador_na_area or _jogador_na_area.em_cutscene:
+		return
+		
 	if _jogador_na_area:
 		var apertou_botao = false
 		
@@ -96,15 +107,15 @@ func _input(event: InputEvent) -> void:
 			# --- CASO 1: Pegar nova lista com o cliente da vez ---
 			if not CustomerManager.tem_pedido_ativo():
 				if cliente_atual and cliente_atual.estado == "esperando":
-					var quantidade_tipos = randi_range(1, 3) 
-					CustomerManager.gerar_novo_pedido(_jogador_na_area.shopping_cart)
-					
-					# Força a prancheta de notas (Notepad UI) do atendente a se abrir visualmente
-					_jogador_na_area.abrir_prancheta()
-					
+					if cliente_atual.eh_vip:
+						CustomerManager.gerar_pedido_boss_vip(_jogador_na_area.shopping_cart)
+						_jogador_na_area.abrir_prancheta()
+						_jogador_na_area.mostrar_notificacao("⭐ DESAFIO DO BOSS FINAL!\nEntregue todas as formas no prazo!", Color.GOLD)
+					else:
+						CustomerManager.gerar_novo_pedido(_jogador_na_area.shopping_cart)
+						_jogador_na_area.abrir_prancheta()
+						_jogador_na_area.mostrar_notificacao("Novo Pedido Recebido! Abra a lista de compras! (Tab)", Color.CYAN)
 					get_tree().call_group("tutorial", "avancar_passo", "pegou_pedido")
-					
-					_jogador_na_area.mostrar_notificacao("Novo Pedido Recebido! Abra a lista de compras! (Tab)", Color.CYAN)
 			
 			# --- CASO 2: Entregar a coleta armazenada no inventário ---
 			else:
@@ -124,6 +135,27 @@ func validar_compra() -> void:
 	var tempo_sobrou = CustomerManager.pegar_tempo_restante()
 	CustomerManager.timer_pedido.stop()
 
+	# ==========================================
+	# --- VALIDAÇÃO EXCLUSIVA DO BOSS FINAL (VIP) ---
+	# ==========================================
+	if CustomerManager.cliente_vip_ativo:
+		if resultado["perfeito"] and tempo_sobrou > 0:
+			# VITÓRIA! Finalizou o jogo!
+			if som_sucesso:
+				som_sucesso.play()
+			EconomyManager.adicionar_recompensa(300.0, 15)
+			_jogador_na_area.mostrar_notificacao("🏆 BOSS FINAL APROVADO!\nVocê dominou a Geometria!", Color.GOLD)
+			if cliente_atual:
+				cliente_atual.reagir_e_ir_embora(true)
+			_limpar_apos_entrega()
+			boss_vip_em_cena = false
+			timer_spawn.start() # Já fica pronto caso escolha Modo Infinito
+			_agendar_tela_vitoria()
+		else:
+			# FALHOU NO BOSS: barra volta a 0, mantém setores desbloqueados
+			_falhar_boss_vip("❌ O CLIENTE VIP NÃO APROVOU!\nBarra de progresso zerada. Tente novamente!")
+		return
+		
 	# ==========================================
 	# --- SISTEMA DE RECOMPENSAS / PENALIDADES ---
 	# ==========================================
@@ -168,8 +200,8 @@ func validar_compra() -> void:
 		# Verifica progresso de expansão ou vitória (vale para entrega no prazo ou atrasada)
 		if EconomyManager.nivel_expansao < EconomyManager.expansoes_maximas and EconomyManager.clientes_atendidos >= EconomyManager.meta_expansao:
 			_agendar_popup_expansao()
-		elif not EconomyManager.modo_infinito and EconomyManager.nivel_expansao >= EconomyManager.expansoes_maximas and EconomyManager.clientes_atendidos >= EconomyManager.meta_vitoria:
-			_agendar_tela_vitoria()
+		elif not EconomyManager.modo_infinito and not boss_vip_em_cena and EconomyManager.nivel_expansao >= EconomyManager.expansoes_maximas and EconomyManager.clientes_atendidos >= EconomyManager.meta_vitoria:
+			_iniciar_chegada_boss_vip()
 
 		# Libera o NPC cliente com feedback positivo
 		if cliente_atual:
@@ -243,7 +275,8 @@ func _on_body_exited(body: Node2D) -> void:
 # ==========================================
 
 func _on_timer_spawn_timeout() -> void:
-	# Spawna um novo cliente se a fila não tiver atingido o limite físico configurado
+	if boss_vip_em_cena:
+		return
 	if fila_de_clientes.size() < posicoes_da_fila.size():
 		gerar_novo_cliente()
 
@@ -297,3 +330,92 @@ func _agendar_tela_vitoria() -> void:
 	await get_tree().create_timer(0.3).timeout
 	var tela = preload("res://UI/tela_vitoria.tscn").instantiate()
 	get_tree().current_scene.add_child(tela)
+
+func _limpar_apos_entrega() -> void:
+	var jogador = _jogador_na_area if _jogador_na_area else get_tree().get_first_node_in_group("jogador")
+	if jogador:
+		jogador.shopping_cart.clear()
+	get_tree().call_group("prateleiras", "resetar_itens_pegos")
+	CustomerManager.pedido_atual.clear()
+	CustomerManager.pedido_por_forma.clear()
+	CustomerManager.cliente_vip_ativo = false
+
+	if CustomerManager.ui_lista_de_itens:
+		for child in CustomerManager.ui_lista_de_itens.get_children():
+			child.queue_free()
+
+	avancar_fila()
+
+func _on_tempo_pedido_esgotado() -> void:
+	# Se o tempo zerar durante o desafio do Boss, já encerra e reseta a barra
+	if CustomerManager.cliente_vip_ativo and boss_vip_em_cena:
+		_falhar_boss_vip("⏰ TEMPO ESGOTADO! O Cliente VIP foi embora!\nBarra de progresso zerada.")
+
+func _falhar_boss_vip(mensagem: String) -> void:
+	if som_erro:
+		som_erro.play()
+
+	# Zera apenas a barra de progresso, mantendo nivel_expansao (setores desbloqueados) intacto!
+	EconomyManager.clientes_atendidos = 0
+	EconomyManager.aplicar_punicao(0, 5)
+
+	var jogador = _jogador_na_area if _jogador_na_area else get_tree().get_first_node_in_group("jogador")
+	if jogador:
+		jogador.mostrar_notificacao(mensagem, Color.RED)
+
+	if cliente_atual:
+		cliente_atual.reagir_e_ir_embora(false)
+
+	_limpar_apos_entrega()
+	boss_vip_em_cena = false
+	timer_spawn.start()
+	gerar_novo_cliente()
+
+func _iniciar_chegada_boss_vip() -> void:
+	boss_vip_em_cena = true
+	timer_spawn.stop()
+
+	# Dispensa clientes comuns restantes da fila para abrir caminho ao Boss
+	for c in fila_de_clientes:
+		if is_instance_valid(c):
+			c.reagir_e_ir_embora(true)
+	fila_de_clientes.clear()
+
+	await get_tree().create_timer(0.6).timeout
+
+	var jogador = get_tree().get_first_node_in_group("jogador")
+	if not cena_cliente or not jogador:
+		boss_vip_em_cena = false
+		timer_spawn.start()
+		return
+
+	# Instancia o Cliente VIP na porta
+	var vip: Cliente = cena_cliente.instantiate()
+	vip.configurar_como_vip()
+	vip.posicao_caixa = posicoes_da_fila[0]
+	get_parent().add_child(vip)
+	fila_de_clientes.append(vip)
+
+	if som_cliente_chegou:
+		som_cliente_chegou.play()
+
+	# CUTSCENE: câmera vai até o VIP e o acompanha andando até o caixa
+	await jogador.iniciar_cutscene_camera(vip)
+
+	# Aguarda o VIP encostar no balcão do caixa
+	if vip.estado != "esperando":
+		await vip.chegou_no_caixa_vip
+
+	# Dá um leve zoom e exibe as falas do Boss Final
+	await jogador.focar_zoom_cutscene(1.2)
+	await vip.falar_sequencia_vip([
+		"Com licença... Sou o Crítico Supremo!",
+		"Ouvi dizer que vocês dominam todas as formas.",
+		"Complete meu pedido perfeito e vença o jogo!",
+		"Vamos lá, Kratos. Pegue minha lista!"
+	])
+
+	# CUTSCENE: câmera retorna suavemente para o Kratos
+	await jogador.finalizar_cutscene_camera()
+
+	jogador.mostrar_notificacao("⭐ O CLIENTE VIP TE AGUARDA NO CAIXA! Aperte [E]", Color.GOLD)

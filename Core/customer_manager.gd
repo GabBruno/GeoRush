@@ -89,17 +89,11 @@ func gerar_novo_pedido(carrinho_do_jogador: Array = []) -> void:
 
 	if pode_sortear_forma:
 		if EconomyManager.nivel_expansao == 0:
-			# Nível 0 (só Esfera liberada): 25% de chance de pedir "Qualquer Esfera"
-			# (sem misturar produto específico de Esfera no mesmo pedido para não confundir)
+			# Nível 0 (só Esfera liberada): usa a chance configurada para "Qualquer Esfera"
 			incluir_pedido_por_forma = randf() < chance_forma_nivel_0
 		else:
-			# Nível 1+: 15% VIP | 30% Misto (Forma + Produtos) | 55% só Produtos Normais
-			var sorteio := randf()
-			if sorteio < chance_cliente_vip:
-				cliente_vip_ativo = true
-				incluir_pedido_por_forma = true
-			elif sorteio < (chance_cliente_vip + chance_pedido_por_forma):
-				incluir_pedido_por_forma = true
+			# Nível 1+: usa apenas a chance de pedido misto (Forma + Produtos Normais)
+			incluir_pedido_por_forma = randf() < chance_pedido_por_forma
 
 	if incluir_pedido_por_forma and not formas_liberadas.is_empty():
 		var formas_candidatas: Array = formas_liberadas.duplicate()
@@ -110,18 +104,7 @@ func gerar_novo_pedido(carrinho_do_jogador: Array = []) -> void:
 
 		var forma_sorteada: int = formas_candidatas.pick_random()
 		ultima_forma_sorteada = forma_sorteada
-
-		if cliente_vip_ativo:
-			# VIP no Nível 2+ pode pedir até 2 formas diferentes; no Nível 1 pede 3 a 4 da mesma forma
-			if formas_liberadas.size() >= 3:
-				pedido_por_forma[forma_sorteada] = randi_range(2, 3)
-				var outras_formas := formas_liberadas.filter(func(f): return f != forma_sorteada)
-				var segunda_forma: int = outras_formas.pick_random()
-				pedido_por_forma[segunda_forma] = randi_range(1, 2)
-			else:
-				pedido_por_forma[forma_sorteada] = randi_range(3, 4)
-		else:
-			pedido_por_forma[forma_sorteada] = randi_range(2, 3)
+		pedido_por_forma[forma_sorteada] = randi_range(2, 3)
 
 	ultimo_pedido_teve_forma = not pedido_por_forma.is_empty()
 
@@ -149,6 +132,21 @@ func gerar_novo_pedido(carrinho_do_jogador: Array = []) -> void:
 
 	var tempo_base := 25.0 + (EconomyManager.nivel_expansao * 10.0) + (total_unidades * 4.0)
 	timer_pedido.start(tempo_base)
+
+	atualizar_lista_visual(carrinho_do_jogador)
+
+func gerar_pedido_boss_vip(carrinho_do_jogador: Array = []) -> void:
+	pedido_atual.clear()
+	pedido_por_forma.clear()
+	cliente_vip_ativo = true
+
+	# Desafio Final: exige itens das 3 formas geométricas (aceita qualquer produto de cada setor)
+	pedido_por_forma[ProductData.ShapeType.ESFERA] = 2
+	pedido_por_forma[ProductData.ShapeType.CILINDRO] = 2
+	pedido_por_forma[ProductData.ShapeType.PARALELEPIPEDO] = 2
+
+	# Tempo justo mas tenso para percorrer os 3 setores (ajuste se precisar)
+	timer_pedido.start(55.0)
 
 	atualizar_lista_visual(carrinho_do_jogador)
 

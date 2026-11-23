@@ -3,8 +3,8 @@ class_name TelaVitoria
 
 @onready var titulo: Label = $PanelContainer/VBoxContainer/Titulo
 @onready var subtitulo: Label = $PanelContainer/VBoxContainer/Subtitulo
-@onready var btn_infinito: Button = $PanelContainer/VBoxContainer/BotaoInfinito
-@onready var btn_menu: Button = $PanelContainer/VBoxContainer/BotaoMenu
+@onready var btn_infinito: Button = $PanelContainer/VBoxContainer/HBoxContainer/BotaoInfinito
+@onready var btn_menu: Button = $PanelContainer/VBoxContainer/HBoxContainer/BotaoMenu
 @onready var som_clique: AudioStreamPlayer = $SomClique
 
 func _ready() -> void:

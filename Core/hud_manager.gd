@@ -7,6 +7,7 @@ extends MarginContainer
 @onready var label_dinheiro: Label = $Container/Dinheiro/LabelDinheiro
 @onready var barra_expansao: TextureProgressBar = $Container/Expansao/BarraExpansao
 @onready var estrelas_container: HBoxContainer = $Container/Reputacao/EstrelasContainer
+@onready var label_expansao: Label = $Container/Expansao/LabelExpansao
 
 # ==========================================
 # --- INICIALIZAÇÃO DA MARCA D'ÁGUA ---
@@ -87,12 +88,15 @@ func _process(_delta: float) -> void:
 	# Mostra o progresso de clientes atendidos em relação à meta para evoluir o mercado.
 	# ==========================================
 	if EconomyManager.nivel_expansao < EconomyManager.expansoes_maximas:
+		label_expansao.text = "Próxima Expansão: "
 		barra_expansao.max_value = EconomyManager.meta_expansao
 		barra_expansao.value = EconomyManager.clientes_atendidos
 	elif not EconomyManager.modo_infinito:
+		label_expansao.text = "Chegada do VIP: "
 		barra_expansao.max_value = EconomyManager.meta_vitoria
 		barra_expansao.value = EconomyManager.clientes_atendidos
 	else:
+		label_expansao.text = "Modo Infinito: "
 		barra_expansao.max_value = 1
 		barra_expansao.value = 1
 	

@@ -9,6 +9,12 @@ class_name BaseCharacter
 @export var _run_speed: float = 256.0
 @export var _acceleration: float = 800.0 # Controla a suavidade da frenagem e arrancada
 
+@onready var camera: Camera2D = $Camera2D
+
+var em_cutscene: bool = false
+var _alvo_camera: Node2D = null
+var _zoom_padrao: Vector2 = Vector2(2, 2)
+
 # ==========================================
 # --- REFERÊNCIAS VISUAIS E DE ANIMAÇÃO ---
 # ==========================================
@@ -63,6 +69,9 @@ func _ready() -> void:
 	
 	add_to_group("jogador")
 	
+	if camera:
+		_zoom_padrao = camera.zoom
+	
 	# Inicializa o estado da interface garantindo que os painéis comecem ocultos
 	notepad.visible = false
 	notificacao_label.visible = false
@@ -74,11 +83,20 @@ func _ready() -> void:
 	# Registra a UI no gerenciador global de clientes
 	CustomerManager.ui_lista_de_itens = get_tree().get_first_node_in_group("lista_de_pedidos")
 
+func _process(delta: float) -> void:
+	if _alvo_camera and is_instance_valid(_alvo_camera) and camera:
+		camera.global_position = camera.global_position.lerp(_alvo_camera.global_position, 7.0 * delta)
 
 # ==========================================
 # --- LOOP FÍSICO PRINCIPAL ---
 # ==========================================
 func _physics_process(delta: float) -> void:
+	
+	if em_cutscene:
+		velocity = Vector2.ZERO
+		_animation.play("idle_" + _last_direction)
+		return
+	
 	_move(delta)
 	_animate()
 	
@@ -171,6 +189,10 @@ func remove_from_cart(product: ProductData) -> void:
 # --- INTERFACE: CONTROLES DE INPUT E PRANCHETA ---
 # ==========================================
 func _input(event: InputEvent) -> void:
+	
+	if em_cutscene:
+		return
+	
 	if event.is_action_pressed("toggle_notepad"):
 		alternar_prancheta()
 
@@ -234,3 +256,46 @@ func abrir_prancheta() -> void:
 func aumentar_velocidade(bonus: float) -> void:
 	_move_speed += bonus
 	_run_speed += bonus * 1.5
+
+func iniciar_cutscene_camera(alvo: Node2D) -> void:
+	em_cutscene = true
+	velocity = Vector2.ZERO
+
+	# Fecha a prancheta caso estivesse aberta
+	if _prancheta_aberta:
+		alternar_prancheta()
+
+	if not camera or not is_instance_valid(alvo):
+		return
+
+	camera.top_level = true
+	camera.global_position = global_position
+
+	# Desliza a câmera do Kratos até a porta onde o VIP entrou
+	var tween := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(camera, "global_position", alvo.global_position, 0.7)
+	await tween.finished
+
+	# Passa a acompanhar o VIP andando pelo mercado
+	_alvo_camera = alvo
+
+func focar_zoom_cutscene(fator: float = 1.2) -> void:
+	if not camera:
+		return
+	var tween := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(camera, "zoom", _zoom_padrao * fator, 0.4)
+	await tween.finished
+
+func finalizar_cutscene_camera() -> void:
+	_alvo_camera = null
+
+	if camera:
+		var tween := create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(camera, "global_position", global_position, 0.7)
+		tween.tween_property(camera, "zoom", _zoom_padrao, 0.5)
+		await tween.finished
+
+		camera.top_level = false
+		camera.position = Vector2.ZERO
+
+	em_cutscene = false

@@ -7,6 +7,10 @@ class_name Cliente
 @export_category("Configurações")
 @export var velocidade: float = 100.0
 
+signal chegou_no_caixa_vip
+
+var eh_vip: bool = false
+
 # ==========================================
 # --- ESTADO E POSIÇÕES (WAYPOINTS) ---
 # Coordenadas que definem o caminho lógico (NavMesh simplificado) do cliente pelo cenário.
@@ -41,7 +45,7 @@ var posicao_frente_porta: Vector2 = Vector2(372, 88)
 @onready var animacao: AnimationPlayer = $Animation 
 
 # Elementos de Interface do NPC
-#@onready var balao_fala: Label = $BalaoFala 
+@onready var balao_fala: Label = $BalaoFala 
 @onready var emoji_feliz: Node2D = $EmojiFeliz
 @onready var emoji_raiva: Node2D = $EmojiRaiva
 
@@ -74,8 +78,9 @@ func _ready() -> void:
 	animacao.play("walk_down")
 	
 	# Garante que os feedbacks comecem invisíveis
-	#if balao_fala:
-		#balao_fala.visible = false
+	if balao_fala:
+		balao_fala.visible = false
+		balao_fala.z_index = 20
 
 
 # ==========================================
@@ -112,15 +117,17 @@ func _physics_process(delta: float) -> void:
 		global_position = global_position.move_toward(posicao_caixa, velocidade * delta)
 		
 		# Momento exato em que o cliente encosta no destino final da sua posição no caixa
-		if global_position == posicao_caixa:
+		if global_position.distance_to(posicao_caixa) < 1.0:
+			global_position = posicao_caixa
 			estado = "esperando"
-			
-			# Toca o som de campainha apenas se ele for o cliente principal (da ponta da fila)
+			animacao.play("idle_down")
+
 			if posicao_caixa == Vector2(145, 224):
 				if som_chegou_caixa:
 					som_chegou_caixa.play()
-					
-			animacao.play("idle_down")
+
+			if eh_vip:
+				chegou_no_caixa_vip.emit()
 			
 			
 	# ==========================================
@@ -180,3 +187,23 @@ func reagir_e_ir_embora(sucesso: bool) -> void:
 	# Inicia a sequência de animação de saída alterando a máquina de estados
 	estado = "saindo_passo1"
 	animacao.play("walk_down")
+	
+func configurar_como_vip() -> void:
+	eh_vip = true
+	velocidade = 75.0 # Caminhada mais solene para a cutscene
+	modulate = Color(1.0, 0.92, 0.55) # Destaque dourado
+	scale = Vector2(1.12, 1.12)
+
+func falar_sequencia_vip(falas: Array[String]) -> void:
+	if not balao_fala:
+		return
+
+	balao_fala.visible = true
+	for frase in falas:
+		balao_fala.text = frase
+		balao_fala.scale = Vector2.ZERO
+		var tween := create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tween.tween_property(balao_fala, "scale", Vector2.ONE, 0.25)
+		await get_tree().create_timer(2.6).timeout
+
+	balao_fala.visible = false

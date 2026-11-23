@@ -633,10 +633,10 @@ region_rect = Rect2(127.92489, 0, 16.075111, 16)
 
 [node name="BalaoFala" type="Label" parent="." unique_id=1208305751]
 visible = false
-offset_left = 19.0
-offset_top = -49.0
-offset_right = 59.0
-offset_bottom = -29.0
+offset_left = -33.0
+offset_top = -90.0
+offset_right = 34.0
+offset_bottom = -70.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5_qbl01")
 theme_override_font_sizes/font_size = 8
@@ -649,3 +649,5 @@ vertical_alignment = 1
 stream = ExtResource("6_es1rb")
 volume_db = -12.0
 bus = &"SFX"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1243745766]
