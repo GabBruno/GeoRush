@@ -233,3 +233,17 @@ position = Vector2(413, 321)
 
 [node name="CaixaCereais" parent="SetorParalelepipedos" unique_id=1049069695 instance=ExtResource("10_h17oo")]
 position = Vector2(413, 393)
+
+[node name="PontosTutorial" type="Node2D" parent="." unique_id=1972738536 groups=["pontos_tutorial"]]
+
+[node name="PontoPorta" type="Marker2D" parent="PontosTutorial" unique_id=624914385]
+position = Vector2(372, 72)
+
+[node name="PontoCaixa" type="Marker2D" parent="PontosTutorial" unique_id=544175227]
+position = Vector2(121, 188)
+
+[node name="PontoGondolas" type="Marker2D" parent="PontosTutorial" unique_id=1807001672]
+position = Vector2(96, 338)
+
+[node name="PontoComputador" type="Marker2D" parent="PontosTutorial" unique_id=1220226726]
+position = Vector2(51, 99)

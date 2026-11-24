@@ -20,6 +20,7 @@ class_name CaixaCheckout
 @onready var timer_spawn: Timer = $TimerSpawn
 
 var boss_vip_em_cena: bool = false
+var clientes_liberados: bool = false
 
 # ==========================================
 # --- VARIÁVEIS DE ESTADO DO CAIXA ---
@@ -44,16 +45,21 @@ var posicoes_da_fila: Array[Vector2] = [
 # ==========================================
 
 func _ready() -> void:
-	
-	CustomerManager.timer_pedido.timeout.connect(_on_tempo_pedido_esgotado)
-	
+	add_to_group("caixa_checkout")
+
 	# Conecta os sinais de colisão da Área 2D para identificar a presença do atendente
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	popup_label.visible = false
-	
-	# Inicia a fila de jogabilidade gerando o primeiro cliente na porta
-	gerar_novo_cliente()
+
+	CustomerManager.timer_pedido.timeout.connect(_on_tempo_pedido_esgotado)
+
+	# Se o tutorial já foi concluído, inicia normalmente; senão, pausa a chegada de clientes
+	if CustomerManager.tutorial_concluido:
+		liberar_chegada_clientes()
+	else:
+		if timer_spawn:
+			timer_spawn.stop()
 
 
 func _process(_delta: float) -> void:
@@ -275,7 +281,7 @@ func _on_body_exited(body: Node2D) -> void:
 # ==========================================
 
 func _on_timer_spawn_timeout() -> void:
-	if boss_vip_em_cena:
+	if boss_vip_em_cena or not clientes_liberados:
 		return
 	if fila_de_clientes.size() < posicoes_da_fila.size():
 		gerar_novo_cliente()
@@ -419,3 +425,12 @@ func _iniciar_chegada_boss_vip() -> void:
 	await jogador.finalizar_cutscene_camera()
 
 	jogador.mostrar_notificacao("⭐ O CLIENTE VIP TE AGUARDA NO CAIXA! Aperte [E]", Color.GOLD)
+
+func liberar_chegada_clientes() -> void:
+	if clientes_liberados:
+		return
+
+	clientes_liberados = true
+	gerar_novo_cliente()
+	if timer_spawn:
+		timer_spawn.start()

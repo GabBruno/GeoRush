@@ -3,11 +3,30 @@
 [ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="1_222y2"]
 [ext_resource type="Script" uid="uid://b6j6jkabvlnps" path="res://UI/tutorial_overlay.gd" id="1_lamng"]
 [ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="2_lamng"]
+[ext_resource type="Shader" uid="uid://dqur1egjxqvj1" path="res://UI/tutorial_overlay.gdshader" id="2_sg57h"]
+[ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="5_s6ph7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lplcd"]
+shader = ExtResource("2_sg57h")
+shader_parameter/raio = 0.2
+shader_parameter/suavidade = 0.14
+shader_parameter/opacidade = 0.62
+shader_parameter/intensidade_anel = 0.55
+shader_parameter/cor_anel = Color(1, 0.85, 0.25, 1)
 
 [node name="TutorialOverlay" type="CanvasLayer" unique_id=357736755]
-process_mode = 3
-layer = 5
+layer = 8
 script = ExtResource("1_lamng")
+
+[node name="Holofote" type="ColorRect" parent="." unique_id=1344335751]
+visible = false
+material = SubResource("ShaderMaterial_lplcd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="PainelDialogo" type="PanelContainer" parent="." unique_id=1323503772]
 anchors_preset = 7
@@ -15,9 +34,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
+offset_left = -288.0
+offset_top = -160.0
+offset_right = 276.0
+offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
@@ -27,6 +47,7 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PainelDialogo/MarginContainer" unique_id=371175510]
 layout_mode = 2
+size_flags_vertical = 8
 
 [node name="TituloKratos" type="Label" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=1356526134]
 layout_mode = 2
@@ -37,11 +58,29 @@ text = "PRIMERO DIA D KRATOS"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_222y2")
 
-[node name="BotaoEntendi" type="Button" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=1274199584]
+[node name="Botoes" type="HBoxContainer" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=2092538346]
+layout_mode = 2
+alignment = 1
+
+[node name="BotaoSecundario" type="Button" parent="PainelDialogo/MarginContainer/VBoxContainer/Botoes" unique_id=1274199584]
 custom_minimum_size = Vector2(280, 70)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_lamng")
 theme_override_fonts/font = ExtResource("1_222y2")
 theme_override_font_sizes/font_size = 35
-text = "Entendi"
+text = "Pular Tutorial"
+
+[node name="BotaoPrincipal" type="Button" parent="PainelDialogo/MarginContainer/VBoxContainer/Botoes" unique_id=1577543214]
+custom_minimum_size = Vector2(280, 70)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_lamng")
+theme_override_fonts/font = ExtResource("1_222y2")
+theme_override_font_sizes/font_size = 35
+text = "Próximo"
+
+[node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=653019880]
+process_mode = 3
+stream = ExtResource("5_s6ph7")
+bus = &"SFX"

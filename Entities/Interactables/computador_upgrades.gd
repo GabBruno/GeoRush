@@ -18,7 +18,7 @@ func _ready() -> void:
 	timer_repositor.timeout.connect(_on_timer_repositor_timeout)
 
 func _input(event: InputEvent) -> void:
-	if _jogador_na_area and not loja.visible and event.is_action_pressed("interact_e"):
+	if _jogador_na_area and not _jogador_na_area.em_cutscene and not loja._loja_aberta and event.is_action_pressed("interact_e"):
 		loja.abrir_loja()
 
 func _on_body_entered(body: Node2D) -> void:

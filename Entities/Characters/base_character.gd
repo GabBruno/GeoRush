@@ -14,6 +14,7 @@ class_name BaseCharacter
 var em_cutscene: bool = false
 var _alvo_camera: Node2D = null
 var _zoom_padrao: Vector2 = Vector2(2, 2)
+var _camera_tween: Tween
 
 # ==========================================
 # --- REFERÊNCIAS VISUAIS E DE ANIMAÇÃO ---
@@ -286,14 +287,39 @@ func focar_zoom_cutscene(fator: float = 1.2) -> void:
 	tween.tween_property(camera, "zoom", _zoom_padrao * fator, 0.4)
 	await tween.finished
 
+func focar_posicao_camera(destino: Vector2, fator_zoom: float = 1.35, duracao: float = 0.7) -> void:
+	em_cutscene = true
+	velocity = Vector2.ZERO
+	_alvo_camera = null
+
+	if _prancheta_aberta:
+		alternar_prancheta()
+
+	if not camera:
+		return
+
+	if _camera_tween and _camera_tween.is_valid():
+		_camera_tween.kill()
+
+	if not camera.top_level:
+		camera.top_level = true
+		camera.global_position = global_position
+
+	_camera_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_camera_tween.tween_property(camera, "global_position", destino, duracao)
+	_camera_tween.tween_property(camera, "zoom", _zoom_padrao * fator_zoom, duracao)
+
 func finalizar_cutscene_camera() -> void:
 	_alvo_camera = null
 
-	if camera:
-		var tween := create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-		tween.tween_property(camera, "global_position", global_position, 0.7)
-		tween.tween_property(camera, "zoom", _zoom_padrao, 0.5)
-		await tween.finished
+	if _camera_tween and _camera_tween.is_valid():
+		_camera_tween.kill()
+
+	if camera and camera.top_level:
+		_camera_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_camera_tween.tween_property(camera, "global_position", global_position, 0.55)
+		_camera_tween.tween_property(camera, "zoom", _zoom_padrao, 0.45)
+		await _camera_tween.finished
 
 		camera.top_level = false
 		camera.position = Vector2.ZERO
