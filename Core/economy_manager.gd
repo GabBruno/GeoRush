@@ -46,3 +46,27 @@ func resetar_economia() -> void:
 	meta_expansao = 5
 	meta_vitoria = 10
 	modo_infinito = false
+	
+# Retorna em quantos segundos um novo cliente entra no mercado
+# Mais reputação = loja mais famosa = clientes chegam mais rápido
+func obter_intervalo_spawn_clientes() -> float:
+	var mult := obter_multiplicador_reputacao()
+	if mult <= 0.85:
+		return 13.0
+	elif mult <= 1.0:
+		return 9.5
+	elif mult <= 1.25:
+		return 7.0
+	return 5.0
+
+# Retorna o multiplicador de paciência inicial do cliente
+# Mais reputação = clientes mais tolerantes à espera
+func obter_multiplicador_paciencia() -> float:
+	var mult := obter_multiplicador_reputacao()
+	if mult <= 0.85:
+		return 0.75
+	elif mult <= 1.0:
+		return 1.0
+	elif mult <= 1.25:
+		return 1.20
+	return 1.40

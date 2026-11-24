@@ -29,21 +29,24 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="PainelDialogo" type="PanelContainer" parent="." unique_id=1323503772]
+custom_maximum_size = Vector2(900, -1)
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -288.0
-offset_top = -160.0
-offset_right = 276.0
-offset_bottom = -50.0
+offset_left = -210.0
+offset_top = -204.0
+offset_right = 210.0
+offset_bottom = -62.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
 
 [node name="MarginContainer" type="MarginContainer" parent="PainelDialogo" unique_id=1606720804]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PainelDialogo/MarginContainer" unique_id=371175510]
 layout_mode = 2
@@ -52,32 +55,35 @@ size_flags_vertical = 8
 [node name="TituloKratos" type="Label" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=1356526134]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_222y2")
-text = "PRIMERO DIA D KRATOS"
+theme_override_font_sizes/font_size = 19
+text = "PRIMERO DIA DO KRATOS"
 
 [node name="TextoFala" type="Label" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=1665094564]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_222y2")
+theme_override_font_sizes/font_size = 18
+text = "instruções aqui"
 
 [node name="Botoes" type="HBoxContainer" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=2092538346]
 layout_mode = 2
 alignment = 1
 
 [node name="BotaoSecundario" type="Button" parent="PainelDialogo/MarginContainer/VBoxContainer/Botoes" unique_id=1274199584]
-custom_minimum_size = Vector2(280, 70)
+custom_minimum_size = Vector2(190, 50)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_lamng")
 theme_override_fonts/font = ExtResource("1_222y2")
-theme_override_font_sizes/font_size = 35
+theme_override_font_sizes/font_size = 20
 text = "Pular Tutorial"
 
 [node name="BotaoPrincipal" type="Button" parent="PainelDialogo/MarginContainer/VBoxContainer/Botoes" unique_id=1577543214]
-custom_minimum_size = Vector2(280, 70)
+custom_minimum_size = Vector2(190, 50)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_lamng")
 theme_override_fonts/font = ExtResource("1_222y2")
-theme_override_font_sizes/font_size = 35
+theme_override_font_sizes/font_size = 20
 text = "Próximo"
 
 [node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=653019880]

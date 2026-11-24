@@ -122,6 +122,7 @@ func _input(event: InputEvent) -> void:
 						_jogador_na_area.abrir_prancheta()
 						_jogador_na_area.mostrar_notificacao("Novo Pedido Recebido! Abra a lista de compras! (Tab)", Color.CYAN)
 					get_tree().call_group("tutorial", "avancar_passo", "pegou_pedido")
+					cliente_atual.definir_sendo_atendido(true)
 			
 			# --- CASO 2: Entregar a coleta armazenada no inventário ---
 			else:
@@ -299,6 +300,10 @@ func gerar_novo_cliente() -> void:
 		novo_cliente.posicao_caixa = posicoes_da_fila[posicao_na_fila]
 		fila_de_clientes.append(novo_cliente)
 		
+		novo_cliente.definir_indice_fila(fila_de_clientes.size() - 1)
+		novo_cliente.paciencia_esgotada.connect(_on_cliente_sem_paciencia)
+		atualizar_ritmo_spawn()
+		
 		if som_cliente_chegou:
 			som_cliente_chegou.play()
 
@@ -307,16 +312,18 @@ func avancar_fila() -> void:
 	if fila_de_clientes.size() > 0:
 		# Descarta o primeiro elemento (atendido) da estrutura de dados
 		fila_de_clientes.pop_front()
-
-	# Varre os clientes restantes na fila e reconfigura o destino de seus caminhos (Waypoints)
-	for i in range(fila_de_clientes.size()):
-		var cliente = fila_de_clientes[i]
-		cliente.posicao_caixa = posicoes_da_fila[i]
 		
-		# Se o cliente já estava aguardando, acorda o estado para fazê-lo andar até a nova vaga da frente
-		if cliente.estado == "esperando":
-			cliente.estado = "entrando_passo2"
-			cliente.animacao.play("walk_left")
+		_reorganizar_fila()
+
+	## Varre os clientes restantes na fila e reconfigura o destino de seus caminhos (Waypoints)
+	#for i in range(fila_de_clientes.size()):
+		#var cliente = fila_de_clientes[i]
+		#cliente.posicao_caixa = posicoes_da_fila[i]
+		#
+		## Se o cliente já estava aguardando, acorda o estado para fazê-lo andar até a nova vaga da frente
+		#if cliente.estado == "esperando":
+			#cliente.estado = "entrando_passo2"
+			#cliente.animacao.play("walk_left")
 
 # ==========================================
 # ---       SISTEMA DE EXPANSÃO          ---
@@ -434,3 +441,40 @@ func liberar_chegada_clientes() -> void:
 	gerar_novo_cliente()
 	if timer_spawn:
 		timer_spawn.start()
+
+func atualizar_ritmo_spawn() -> void:
+	if timer_spawn:
+		timer_spawn.wait_time = EconomyManager.obter_intervalo_spawn_clientes()
+		
+func _reorganizar_fila() -> void:
+	for i in range(fila_de_clientes.size()):
+		var c: Cliente = fila_de_clientes[i]
+		if not is_instance_valid(c):
+			continue
+		c.definir_indice_fila(i)
+		c.posicao_caixa = posicoes_da_fila[i]
+		# Se estava parado atrás e abriu vaga à frente, volta a andar até a nova posição
+		if c.estado == "esperando" and c.global_position.distance_to(c.posicao_caixa) > 2.0:
+			c.estado = "entrando_passo2"
+
+	if not fila_de_clientes.is_empty():
+		cliente_atual = fila_de_clientes[0]
+	else:
+		cliente_atual = null
+
+func _on_cliente_sem_paciencia(cliente_desistente: Cliente) -> void:
+	if not fila_de_clientes.has(cliente_desistente):
+		return
+
+	fila_de_clientes.erase(cliente_desistente)
+	_reorganizar_fila()
+
+	if som_erro:
+		som_erro.play()
+
+	EconomyManager.aplicar_punicao(0, 5)
+	atualizar_ritmo_spawn()
+
+	var jogador = _jogador_na_area if _jogador_na_area else get_tree().get_first_node_in_group("jogador")
+	if jogador:
+		jogador.mostrar_notificacao("😠 Um cliente perdeu a paciência e foi embora!\n-5 Reputação", Color.ORANGE_RED)
