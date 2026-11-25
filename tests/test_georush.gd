@@ -11,7 +11,7 @@ func _ready() -> void:
 	_testar_limite_visual_gondola()
 
 	print("=== Resultado: %d passaram | %d falharam ===" % [_passaram, _falharam])
-	get_tree().quit(1 if _falharam > 0 else 0)
+	get_tree().quit.call_deferred(1 if _falharam > 0 else 0)
 
 
 func _assert_igual(atual: Variant, esperado: Variant, descricao: String) -> void:
@@ -40,7 +40,7 @@ func _testar_reputacao_e_ritmo() -> void:
 		return
 
 	eco.reputacao = 50
-	_assert_aprox(eco.obter_multiplicador_reputacao(), 1.5, "5 estrelas aplica multiplicador 1.25x")
+	_assert_aprox(eco.obter_multiplicador_reputacao(), 1.25, "5 estrelas aplica multiplicador 1.25x")
 	_assert_aprox(eco.obter_intervalo_spawn_clientes(), 4.2, "5 estrelas define spawn em 4.2s")
 
 	eco.reputacao = 20
@@ -90,8 +90,6 @@ func _testar_avaliacao_carrinho() -> void:
 
 
 func _testar_limite_visual_gondola() -> void:
-
-	var variavel_nao_usada: int = 1
 
 	var prateleira := BaseProducts.new()
 	prateleira._max_visual_icons = 5

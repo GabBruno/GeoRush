@@ -39,7 +39,7 @@ jobs:
       - name: Build / Importacao do projeto Godot
         run: godot --headless --path . --import --quit
 
-      - name: Lint (gdlint + verificacao de variaveis nao usadas)
+      - name: Lint (gdlint + variaveis nao usadas + compilacao Godot)
         shell: bash
         run: |
           mapfile -t GDSCRIPTS < <(find . -name "*.gd" -not -path "./.godot/*" -not -path "./addons/*")
@@ -47,20 +47,55 @@ jobs:
           echo ">> Rodando gdlint..."
           gdlint "${GDSCRIPTS[@]}"
 
-          echo ">> Verificando parse e variaveis nao usadas na Godot (com Autoloads)..."
+          echo ">> Verificando variaveis locais nao usadas..."
+          python3 - <<'EOF'
+          import pathlib, re, sys
+
+          erros = []
+          for path in sorted(pathlib.Path(".").rglob("*.gd")):
+              if any(p in path.parts for p in (".godot", "addons", ".git")):
+                  continue
+              linhas = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+              sem_comentarios = [re.sub(r"#.*", "", l) for l in linhas]
+              texto_limpo = "\n".join(sem_comentarios)
+              for num, linha in enumerate(sem_comentarios, start=1):
+                  m = re.match(r"^[ \t]+var\s+([a-zA-Z][a-zA-Z0-9_]*)\b", linha)
+                  if m:
+                      nome = m.group(1)
+                      if len(re.findall(rf"\b{re.escape(nome)}\b", texto_limpo)) <= 1:
+                          erros.append(f"{path}:{num}: Variavel local '{nome}' declarada e nao usada")
+
+          if erros:
+              print("\n".join(erros))
+              sys.exit(1)
+          print("Nenhuma variavel local nao usada encontrada.")
+          EOF
+
+          echo ">> Verificando compilacao dos scripts na Godot (com Autoloads)..."
           set +e
           SAIDA=$(godot --headless --path . res://tests/check_scripts.tscn 2>&1)
           CODIGO=$?
           set -e
           echo "$SAIDA"
 
-          if [ $CODIGO -ne 0 ] || echo "$SAIDA" | grep -Eq "Parse Error|SCRIPT ERROR|UNUSED_VARIABLE"; then
-            echo "Erro de compilacao ou variavel nao usada encontrada."
+          if [ $CODIGO -ne 0 ] || echo "$SAIDA" | grep -Eq "Parse Error|SCRIPT ERROR"; then
+            echo "Erro de compilacao encontrado."
             exit 1
           fi
 
       - name: Testes automatizados (regras de negocio)
-        run: godot --headless --path . res://tests/test_georush.tscn
+        shell: bash
+        run: |
+          set +e
+          SAIDA=$(godot --headless --path . res://tests/test_georush.tscn 2>&1)
+          CODIGO=$?
+          set -e
+          echo "$SAIDA"
+
+          if [ $CODIGO -ne 0 ] || echo "$SAIDA" | grep -q "\[FALHA\]" || ! echo "$SAIDA" | grep -q "| 0 falharam ==="; then
+            echo "Os testes automatizados falharam ou nao executaram corretamente."
+            exit 1
+          fi
 
   dependencias:
     name: dependencias
