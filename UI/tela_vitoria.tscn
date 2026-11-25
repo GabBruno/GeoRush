@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="2_jt5dh"]
 [ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="3_hmkkd"]
 [ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="4_bwtxs"]
+[ext_resource type="AudioStream" uid="uid://ckdqs2tgs2voi" path="res://Assets/Audio/SFX/som-vitoria.wav" id="5_jt5dh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bf57m"]
 bg_color = Color(0, 0, 0, 0.5882353)
@@ -89,4 +90,10 @@ text = "Menu Principal"
 [node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=1628878233]
 process_mode = 3
 stream = ExtResource("4_bwtxs")
+bus = &"SFX"
+
+[node name="SomVitoria" type="AudioStreamPlayer" parent="." unique_id=68950706]
+process_mode = 3
+stream = ExtResource("5_jt5dh")
+autoplay = true
 bus = &"SFX"

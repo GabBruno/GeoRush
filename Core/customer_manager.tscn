@@ -11,10 +11,16 @@
 [ext_resource type="Resource" uid="uid://dixmijicmnxwg" path="res://Products/Data/refrigerante_cola.tres" id="7_u4eie"]
 [ext_resource type="Resource" uid="uid://01ttcb2v5l1n" path="res://Products/Data/caixa_leite.tres" id="9_qdxlb"]
 [ext_resource type="Resource" uid="uid://bkear40am75gl" path="res://Products/Data/batata_chips.tres" id="10_bhs5p"]
+[ext_resource type="Texture2D" uid="uid://nag06r2i83dt" path="res://Products/Icons/icone_esfera.png" id="12_kfdhs"]
+[ext_resource type="Texture2D" uid="uid://bk3hmdoyevd4o" path="res://Products/Icons/icone_cilindro.png" id="13_b25ls"]
+[ext_resource type="Texture2D" uid="uid://dd3r5notwdxdl" path="res://Products/Icons/icone_paralelepipedo.png" id="14_7in14"]
 
 [node name="CustomerManager" type="Node2D" unique_id=772701674]
 script = ExtResource("1_ho1oh")
 banco_de_produtos = Array[ExtResource("2_kurqf")]([ExtResource("5_nrb8n"), ExtResource("4_cdoub"), ExtResource("3_tokod"), ExtResource("6_diynj"), ExtResource("7_u4eie"), ExtResource("7_nrb8n"), ExtResource("9_qdxlb"), ExtResource("10_bhs5p"), ExtResource("6_cdoub")])
+icone_esfera = ExtResource("12_kfdhs")
+icone_cilindro = ExtResource("13_b25ls")
+icone_paralelepipedo = ExtResource("14_7in14")
 
 [node name="TempoPedido" type="Timer" parent="." unique_id=1067079658]
 one_shot = true

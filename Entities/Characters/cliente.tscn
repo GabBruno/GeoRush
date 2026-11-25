@@ -572,9 +572,9 @@ _data = {
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8y8jn"]
-content_margin_left = 2.0
+content_margin_left = 4.0
 content_margin_top = 2.0
-content_margin_right = 2.0
+content_margin_right = 4.0
 content_margin_bottom = 2.0
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
@@ -642,7 +642,6 @@ region_enabled = true
 region_rect = Rect2(127.92489, 0, 16.075111, 16)
 
 [node name="BalaoFala" type="Label" parent="." unique_id=1208305751]
-visible = false
 offset_left = -32.0
 offset_top = -101.0
 offset_right = 35.0

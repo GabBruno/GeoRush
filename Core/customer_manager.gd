@@ -6,9 +6,14 @@ extends Node
 @export_category("Banco de Dados")
 @export var banco_de_produtos: Array[ProductData] = []
 
+@export_category("Ícones das Formas (Pixel Art)")
+@export var icone_esfera: Texture2D
+@export var icone_cilindro: Texture2D
+@export var icone_paralelepipedo: Texture2D
+
 @export_category("Frequência de Pedidos por Forma")
 @export_range(0.0, 1.0, 0.05) var chance_forma_nivel_0: float = 0.25
-@export_range(0.0, 1.0, 0.05) var chance_pedido_por_forma: float = 0.30
+@export_range(0.0, 1.0, 0.05) var chance_pedido_por_forma: float = 0.40
 @export_range(0.0, 1.0, 0.05) var chance_cliente_vip: float = 0.15
 @export var evitar_formas_seguidas: bool = true
 
@@ -30,21 +35,25 @@ var ultimo_pedido_teve_forma: bool = false
 @onready var timer_pedido: Timer = $TempoPedido
 var ui_lista_de_itens: VBoxContainer
 
+
 # ==========================================
 # --- FUNÇÕES DE ESTADO ---
 # ==========================================
 func tem_pedido_ativo() -> bool:
 	return not pedido_atual.is_empty() or not pedido_por_forma.is_empty()
 
+
 func desbloquear_forma(nova_forma: ProductData.ShapeType) -> void:
 	if not formas_liberadas.has(nova_forma):
 		formas_liberadas.append(nova_forma)
 
+
 func _normalizar_nome(nome: String) -> String:
 	return nome.to_lower().strip_edges()
 
+
 # ==========================================
-# --- LÓGICA DE PEDIDOS (GERAÇÃO INTELIGENTE) ---
+# --- LÓGICA DE PEDIDOS (DIFICULDADE PROGRESSIVA) ---
 # ==========================================
 func gerar_novo_pedido(carrinho_do_jogador: Array = []) -> void:
 	pedido_atual.clear()
@@ -67,91 +76,158 @@ func gerar_novo_pedido(carrinho_do_jogador: Array = []) -> void:
 			atualizar_lista_visual(carrinho_do_jogador)
 			return
 
-	# --- 2. AJUSTE DE DIFICULDADE POR FASE ---
-	var min_tipos := 1
-	var max_tipos := 2
-	var min_quant := 1
-	var max_quant := 3
+	# --- 2. AJUSTE DE DIFICULDADE POR EXPANSÃO ---
+	var min_tipos: int = 2
+	var max_tipos: int = 3
+	var min_quant: int = 2
+	var max_quant: int = 3
 
-	match EconomyManager.nivel_expansao:
-		0:
-			min_tipos = 1; max_tipos = 2; min_quant = 1; max_quant = 3
-		1:
-			min_tipos = 1; max_tipos = 2; min_quant = 1; max_quant = 3
-		2:
-			min_tipos = 2; max_tipos = 3; min_quant = 1; max_quant = 4
-		_:
-			min_tipos = 2; max_tipos = 4; min_quant = 2; max_quant = 4
+	if EconomyManager.modo_infinito:
+		min_tipos = 5; max_tipos = 6; min_quant = 2; max_quant = 4
+	else:
+		match EconomyManager.nivel_expansao:
+			0:
+				# Só Esferas liberadas (3 produtos disponíveis)
+				min_tipos = 2; max_tipos = 3; min_quant = 2; max_quant = 3
+			1:
+				# Esferas + Cilindros (6 produtos disponíveis)
+				min_tipos = 3; max_tipos = 4; min_quant = 2; max_quant = 3
+			_:
+				# Todos os 3 setores liberados (9 produtos disponíveis)
+				min_tipos = 4; max_tipos = 5; min_quant = 2; max_quant = 4
 
 	# --- 3. SORTEIO DO PEDIDO POR FORMA (ESFERA, CILINDRO OU PARALELEPÍPEDO) ---
-	var incluir_pedido_por_forma := false
-	var pode_sortear_forma := not (evitar_formas_seguidas and ultimo_pedido_teve_forma)
+	var incluir_pedido_por_forma: bool = false
+	var pode_sortear_forma: bool = not (evitar_formas_seguidas and ultimo_pedido_teve_forma)
 
 	if pode_sortear_forma:
 		if EconomyManager.nivel_expansao == 0:
-			# Nível 0 (só Esfera liberada): usa a chance configurada para "Qualquer Esfera"
 			incluir_pedido_por_forma = randf() < chance_forma_nivel_0
 		else:
-			# Nível 1+: usa apenas a chance de pedido misto (Forma + Produtos Normais)
 			incluir_pedido_por_forma = randf() < chance_pedido_por_forma
 
 	if incluir_pedido_por_forma and not formas_liberadas.is_empty():
 		var formas_candidatas: Array = formas_liberadas.duplicate()
 
-		# Evita sortear a mesma forma genérica duas vezes seguidas quando há mais de 1 setor
 		if formas_candidatas.size() > 1 and ultima_forma_sorteada != -1:
 			formas_candidatas.erase(ultima_forma_sorteada)
 
 		var forma_sorteada: int = formas_candidatas.pick_random()
 		ultima_forma_sorteada = forma_sorteada
-		pedido_por_forma[forma_sorteada] = randi_range(2, 3)
+
+		# No nível 0 o pedido genérico fica sozinho na lista, então pede mais unidades
+		if EconomyManager.nivel_expansao == 0:
+			pedido_por_forma[forma_sorteada] = randi_range(4, 6)
+		elif EconomyManager.nivel_expansao == 1:
+			pedido_por_forma[forma_sorteada] = randi_range(3, 4)
+		else:
+			pedido_por_forma[forma_sorteada] = randi_range(3, 5)
 
 	ultimo_pedido_teve_forma = not pedido_por_forma.is_empty()
 
 	# --- 4. SORTEIO DE PRODUTOS NORMAIS (ESPECÍFICOS) ---
-	# Entra junto com o pedido por forma usando produtos dos OUTROS setores liberados
-	if not cliente_vip_ativo:
-		var produtos_disponiveis: Array[ProductData] = []
-		for produto in banco_de_produtos:
-			if formas_liberadas.has(produto.shape) and not pedido_por_forma.has(produto.shape):
-				produtos_disponiveis.append(produto)
+	var produtos_disponiveis: Array[ProductData] = []
+	for produto in banco_de_produtos:
+		if formas_liberadas.has(produto.shape) and not pedido_por_forma.has(produto.shape):
+			produtos_disponiveis.append(produto)
 
-		produtos_disponiveis.shuffle()
-		var quantidade_de_tipos := randi_range(min_tipos, max_tipos)
+	produtos_disponiveis.shuffle()
+	var quantidade_de_tipos: int = randi_range(min_tipos, max_tipos)
 
-		for i in range(min(quantidade_de_tipos, produtos_disponiveis.size())):
-			var produto_escolhido := produtos_disponiveis[i]
-			pedido_atual[produto_escolhido] = randi_range(min_quant, max_quant)
+	# Se já existe um pedido por forma na lista, ele conta como 1 dos tipos
+	if not pedido_por_forma.is_empty():
+		quantidade_de_tipos = maxi(1, quantidade_de_tipos - 1)
 
-	# --- 5. CÁLCULO DO TEMPO CONSIDERANDO PRODUTOS + FORMAS ---
-	var total_unidades := 0
+	for i in range(mini(quantidade_de_tipos, produtos_disponiveis.size())):
+		var produto_escolhido: ProductData = produtos_disponiveis[i]
+		pedido_atual[produto_escolhido] = randi_range(min_quant, max_quant)
+
+	# --- 5. CÁLCULO DE TEMPO BASEADO EM PRATELEIRAS (TIPOS) + UNIDADES ---
+	var total_unidades: int = 0
 	for qtd in pedido_atual.values():
-		total_unidades += qtd
+		total_unidades += int(qtd)
 	for qtd_forma in pedido_por_forma.values():
-		total_unidades += qtd_forma
+		total_unidades += int(qtd_forma)
 
-	var tempo_base := 25.0 + (EconomyManager.nivel_expansao * 10.0) + (total_unidades * 4.0)
+	var total_tipos: int = pedido_atual.size() + pedido_por_forma.size()
+	var tempo_base: float = 8.0 + (EconomyManager.nivel_expansao * 2.5) + (total_tipos * 3.2) + (total_unidades * 0.9)
+	if EconomyManager.modo_infinito:
+		tempo_base = maxf(16.0, tempo_base - 3.0)
+
 	timer_pedido.start(tempo_base)
-
 	atualizar_lista_visual(carrinho_do_jogador)
+
 
 func gerar_pedido_boss_vip(carrinho_do_jogador: Array = []) -> void:
 	pedido_atual.clear()
 	pedido_por_forma.clear()
 	cliente_vip_ativo = true
 
-	# Desafio Final: exige itens das 3 formas geométricas (aceita qualquer produto de cada setor)
-	pedido_por_forma[ProductData.ShapeType.ESFERA] = 2
-	pedido_por_forma[ProductData.ShapeType.CILINDRO] = 2
-	pedido_por_forma[ProductData.ShapeType.PARALELEPIPEDO] = 2
+	# Coleta todos os produtos únicos do banco (os 9 produtos dos 3 setores)
+	var produtos_unicos: Array[ProductData] = []
+	var nomes_no_banco: Array[String] = []
+	for produto in banco_de_produtos:
+		var nome_norm: String = _normalizar_nome(produto.product_name)
+		if not nomes_no_banco.has(nome_norm):
+			nomes_no_banco.append(nome_norm)
+			produtos_unicos.append(produto)
 
-	# Tempo justo mas tenso para percorrer os 3 setores (ajuste se precisar)
+	produtos_unicos.shuffle()
+	var total_boss: int = mini(9, produtos_unicos.size())
+
+	# 4 produtos com 2 unidades + 5 produtos com 1 unidade (13 unidades no total)
+	for i in range(total_boss):
+		pedido_atual[produtos_unicos[i]] = 2 if i < 4 else 1
+
+	# 55 segundos para percorrer todas as 9 gôndolas nos 3 setores e entregar no caixa
 	timer_pedido.start(55.0)
-
 	atualizar_lista_visual(carrinho_do_jogador)
+
+	# Garante pelo menos 2 produtos de CADA um dos 3 setores (6 produtos iniciais)
+	var escolhidos: Array[ProductData] = []
+	var nomes_escolhidos: Array[String] = []
+	var formas_boss: Array[int] = [
+		ProductData.ShapeType.ESFERA,
+		ProductData.ShapeType.CILINDRO,
+		ProductData.ShapeType.PARALELEPIPEDO
+	]
+
+	for forma in formas_boss:
+		var da_forma: Array[ProductData] = []
+		for produto in produtos_unicos:
+			if produto.shape == forma:
+				da_forma.append(produto)
+		da_forma.shuffle()
+
+		for i in range(mini(2, da_forma.size())):
+			escolhidos.append(da_forma[i])
+			nomes_escolhidos.append(_normalizar_nome(da_forma[i].product_name))
+
+	# Completa com os produtos restantes até fechar exatamente 8 produtos diferentes
+	var restantes: Array[ProductData] = []
+	for produto in produtos_unicos:
+		if not nomes_escolhidos.has(_normalizar_nome(produto.product_name)):
+			restantes.append(produto)
+	restantes.shuffle()
+
+	for produto in restantes:
+		if escolhidos.size() >= 8:
+			break
+		escolhidos.append(produto)
+
+	# Embaralha e distribui quantidades: 4 produtos com 2 un. e 4 produtos com 1 un. (12 un. no total)
+	escolhidos.shuffle()
+	for i in range(escolhidos.size()):
+		pedido_atual[escolhidos[i]] = 2 if i < 4 else 1
+
+	# 50 segundos para percorrer 8 gôndolas nos 3 setores e entregar no caixa
+	timer_pedido.start(50.0)
+	atualizar_lista_visual(carrinho_do_jogador)
+
 
 func pegar_tempo_restante() -> float:
 	return timer_pedido.time_left
+
 
 # ==========================================
 # --- FONTE ÚNICA DE VERDADE (PRANCHETA + CAIXA) ---
@@ -170,11 +246,10 @@ func avaliar_carrinho(carrinho_do_jogador: Array) -> Dictionary:
 		atendido_formas[forma] = 0
 		excesso_formas[forma] = 0
 
-	# PASSO 1: Atende primeiro os produtos específicos (independente da ordem de coleta)
 	var sobras_passo1: Array = []
 	for item in carrinho_do_jogador:
-		var nome_item := _normalizar_nome(str(item.product_name))
-		var alocado := false
+		var nome_item: String = _normalizar_nome(str(item.product_name))
+		var alocado: bool = false
 		for prod in pedido_atual.keys():
 			if _normalizar_nome(str(prod.product_name)) == nome_item:
 				if atendido_produtos[prod] < pedido_atual[prod]:
@@ -184,7 +259,6 @@ func avaliar_carrinho(carrinho_do_jogador: Array) -> Dictionary:
 		if not alocado:
 			sobras_passo1.append(item)
 
-	# PASSO 2: Usa apenas as sobras para atender os pedidos genéricos por forma
 	var sobras_passo2: Array = []
 	for item in sobras_passo1:
 		var forma_item: int = item.shape
@@ -193,11 +267,10 @@ func avaliar_carrinho(carrinho_do_jogador: Array) -> Dictionary:
 		else:
 			sobras_passo2.append(item)
 
-	# PASSO 3: Classifica o que sobrou (excesso de item pedido, excesso de forma ou item intruso)
 	var erros: int = sobras_passo2.size()
 	for item in sobras_passo2:
-		var nome_item := _normalizar_nome(str(item.product_name))
-		var marcado_excesso := false
+		var nome_item: String = _normalizar_nome(str(item.product_name))
+		var marcado_excesso: bool = false
 
 		for prod in pedido_atual.keys():
 			if _normalizar_nome(str(prod.product_name)) == nome_item:
@@ -213,7 +286,6 @@ func avaliar_carrinho(carrinho_do_jogador: Array) -> Dictionary:
 			excesso_formas[forma_item] += 1
 			continue
 
-		# Agrupa itens não pedidos pelo nome
 		var chave_existente: ProductData = null
 		for k in itens_nao_pedidos.keys():
 			if _normalizar_nome(str(k.product_name)) == nome_item:
@@ -224,7 +296,6 @@ func avaliar_carrinho(carrinho_do_jogador: Array) -> Dictionary:
 		else:
 			itens_nao_pedidos[item] = 1
 
-	# PASSO 4: Calcula quantos itens ainda faltam
 	var faltantes: int = 0
 	for prod in pedido_atual.keys():
 		faltantes += pedido_atual[prod] - atendido_produtos[prod]
@@ -242,6 +313,7 @@ func avaliar_carrinho(carrinho_do_jogador: Array) -> Dictionary:
 		"perfeito": (erros == 0 and faltantes == 0)
 	}
 
+
 # ==========================================
 # --- INTERFACE VISUAL (PRANCHETA) ---
 # ==========================================
@@ -250,8 +322,27 @@ func _pegar_nome_da_forma(shape_enum: int) -> String:
 		ProductData.ShapeType.ESFERA: return "Esfera"
 		ProductData.ShapeType.CILINDRO: return "Cilindro"
 		ProductData.ShapeType.PARALELEPIPEDO: return "Paralelepípedo"
-		ProductData.ShapeType.CUBO: return "Cubo"
 	return "Desconhecida"
+
+
+func _pegar_icone_da_forma(shape_enum: int) -> Texture2D:
+	match shape_enum:
+		ProductData.ShapeType.ESFERA: return icone_esfera
+		ProductData.ShapeType.CILINDRO: return icone_cilindro
+		ProductData.ShapeType.PARALELEPIPEDO: return icone_paralelepipedo
+	return null
+
+
+func _criar_icone_prancheta(textura: Texture2D, tamanho: Vector2) -> TextureRect:
+	var icone := TextureRect.new()
+	icone.texture = textura
+	icone.custom_minimum_size = tamanho
+	icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icone.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	icone.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return icone
+
 
 func atualizar_lista_visual(carrinho_do_jogador: Array) -> void:
 	if not ui_lista_de_itens:
@@ -260,27 +351,28 @@ func atualizar_lista_visual(carrinho_do_jogador: Array) -> void:
 	for child in ui_lista_de_itens.get_children():
 		child.queue_free()
 
-	var resultado := avaliar_carrinho(carrinho_do_jogador)
+	var resultado: Dictionary = avaliar_carrinho(carrinho_do_jogador)
+	var total_linhas: int = pedido_atual.size() + pedido_por_forma.size() + resultado["itens_nao_pedidos"].size()
 
-	# 1. Desenha produtos específicos
+	# Modo compacto automático para listas grandes (como o Boss com 8 produtos) caberem na prancheta
+	var tamanho_icone: Vector2 = Vector2(22, 22) if total_linhas > 5 else Vector2(32, 32)
+	var tamanho_fonte: int = 12 if total_linhas > 5 else 14
+
 	for produto in pedido_atual.keys():
 		var qtd_pedida: int = pedido_atual[produto]
 		var qtd_atual: int = resultado["atendido_produtos"][produto] + resultado["excesso_produtos"][produto]
-		var nome_forma := _pegar_nome_da_forma(produto.shape)
+		var nome_forma: String = _pegar_nome_da_forma(produto.shape)
 
 		var linha := HBoxContainer.new()
 		if produto.icon:
-			var icone := TextureRect.new()
-			icone.texture = produto.icon
-			icone.custom_minimum_size = Vector2(32, 32)
-			icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			linha.add_child(icone)
+			linha.add_child(_criar_icone_prancheta(produto.icon, tamanho_icone))
 
 		var texto := Label.new()
 		texto.text = "%s (%s): %d / %d" % [produto.product_name, nome_forma, qtd_atual, qtd_pedida]
 		texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		texto.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		texto.add_theme_font_size_override("font_size", 14)
+		texto.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		texto.add_theme_font_size_override("font_size", tamanho_fonte)
 
 		if qtd_atual > qtd_pedida:
 			texto.add_theme_color_override("font_color", Color.ORANGE)
@@ -292,16 +384,22 @@ func atualizar_lista_visual(carrinho_do_jogador: Array) -> void:
 		linha.add_child(texto)
 		ui_lista_de_itens.add_child(linha)
 
-	# 2. Desenha pedidos genéricos por forma geométrica
 	for forma in pedido_por_forma.keys():
 		var qtd_pedida: int = pedido_por_forma[forma]
 		var qtd_atual: int = resultado["atendido_formas"][forma] + resultado["excesso_formas"][forma]
-		var nome_forma := _pegar_nome_da_forma(forma)
+		var nome_forma: String = _pegar_nome_da_forma(forma)
+		var textura_forma: Texture2D = _pegar_icone_da_forma(forma)
+
+		var linha_forma := HBoxContainer.new()
+		if textura_forma:
+			linha_forma.add_child(_criar_icone_prancheta(textura_forma, tamanho_icone))
 
 		var texto := Label.new()
-		texto.text = "📐 Qualquer %s: %d / %d" % [nome_forma, qtd_atual, qtd_pedida]
+		texto.text = "Qualquer %s: %d / %d" % [nome_forma, qtd_atual, qtd_pedida]
 		texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		texto.add_theme_font_size_override("font_size", 14)
+		texto.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		texto.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		texto.add_theme_font_size_override("font_size", tamanho_fonte)
 
 		if qtd_atual > qtd_pedida:
 			texto.add_theme_color_override("font_color", Color.ORANGE)
@@ -310,30 +408,28 @@ func atualizar_lista_visual(carrinho_do_jogador: Array) -> void:
 		else:
 			texto.add_theme_color_override("font_color", Color.DARK_BLUE)
 
-		ui_lista_de_itens.add_child(texto)
+		linha_forma.add_child(texto)
+		ui_lista_de_itens.add_child(linha_forma)
 
-	# 3. Desenha itens não pedidos (intrusos)
 	for produto_errado in resultado["itens_nao_pedidos"].keys():
 		var qtd_errada: int = resultado["itens_nao_pedidos"][produto_errado]
-		var nome_forma := _pegar_nome_da_forma(produto_errado.shape)
+		var nome_forma: String = _pegar_nome_da_forma(produto_errado.shape)
 
 		var linha_errada := HBoxContainer.new()
 		if produto_errado.icon:
-			var icone := TextureRect.new()
-			icone.texture = produto_errado.icon
-			icone.custom_minimum_size = Vector2(32, 32)
-			icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			linha_errada.add_child(icone)
+			linha_errada.add_child(_criar_icone_prancheta(produto_errado.icon, tamanho_icone))
 
 		var texto_errado := Label.new()
 		texto_errado.text = "%s (%s): %d (Não Pedido!)" % [produto_errado.product_name, nome_forma, qtd_errada]
 		texto_errado.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		texto_errado.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		texto_errado.add_theme_font_size_override("font_size", 14)
+		texto_errado.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		texto_errado.add_theme_font_size_override("font_size", tamanho_fonte)
 		texto_errado.add_theme_color_override("font_color", Color.RED)
 
 		linha_errada.add_child(texto_errado)
 		ui_lista_de_itens.add_child(linha_errada)
+
 
 # ==========================================
 # --- RESET DE DADOS ---

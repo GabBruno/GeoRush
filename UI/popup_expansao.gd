@@ -77,4 +77,5 @@ func _on_button_continuar_pressed() -> void:
 
 	# Retoma o tempo do jogo e remove o pop-up da memória
 	get_tree().paused = false
+	get_tree().call_group("jogador", "mostrar_setor_desbloqueado", EconomyManager.nivel_expansao)
 	queue_free()

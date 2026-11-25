@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://b7dj4jyogt31y" path="res://Entities/Interactables/computador_upgrades.tscn" id="4_hmtnh"]
 [ext_resource type="PackedScene" uid="uid://bemg6pvs70lwf" path="res://Products/Scenes/limao.tscn" id="4_ix0dx"]
 [ext_resource type="PackedScene" uid="uid://c1stiap2kl6nj" path="res://Products/Scenes/laranja.tscn" id="5_mtkvb"]
-[ext_resource type="PackedScene" uid="uid://c5had6bv036ny" path="res://Core/customer_manager.tscn" id="6_70eew"]
 [ext_resource type="PackedScene" uid="uid://jss5aeax6m7k" path="res://Entities/Interactables/caixa_checkout.tscn" id="6_mtkvb"]
 [ext_resource type="PackedScene" uid="uid://c1lnql35v7paj" path="res://Entities/Characters/cliente.tscn" id="8_iojgr"]
 [ext_resource type="PackedScene" uid="uid://cq62okyfcxqm1" path="res://Products/Scenes/caixa_cereais.tscn" id="10_h17oo"]
@@ -16,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://80d3d8aoqxtw" path="res://Products/Scenes/garrafa_agua.tscn" id="12_iwtkm"]
 [ext_resource type="PackedScene" uid="uid://bkyhtlk1l5x32" path="res://Products/Scenes/caixa_leite.tscn" id="14_xvcm2"]
 [ext_resource type="PackedScene" uid="uid://h67xnrfkk24f" path="res://Products/Scenes/batata_chips.tscn" id="15_ihg42"]
+[ext_resource type="AudioStream" uid="uid://ba1l8pbqh1wyf" path="res://Assets/Audio/Music/musica_fundo.mp3" id="17_qeq6o"]
+[ext_resource type="AudioStream" uid="uid://07crgnrubxg1" path="res://Assets/Audio/Music/musica_boss.mp3" id="18_qeq6o"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dcnpp"]
 texture = ExtResource("3_3suwo")
@@ -199,8 +200,6 @@ position = Vector2(75, 320)
 [node name="Laranja" parent="." unique_id=1573555769 instance=ExtResource("5_mtkvb")]
 position = Vector2(75, 392)
 
-[node name="CustomerManager" parent="." unique_id=772701674 instance=ExtResource("6_70eew")]
-
 [node name="CaixaCheckout" parent="." unique_id=376012579 instance=ExtResource("6_mtkvb")]
 position = Vector2(54, 137)
 cena_cliente = ExtResource("8_iojgr")
@@ -247,3 +246,16 @@ position = Vector2(96, 338)
 
 [node name="PontoComputador" type="Marker2D" parent="PontosTutorial" unique_id=1220226726]
 position = Vector2(51, 99)
+
+[node name="MusicaFundo" type="AudioStreamPlayer" parent="." unique_id=1901423853 groups=["musica_fase", "musica_normal"]]
+stream = ExtResource("17_qeq6o")
+volume_db = -18.0
+bus = &"Musica"
+parameters/looping = true
+
+[node name="MusicaBoss" type="AudioStreamPlayer" parent="." unique_id=432698112 groups=["musica_boss", "musica_fase"]]
+process_mode = 3
+stream = ExtResource("18_qeq6o")
+volume_db = -10.0
+bus = &"Musica"
+parameters/looping = true

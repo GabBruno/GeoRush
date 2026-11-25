@@ -325,3 +325,61 @@ func finalizar_cutscene_camera() -> void:
 		camera.position = Vector2.ZERO
 
 	em_cutscene = false
+
+func mostrar_setor_desbloqueado(nivel: int) -> void:
+	var grupo_setor: String = ""
+	var nome_setor: String = ""
+
+	match nivel:
+		1:
+			grupo_setor = "setor_cilindros"
+			nome_setor = "Setor de Cilindros"
+		2:
+			grupo_setor = "setor_paralelepipedos"
+			nome_setor = "Setor de Paralelepípedos"
+		_:
+			return
+
+	var setor: Node2D = get_tree().get_first_node_in_group(grupo_setor) as Node2D
+	if not setor:
+		return
+
+	var destino: Vector2 = _calcular_centro_setor(setor)
+
+	# Desliza a câmera até o setor recém-liberado
+	focar_posicao_camera(destino, 1.25, 0.8)
+	if _camera_tween and _camera_tween.is_running():
+		await _camera_tween.finished
+
+	mostrar_notificacao("✨ %s Desbloqueado!" % nome_setor, Color.GOLD)
+
+	# Destaque visual rápido pulsando o brilho das gôndolas novas
+	var brilho: Tween = create_tween()
+	brilho.tween_property(setor, "modulate", Color(1.35, 1.35, 1.15, 1.0), 0.25)
+	brilho.tween_property(setor, "modulate", Color.WHITE, 0.35)
+	brilho.tween_property(setor, "modulate", Color(1.35, 1.35, 1.15, 1.0), 0.25)
+	brilho.tween_property(setor, "modulate", Color.WHITE, 0.35)
+
+	await get_tree().create_timer(1.8).timeout
+
+	# Devolve a câmera suavemente para o Kratos e libera o controle
+	await finalizar_cutscene_camera()
+
+func _calcular_centro_setor(setor: Node2D) -> Vector2:
+	# Se quiser ajustar o enquadramento manualmente, basta adicionar um Marker2D chamado "PontoFoco" dentro do setor
+	var ponto_manual: Node2D = setor.get_node_or_null("PontoFoco") as Node2D
+	if ponto_manual:
+		return ponto_manual.global_position
+
+	# Caso contrário, centraliza automaticamente na média das gôndolas do setor
+	var soma: Vector2 = Vector2.ZERO
+	var quantidade: int = 0
+	for filho in setor.get_children():
+		if filho is Node2D:
+			soma += (filho as Node2D).global_position
+			quantidade += 1
+
+	if quantidade > 0:
+		return soma / float(quantidade)
+
+	return setor.global_position
