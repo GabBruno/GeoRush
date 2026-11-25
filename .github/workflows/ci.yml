@@ -47,20 +47,20 @@ jobs:
           echo ">> Rodando gdlint..."
           gdlint "${GDSCRIPTS[@]}"
 
-          echo ">> Verificando parse e variaveis nao usadas na Godot..."
-          FALHOU=0
-          for script in "${GDSCRIPTS[@]}"; do
-            SAIDA=$(godot --headless --path . --check-only --script "$script" 2>&1 || true)
-            if echo "$SAIDA" | grep -Eq "Parse Error|SCRIPT ERROR|UNUSED_VARIABLE"; then
-              echo "Erro ou variavel nao usada em $script:"
-              echo "$SAIDA"
-              FALHOU=1
-            fi
-          done
-          exit $FALHOU
+          echo ">> Verificando parse e variaveis nao usadas na Godot (com Autoloads)..."
+          set +e
+          SAIDA=$(godot --headless --path . res://tests/check_scripts.tscn 2>&1)
+          CODIGO=$?
+          set -e
+          echo "$SAIDA"
+
+          if [ $CODIGO -ne 0 ] || echo "$SAIDA" | grep -Eq "Parse Error|SCRIPT ERROR|UNUSED_VARIABLE"; then
+            echo "Erro de compilacao ou variavel nao usada encontrada."
+            exit 1
+          fi
 
       - name: Testes automatizados (regras de negocio)
-        run: godot --headless --path . --script res://tests/test_georush.gd
+        run: godot --headless --path . res://tests/test_georush.tscn
 
   dependencias:
     name: dependencias

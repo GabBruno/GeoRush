@@ -1,23 +1,17 @@
-extends SceneTree
+extends Node
 
-var _executado: bool = false
 var _passaram: int = 0
 var _falharam: int = 0
 
 
-func _process(_delta: float) -> bool:
-	if _executado:
-		return false
-	_executado = true
-
+func _ready() -> void:
 	print("=== Iniciando testes automatizados do GeoRush ===")
 	_testar_reputacao_e_ritmo()
 	_testar_avaliacao_carrinho()
 	_testar_limite_visual_gondola()
 
 	print("=== Resultado: %d passaram | %d falharam ===" % [_passaram, _falharam])
-	quit(1 if _falharam > 0 else 0)
-	return true
+	get_tree().quit(1 if _falharam > 0 else 0)
 
 
 func _assert_igual(atual: Variant, esperado: Variant, descricao: String) -> void:
@@ -39,7 +33,7 @@ func _assert_aprox(atual: float, esperado: float, descricao: String) -> void:
 
 
 func _testar_reputacao_e_ritmo() -> void:
-	var eco: Node = root.get_node_or_null("EconomyManager")
+	var eco: Node = get_tree().root.get_node_or_null("EconomyManager")
 	if eco == null:
 		_falharam += 1
 		printerr("[FALHA] Autoload EconomyManager nao encontrado")
@@ -59,7 +53,7 @@ func _testar_reputacao_e_ritmo() -> void:
 
 
 func _testar_avaliacao_carrinho() -> void:
-	var cm: Node = root.get_node_or_null("CustomerManager")
+	var cm: Node = get_tree().root.get_node_or_null("CustomerManager")
 	if cm == null:
 		_falharam += 1
 		printerr("[FALHA] Autoload CustomerManager nao encontrado")
@@ -89,7 +83,6 @@ func _testar_avaliacao_carrinho() -> void:
 	_assert_igual(res_errado["perfeito"], false, "Carrinho com item extra/errado e reprovado")
 	_assert_igual(res_errado["erros"], 1, "Carrinho com item extra registra 1 erro")
 
-	# Teste de pedido generico por forma geometrica
 	cm.pedido_atual = {}
 	cm.pedido_por_forma = {ProductData.ShapeType.ESFERA: 2}
 	var res_forma: Dictionary = cm.avaliar_carrinho([maca, maca])
