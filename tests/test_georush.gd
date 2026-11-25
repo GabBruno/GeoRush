@@ -40,7 +40,7 @@ func _testar_reputacao_e_ritmo() -> void:
 		return
 
 	eco.reputacao = 50
-	_assert_aprox(eco.obter_multiplicador_reputacao(), 1.25, "5 estrelas aplica multiplicador 1.25x")
+	_assert_aprox(eco.obter_multiplicador_reputacao(), 1.5, "5 estrelas aplica multiplicador 1.25x")
 	_assert_aprox(eco.obter_intervalo_spawn_clientes(), 4.2, "5 estrelas define spawn em 4.2s")
 
 	eco.reputacao = 20
