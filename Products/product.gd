@@ -259,3 +259,14 @@ func atualizar_texto_do_painel() -> void:
 		
 	# Aplica o texto final removendo quebras de linha (\n) excedentes na última string
 	popup_label.text = texto_interacao.strip_edges()
+
+func aumentar_estoque_maximo(extra: int) -> bool:
+	if extra <= 0:
+		return false
+	max_stock += extra
+	_current_stock = max_stock
+	if product_grid and product_data:
+		update_visuals()
+	if popup_label:
+		atualizar_texto_do_painel()
+	return true

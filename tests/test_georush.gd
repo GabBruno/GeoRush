@@ -90,7 +90,6 @@ func _testar_avaliacao_carrinho() -> void:
 
 
 func _testar_limite_visual_gondola() -> void:
-
 	var prateleira := BaseProducts.new()
 	prateleira._max_visual_icons = 5
 	prateleira.max_stock = 10
@@ -103,5 +102,13 @@ func _testar_limite_visual_gondola() -> void:
 
 	prateleira._current_stock = 0
 	_assert_igual(prateleira._calcular_icones_visiveis(), 0, "Estoque 0/10 exibe 0 icones")
+
+	# Regra de negocio: recusar incremento negativo ou zero no estoque maximo
+	prateleira.max_stock = 5
+	_assert_igual(prateleira.aumentar_estoque_maximo(-3), false, "Recusa incremento negativo no estoque maximo")
+	_assert_igual(prateleira.max_stock, 5, "Estoque maximo permanece 5 apos incremento negativo")
+	_assert_igual(prateleira.aumentar_estoque_maximo(0), false, "Recusa incremento zero no estoque maximo")
+	_assert_igual(prateleira.aumentar_estoque_maximo(3), true, "Aceita incremento positivo no estoque maximo")
+	_assert_igual(prateleira.max_stock, 8, "Estoque maximo aumenta para 8 com incremento positivo")
 
 	prateleira.free()
