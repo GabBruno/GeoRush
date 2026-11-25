@@ -118,6 +118,7 @@ jobs:
       - name: Criar tag e publicar Release (baseline)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           TAG="${{ needs.preparar.outputs.tag }}"
           ARQUIVO="release_pkg/GeoRush-${TAG}.zip"
@@ -128,10 +129,3 @@ jobs:
             --title "GeoRush $TAG" \
             --notes-file notas-release.md \
             --latest
-
-          {
-            echo "### Baseline publicada em Produção"
-            echo "- Release: \`$TAG\`"
-            echo "- Commit: \`${{ github.sha }}\`"
-            echo "- SHA-256 promovido (idêntico ao staging): \`$HASH\`"
-          } >> "$GITHUB_STEP_SUMMARY"
