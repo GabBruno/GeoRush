@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  GODOT_VERSION: "4.7.2"
+
+jobs:
+  qualidade:
+    name: qualidade
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar ferramentas de lint (gdtoolkit)
+        run: pip install -r requirements-dev.txt
+
+      - name: Configurar Godot headless
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          use-dotnet: false
+
+      - name: Build / Importacao do projeto Godot
+        run: godot --headless --path . --import --quit
+
+      - name: Lint (gdlint + verificacao de variaveis nao usadas)
+        shell: bash
+        run: |
+          mapfile -t GDSCRIPTS < <(find . -name "*.gd" -not -path "./.godot/*" -not -path "./addons/*")
+
+          echo ">> Rodando gdlint..."
+          gdlint "${GDSCRIPTS[@]}"
+
+          echo ">> Verificando parse e variaveis nao usadas na Godot..."
+          FALHOU=0
+          for script in "${GDSCRIPTS[@]}"; do
+            SAIDA=$(godot --headless --path . --check-only --script "$script" 2>&1 || true)
+            if echo "$SAIDA" | grep -Eq "Parse Error|SCRIPT ERROR|UNUSED_VARIABLE"; then
+              echo "Erro ou variavel nao usada em $script:"
+              echo "$SAIDA"
+              FALHOU=1
+            fi
+          done
+          exit $FALHOU
+
+      - name: Testes automatizados (regras de negocio)
+        run: godot --headless --path . --script res://tests/test_georush.gd
+
+  dependencias:
+    name: dependencias
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Analise de dependencias (bloqueia criticas)
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
+
+  ci-ok:
+    name: ci-ok
+    runs-on: ubuntu-latest
+    needs: [qualidade, dependencias]
+    if: always()
+    steps:
+      - name: Validar resultado dos jobs obrigatorios
+        run: |
+          if [ "${{ needs.qualidade.result }}" != "success" ]; then
+            echo "Job 'qualidade' falhou."
+            exit 1
+          fi
+          if [ "${{ needs.dependencias.result }}" != "success" ] && [ "${{ needs.dependencias.result }}" != "skipped" ]; then
+            echo "Job 'dependencias' falhou."
+            exit 1
+          fi
+          echo "Todos os checks de CI passaram."

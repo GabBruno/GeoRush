@@ -1,0 +1,8 @@
+disable:
+  - class-definitions-order
+  - max-public-methods
+  - max-returns
+  - max-file-lines
+  - function-arguments-number
+  - trailing-whitespace
+max-line-length: 180
