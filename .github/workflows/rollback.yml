@@ -1,3 +1,4 @@
+cat << 'EOF' > .github/workflows/rollback.yml
 name: Rollback
 
 on:
@@ -22,14 +23,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_TAG: ${{ inputs.tag }}
         run: |
-          gh release view "$TARGET_TAG" > /dev/null
+          gh release view "$TARGET_TAG" --repo "${{ github.repository }}" > /dev/null
 
       - name: Promover Release anterior para Latest (sem recompilar)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_TAG: ${{ inputs.tag }}
         run: |
-          gh release edit "$TARGET_TAG" --latest
+          gh release edit "$TARGET_TAG" --repo "${{ github.repository }}" --latest
 
           {
             echo "### Rollback concluído"
@@ -38,3 +39,4 @@ jobs:
             echo "- Data (UTC): \`$(date -u '+%Y-%m-%d %H:%M:%S UTC')\`"
             echo "- Nenhuma recompilação foi executada; o artefato original da baseline foi preservado."
           } >> "$GITHUB_STEP_SUMMARY"
+EOF
