@@ -1,0 +1,23 @@
+name: Validar Título do PR
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  titulo-pr:
+    name: titulo-pr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar Conventional Commits no titulo
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          REGEX='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9_/-]+\))?!?: .+'
+          if [[ "$PR_TITLE" =~ $REGEX ]]; then
+            echo "Titulo valido: $PR_TITLE"
+          else
+            echo "Titulo invalido: '$PR_TITLE'"
+            echo "Use o padrao Conventional Commits, ex.: ci: adiciona pipeline de integracao continua"
+            exit 1
+          fi
