@@ -1,0 +1,129 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  GODOT_VERSION: "4.7.2"
+
+jobs:
+  qualidade:
+    name: qualidade
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar ferramentas de lint (gdtoolkit)
+        run: pip install -r requirements-dev.txt
+
+      - name: Configurar Godot headless
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          use-dotnet: false
+
+      - name: Build / Importacao do projeto Godot
+        run: godot --headless --path . --import --quit
+
+      - name: Lint (gdlint + variaveis nao usadas + compilacao Godot)
+        shell: bash
+        run: |
+          mapfile -t GDSCRIPTS < <(find . -name "*.gd" -not -path "./.godot/*" -not -path "./addons/*")
+
+          echo ">> Rodando gdlint..."
+          gdlint "${GDSCRIPTS[@]}"
+
+          echo ">> Verificando variaveis locais nao usadas..."
+          python3 - <<'EOF'
+          import pathlib, re, sys
+
+          erros = []
+          for path in sorted(pathlib.Path(".").rglob("*.gd")):
+              if any(p in path.parts for p in (".godot", "addons", ".git")):
+                  continue
+              linhas = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+              sem_comentarios = [re.sub(r"#.*", "", l) for l in linhas]
+              texto_limpo = "\n".join(sem_comentarios)
+              for num, linha in enumerate(sem_comentarios, start=1):
+                  m = re.match(r"^[ \t]+var\s+([a-zA-Z][a-zA-Z0-9_]*)\b", linha)
+                  if m:
+                      nome = m.group(1)
+                      if len(re.findall(rf"\b{re.escape(nome)}\b", texto_limpo)) <= 1:
+                          erros.append(f"{path}:{num}: Variavel local '{nome}' declarada e nao usada")
+
+          if erros:
+              print("\n".join(erros))
+              sys.exit(1)
+          print("Nenhuma variavel local nao usada encontrada.")
+          EOF
+
+          echo ">> Verificando compilacao dos scripts na Godot (com Autoloads)..."
+          set +e
+          SAIDA=$(godot --headless --path . res://tests/check_scripts.tscn 2>&1)
+          CODIGO=$?
+          set -e
+          echo "$SAIDA"
+
+          if [ $CODIGO -ne 0 ] || echo "$SAIDA" | grep -Eq "Parse Error|SCRIPT ERROR"; then
+            echo "Erro de compilacao encontrado."
+            exit 1
+          fi
+
+      - name: Testes automatizados (regras de negocio)
+        shell: bash
+        run: |
+          set +e
+          SAIDA=$(godot --headless --path . res://tests/test_georush.tscn 2>&1)
+          CODIGO=$?
+          set -e
+          echo "$SAIDA"
+
+          if [ $CODIGO -ne 0 ] || echo "$SAIDA" | grep -q "\[FALHA\]" || ! echo "$SAIDA" | grep -q "| 0 falharam ==="; then
+            echo "Os testes automatizados falharam ou nao executaram corretamente."
+            exit 1
+          fi
+
+  dependencias:
+    name: dependencias
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Analise de dependencias (bloqueia criticas)
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: critical
+
+  ci-ok:
+    name: ci-ok
+    runs-on: ubuntu-latest
+    needs: [qualidade, dependencias]
+    if: always()
+    steps:
+      - name: Validar resultado dos jobs obrigatorios
+        run: |
+          if [ "${{ needs.qualidade.result }}" != "success" ]; then
+            echo "Job 'qualidade' falhou."
+            exit 1
+          fi
+          if [ "${{ needs.dependencias.result }}" != "success" ] && [ "${{ needs.dependencias.result }}" != "skipped" ]; then
+            echo "Job 'dependencias' falhou."
+            exit 1
+          fi
+          echo "Todos os checks de CI passaram."

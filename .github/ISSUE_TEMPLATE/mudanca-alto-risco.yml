@@ -1,0 +1,49 @@
+name: "Mudança de alto risco (CCM)"
+description: "Solicitação formal para aprovação de mudança de alto risco no GeoRush"
+title: "[CCM] "
+labels: ["ccm", "alto-risco"]
+body:
+  - type: textarea
+    id: descricao
+    attributes:
+      label: "Descrição da mudança"
+      description: "Explique o que será alterado e qual problema essa mudança resolve."
+      placeholder: "Descreva a mudança proposta no GeoRush..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: criterio_risco
+    attributes:
+      label: "Critério de alto risco"
+      description: "Marque todos os critérios aplicáveis:"
+      options:
+        - label: "Coleta ou armazenamento de dados pessoais (LGPD)"
+        - label: "Alteração de estrutura de dados persistidos ou arquivos salvos"
+        - label: "Atualização de versão da engine (Godot) ou dependência crítica"
+        - label: "Correção emergencial fora do fluxo normal (hotfix em produção)"
+
+  - type: textarea
+    id: impacto
+    attributes:
+      label: "Impacto e riscos mapeados"
+      description: "O que pode quebrar ou quem pode ser afetado caso a mudança falhe?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: rollback
+    attributes:
+      label: "Plano de rollback"
+      description: "Informe exatamente qual tag/baseline será restaurada em caso de falha."
+      placeholder: "Ex.: Executar o workflow Rollback voltando para a tag v1.1.0 após aprovação no Environment production."
+    validations:
+      required: true
+
+  - type: textarea
+    id: validacao
+    attributes:
+      label: "Critérios de validação após a mudança"
+      description: "Como confirmar que a mudança funcionou sem regressões?"
+    validations:
+      required: true
