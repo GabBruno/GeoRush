@@ -55,7 +55,7 @@ jobs:
 
       - name: Enviar artefato do pacote
         if: steps.semver.outputs.gerar == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pacote
           path: artefato/GeoRush-v${{ steps.semver.outputs.versao }}.zip
@@ -63,7 +63,7 @@ jobs:
 
       - name: Enviar notas da release
         if: steps.semver.outputs.gerar == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: notas-release
           path: notas-release.md
