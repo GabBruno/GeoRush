@@ -91,8 +91,6 @@ func _testar_avaliacao_carrinho() -> void:
 
 func _testar_limite_visual_gondola() -> void:
 
-	var variavel_nao_usada: int = 1
-
 	var prateleira := BaseProducts.new()
 	prateleira._max_visual_icons = 5
 	prateleira.max_stock = 10
