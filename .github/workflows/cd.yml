@@ -103,9 +103,6 @@ jobs:
     if: needs.preparar.outputs.gerar == 'true'
     environment: production
     steps:
-      - name: Checkout raso (contexto git para o gh release)
-        uses: actions/checkout@v4
-
       - name: Baixar o mesmo pacote validado em staging
         uses: actions/download-artifact@v4
         with:
@@ -116,7 +113,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: notas-release
-          path: release_notas
+          path: .
 
       - name: Criar tag e publicar Release (baseline)
         env:
@@ -127,10 +124,9 @@ jobs:
           HASH=$(sha256sum "$ARQUIVO" | awk '{print $1}')
 
           gh release create "$TAG" "$ARQUIVO" \
-            --repo "${{ github.repository }}" \
             --target "${{ github.sha }}" \
             --title "GeoRush $TAG" \
-            --notes-file release_notas/notas-release.md \
+            --notes-file notas-release.md \
             --latest
 
           {

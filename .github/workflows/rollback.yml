@@ -22,11 +22,19 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_TAG: ${{ inputs.tag }}
         run: |
-          gh release view "$TARGET_TAG" --repo "${{ github.repository }}" > /dev/null
+          gh release view "$TARGET_TAG" > /dev/null
 
       - name: Promover Release anterior para Latest (sem recompilar)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_TAG: ${{ inputs.tag }}
         run: |
-          gh release edit "$TARGET_TAG" --repo "${{ github.repository }}" --latest
+          gh release edit "$TARGET_TAG" --latest
+
+          {
+            echo "### Rollback concluído"
+            echo "- Tag restaurada como **Latest**: \`$TARGET_TAG\`"
+            echo "- Solicitado por: \`@${{ github.actor }}\`"
+            echo "- Data (UTC): \`$(date -u '+%Y-%m-%d %H:%M:%S UTC')\`"
+            echo "- Nenhuma recompilação foi executada; o artefato original da baseline foi preservado."
+          } >> "$GITHUB_STEP_SUMMARY"
