@@ -20,15 +20,13 @@ jobs:
       - name: Validar existência da Release alvo
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
           TARGET_TAG: ${{ inputs.tag }}
         run: |
-          gh release view "$TARGET_TAG" > /dev/null
+          gh release view "$TARGET_TAG" --repo "${{ github.repository }}" > /dev/null
 
       - name: Promover Release anterior para Latest (sem recompilar)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
           TARGET_TAG: ${{ inputs.tag }}
         run: |
-          gh release edit "$TARGET_TAG" --latest
+          gh release edit "$TARGET_TAG" --repo "${{ github.repository }}" --latest
