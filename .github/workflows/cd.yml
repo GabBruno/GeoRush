@@ -1,4 +1,3 @@
-cat << 'EOF' > .github/workflows/cd.yml
 name: CD
 
 on:
@@ -140,4 +139,3 @@ jobs:
             echo "- Commit: \`${{ github.sha }}\`"
             echo "- SHA-256 promovido (idêntico ao staging): \`$HASH\`"
           } >> "$GITHUB_STEP_SUMMARY"
-EOF

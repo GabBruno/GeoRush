@@ -1,4 +1,3 @@
-cat << 'EOF' > .github/workflows/rollback.yml
 name: Rollback
 
 on:
@@ -39,4 +38,3 @@ jobs:
             echo "- Data (UTC): \`$(date -u '+%Y-%m-%d %H:%M:%S UTC')\`"
             echo "- Nenhuma recompilação foi executada; o artefato original da baseline foi preservado."
           } >> "$GITHUB_STEP_SUMMARY"
-EOF
