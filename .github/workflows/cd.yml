@@ -76,7 +76,7 @@ jobs:
     if: needs.preparar.outputs.gerar == 'true'
     steps:
       - name: Baixar artefato do pacote (sem recompilar)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: pacote
           path: staging_pkg
@@ -104,13 +104,13 @@ jobs:
     environment: production
     steps:
       - name: Baixar o mesmo pacote validado em staging
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: pacote
           path: release_pkg
 
       - name: Baixar notas da release
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: notas-release
           path: .
