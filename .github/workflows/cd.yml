@@ -1,0 +1,141 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  preparar:
+    name: Versão e pacote
+    runs-on: ubuntu-latest
+    outputs:
+      gerar: ${{ steps.semver.outputs.gerar }}
+      versao: ${{ steps.semver.outputs.versao }}
+      tag: ${{ steps.semver.outputs.tag }}
+    steps:
+      - name: Checkout completo (com tags e histórico)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Calcular próxima versão (SemVer)
+        id: semver
+        run: node scripts/proxima-versao.mjs
+
+      - name: Empacotar GeoRush (build único)
+        if: steps.semver.outputs.gerar == 'true'
+        run: |
+          mkdir -p pacote artefato
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.godot' \
+            --exclude='tests' \
+            --exclude='scripts' \
+            --exclude='pacote' \
+            --exclude='artefato' \
+            --exclude='notas-release.md' \
+            --exclude='requirements-dev.txt' \
+            --exclude='.gdlintrc' \
+            --exclude='.gitignore' \
+            ./ pacote/
+
+          echo "GeoRush v${{ steps.semver.outputs.versao }}" > pacote/VERSAO.txt
+          (cd pacote && zip -rq "../artefato/GeoRush-v${{ steps.semver.outputs.versao }}.zip" .)
+
+          echo "### Pacote gerado" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Versão: \`v${{ steps.semver.outputs.versao }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SHA-256: \`$(sha256sum "artefato/GeoRush-v${{ steps.semver.outputs.versao }}.zip" | awk '{print $1}')\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Enviar artefato do pacote
+        if: steps.semver.outputs.gerar == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pacote
+          path: artefato/GeoRush-v${{ steps.semver.outputs.versao }}.zip
+          if-no-files-found: error
+
+      - name: Enviar notas da release
+        if: steps.semver.outputs.gerar == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: notas-release
+          path: notas-release.md
+          if-no-files-found: error
+
+  staging:
+    name: Staging
+    runs-on: ubuntu-latest
+    needs: [preparar]
+    if: needs.preparar.outputs.gerar == 'true'
+    steps:
+      - name: Baixar artefato do pacote (sem recompilar)
+        uses: actions/download-artifact@v4
+        with:
+          name: pacote
+          path: staging_pkg
+
+      - name: Validar integridade do pacote candidato
+        run: |
+          ARQUIVO="staging_pkg/GeoRush-${{ needs.preparar.outputs.tag }}.zip"
+          unzip -t "$ARQUIVO" > /dev/null
+          HASH=$(sha256sum "$ARQUIVO" | awk '{print $1}')
+          TAMANHO=$(du -h "$ARQUIVO" | awk '{print $1}')
+
+          {
+            echo "### Staging validado"
+            echo "- Candidato: \`${{ needs.preparar.outputs.tag }}\`"
+            echo "- Arquivo: \`GeoRush-${{ needs.preparar.outputs.tag }}.zip\` ($TAMANHO)"
+            echo "- SHA-256: \`$HASH\`"
+            echo "- Baixe o artefato **pacote** nesta execução para testar antes de aprovar a produção."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  producao:
+    name: Produção
+    runs-on: ubuntu-latest
+    needs: [preparar, staging]
+    if: needs.preparar.outputs.gerar == 'true'
+    environment: production
+    steps:
+      - name: Checkout raso (contexto git para o gh release)
+        uses: actions/checkout@v4
+
+      - name: Baixar o mesmo pacote validado em staging
+        uses: actions/download-artifact@v4
+        with:
+          name: pacote
+          path: release_pkg
+
+      - name: Baixar notas da release
+        uses: actions/download-artifact@v4
+        with:
+          name: notas-release
+          path: release_notas
+
+      - name: Criar tag e publicar Release (baseline)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ needs.preparar.outputs.tag }}"
+          ARQUIVO="release_pkg/GeoRush-${TAG}.zip"
+          HASH=$(sha256sum "$ARQUIVO" | awk '{print $1}')
+
+          gh release create "$TAG" "$ARQUIVO" \
+            --repo "${{ github.repository }}" \
+            --target "${{ github.sha }}" \
+            --title "GeoRush $TAG" \
+            --notes-file release_notas/notas-release.md \
+            --latest
+
+          {
+            echo "### Baseline publicada em Produção"
+            echo "- Release: \`$TAG\`"
+            echo "- Commit: \`${{ github.sha }}\`"
+            echo "- SHA-256 promovido (idêntico ao staging): \`$HASH\`"
+          } >> "$GITHUB_STEP_SUMMARY"

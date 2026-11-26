@@ -1,0 +1,40 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag da Release para restaurar (ex.: v1.0.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  rollback:
+    name: Rollback em Produção
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Validar existência da Release alvo
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_TAG: ${{ inputs.tag }}
+        run: |
+          gh release view "$TARGET_TAG" --repo "${{ github.repository }}" > /dev/null
+
+      - name: Promover Release anterior para Latest (sem recompilar)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_TAG: ${{ inputs.tag }}
+        run: |
+          gh release edit "$TARGET_TAG" --repo "${{ github.repository }}" --latest
+
+          {
+            echo "### Rollback concluído"
+            echo "- Tag restaurada como **Latest**: \`$TARGET_TAG\`"
+            echo "- Solicitado por: \`@${{ github.actor }}\`"
+            echo "- Data (UTC): \`$(date -u '+%Y-%m-%d %H:%M:%S UTC')\`"
+            echo "- Nenhuma recompilação foi executada; o artefato original da baseline foi preservado."
+          } >> "$GITHUB_STEP_SUMMARY"
