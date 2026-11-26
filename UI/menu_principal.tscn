@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://din0iq24k1wx7" path="res://Assets/UI/LogoGeoRush.png" id="4_2kk8p"]
 [ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="5_cstiv"]
 [ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="6_m2ffh"]
+[ext_resource type="Script" uid="uid://it0an3adn8c2" path="res://UI/painel_configuracoes.gd" id="6_wtsn5"]
 [ext_resource type="AudioStream" uid="uid://ieeqltuwmial" path="res://Assets/Audio/Music/musica_menu.mp3" id="7_h5p4b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_msr8j"]
@@ -63,10 +64,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -140.25
-offset_top = -33.0
-offset_right = 140.25
-offset_bottom = 185.0
+offset_left = -178.0
+offset_top = -37.0
+offset_right = 182.0
+offset_bottom = 255.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -85,6 +86,13 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 40
 text = "Controles"
 
+[node name="BotaoConfiguracoes" type="Button" parent="VBoxContainer" unique_id=740440448]
+custom_minimum_size = Vector2(150, 70)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+text = "   Configurações   "
+
 [node name="BotaoSair" type="Button" parent="VBoxContainer" unique_id=55095407]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
@@ -100,19 +108,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 19.0
-offset_top = 32.0
-offset_right = 102.0
-offset_bottom = 32.0
+offset_left = 71.0
+offset_top = 65.0
+offset_right = 154.0
+offset_bottom = 65.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="PainelControles" unique_id=1126664178]
 layout_mode = 0
-offset_left = 134.0
-offset_top = -55.0
-offset_right = 440.0
-offset_bottom = 144.0
+offset_left = 133.0
+offset_top = -64.0
+offset_right = 468.0
+offset_bottom = 161.0
 theme_override_constants/outline_size = 14
 theme_override_fonts/font = ExtResource("5_cstiv")
 theme_override_font_sizes/font_size = 22
@@ -121,6 +129,7 @@ text = "WASD / Setas: Movimentar
 Shift: Correr
 E: Pegar Produto
 R: Devolver Produto
+Shift + R: Devolver em Massa
 F: Repor Estoque
 Tab: Abrir/Fechar Lista
 Esc: Abrir/Fechar Menu"
@@ -137,16 +146,82 @@ theme_override_font_sizes/font_size = 22
 text = " Fechar"
 icon_alignment = 1
 
+[node name="PainelConfiguracoes" type="Panel" parent="." unique_id=841258215]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 209.0
+offset_top = 22.0
+offset_right = 508.0
+offset_bottom = 189.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_wtsn5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PainelConfiguracoes" unique_id=655633313]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 14.0
+offset_right = 279.0
+offset_bottom = 147.0
+theme_override_constants/separation = 10
+
+[node name="Titulo" type="Label" parent="PainelConfiguracoes/VBoxContainer" unique_id=1437883716]
+layout_mode = 2
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 22
+text = "Configurações"
+horizontal_alignment = 1
+
+[node name="LabelMusica" type="Label" parent="PainelConfiguracoes/VBoxContainer" unique_id=2113888168]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 18
+text = "Música:"
+
+[node name="SliderMusica" type="HSlider" parent="PainelConfiguracoes/VBoxContainer" unique_id=44166590]
+self_modulate = Color(3.2944162, 3.2944162, 3.2944162, 1)
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+max_value = 1.0
+step = 0.05
+
+[node name="LabelSFX" type="Label" parent="PainelConfiguracoes/VBoxContainer" unique_id=1451325939]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 18
+text = "Efeitos:"
+
+[node name="SliderSFX" type="HSlider" parent="PainelConfiguracoes/VBoxContainer" unique_id=37842494]
+self_modulate = Color(3.2944162, 3.2944162, 3.2944162, 1)
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+max_value = 1.0
+step = 0.05
+
+[node name="SomTeste" type="AudioStreamPlayer" parent="PainelConfiguracoes/VBoxContainer" unique_id=1712519550]
+stream = ExtResource("6_m2ffh")
+bus = &"SFX"
+
 [node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=1764810098]
 stream = ExtResource("6_m2ffh")
+bus = &"SFX"
 
 [node name="MusicaMenu" type="AudioStreamPlayer" parent="." unique_id=1115210472]
 stream = ExtResource("7_h5p4b")
 volume_db = -20.0
 autoplay = true
+bus = &"Musica"
 parameters/looping = true
 
 [connection signal="pressed" from="VBoxContainer/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
 [connection signal="pressed" from="VBoxContainer/BotaoControles" to="." method="_on_botao_controles_pressed"]
+[connection signal="pressed" from="VBoxContainer/BotaoConfiguracoes" to="." method="_on_botao_configuracoes_pressed"]
 [connection signal="pressed" from="VBoxContainer/BotaoSair" to="." method="_on_botao_sair_pressed"]
 [connection signal="pressed" from="PainelControles/BotaoVoltar" to="." method="_on_botao_voltar_pressed"]

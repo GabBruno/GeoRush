@@ -87,9 +87,11 @@ text = "Continuar"
 process_mode = 3
 stream = ExtResource("2_cdo41")
 volume_db = -10.0
+bus = &"SFX"
 
 [node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=349113748]
 process_mode = 3
 stream = ExtResource("3_sio4l")
+bus = &"SFX"
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Button" to="." method="_on_button_continuar_pressed"]

@@ -1,0 +1,220 @@
+[gd_scene format=3 uid="uid://cqktmurbupc4d"]
+
+[ext_resource type="Script" uid="uid://bi1n75soqqgeb" path="res://Assets/UI/loja_upgrades.gd" id="1_6opsm"]
+[ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="1_g6is7"]
+[ext_resource type="Texture2D" uid="uid://cmj1bum83lmy3" path="res://Assets/UI/InterfaceComputador.png" id="2_0go2d"]
+[ext_resource type="AudioStream" uid="uid://buce7fbkojis" path="res://Assets/Audio/SFX/som-reposicao.mp3" id="4_4nsef"]
+[ext_resource type="AudioStream" uid="uid://b1f6ib67b0nop" path="res://Assets/Audio/SFX/som-ligar-computador.wav" id="4_r0caj"]
+[ext_resource type="AudioStream" uid="uid://dtemryu0hdrhj" path="res://Assets/Audio/SFX/som-desligar-computador.wav" id="5_i8vjy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r0caj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0, 0, 0, 0.25882354)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0.14509805)
+
+[node name="LojaUpgrades" type="CanvasLayer" unique_id=1955568483]
+layer = 7
+script = ExtResource("1_6opsm")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1442328622]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -504.0
+offset_top = -456.0
+offset_right = 496.0
+offset_bottom = 544.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(-262, 182)
+mouse_filter = 2
+texture = ExtResource("2_0go2d")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1119381476]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -234.0
+offset_top = -138.0
+offset_right = 214.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_g6is7")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_r0caj")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=620898506]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=2014209516]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Titulo" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=2066897303]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 18
+text = "COMPRAR MELHORIAS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardVelocidade" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1455157022]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="LinhaVelocidade" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/CardVelocidade" unique_id=286365386]
+layout_mode = 2
+
+[node name="InfoVelocidade" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/CardVelocidade/LinhaVelocidade" unique_id=1041133211]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelVelocidade" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/CardVelocidade/LinhaVelocidade/InfoVelocidade" unique_id=1524004728]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "Saldo:"
+vertical_alignment = 1
+
+[node name="DescVelocidade" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/CardVelocidade/LinhaVelocidade/InfoVelocidade" unique_id=968417852]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 14
+text = "Aumenta a velocidade do Kratos nos corredores (+25 por nível)"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="BotaoVelocidade" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/CardVelocidade/LinhaVelocidade" unique_id=953235710]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 16
+text = "Comprar"
+
+[node name="CardEstoque" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=2044657594]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="LinhaEstoque" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/CardEstoque" unique_id=537377851]
+layout_mode = 2
+
+[node name="InfoEstoque" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/CardEstoque/LinhaEstoque" unique_id=1416261469]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelEstoque" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/CardEstoque/LinhaEstoque/InfoEstoque" unique_id=55156386]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "Saldo:"
+vertical_alignment = 1
+
+[node name="DescEstoque" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/CardEstoque/LinhaEstoque/InfoEstoque" unique_id=44084992]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 14
+text = "Amplia a capacidade máxima de todas as prateleiras (+3 itens)."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="BotaoEstoque" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/CardEstoque/LinhaEstoque" unique_id=1647149430]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 16
+text = "Comprar"
+
+[node name="CardRepositor" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=838529085]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
+
+[node name="LinhaRepositor" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/CardRepositor" unique_id=1658025800]
+layout_mode = 2
+
+[node name="InfoRepositor" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/CardRepositor/LinhaRepositor" unique_id=278836309]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="LabelRepositor" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/CardRepositor/LinhaRepositor/InfoRepositor" unique_id=1503822812]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 17
+text = "Upgrade"
+vertical_alignment = 1
+
+[node name="DescRepositor" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/CardRepositor/LinhaRepositor/InfoRepositor" unique_id=172976331]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 14
+text = "Reabastece automaticamente as prateleiras vazias de tempos em tempos."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="BotaoRepositor" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/CardRepositor/LinhaRepositor" unique_id=1559779058]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 16
+text = "Comprar"
+
+[node name="BotaoFechar" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=664724289]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 16
+text = "Fechar
+"
+
+[node name="SomAbrir" type="AudioStreamPlayer" parent="." unique_id=843792239]
+stream = ExtResource("4_r0caj")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="SomFechar" type="AudioStreamPlayer" parent="." unique_id=621421803]
+stream = ExtResource("5_i8vjy")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="SomComprar" type="AudioStreamPlayer" parent="." unique_id=1400189696]
+stream = ExtResource("4_4nsef")
+bus = &"SFX"

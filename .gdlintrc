@@ -7,4 +7,6 @@ disable:
   - trailing-whitespace
   - function-variable-name
   - class-variable-name
-max-line-length: 180
+  - no-else-return
+  - no-elif-return
+  - max-line-length

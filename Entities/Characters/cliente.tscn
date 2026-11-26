@@ -58,6 +58,7 @@
 [ext_resource type="Texture2D" uid="uid://do1b4cm3f8g5j" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_pfpn_v03.png" id="53_8h7jw"]
 [ext_resource type="Texture2D" uid="uid://dny8xbsot1n45" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_pfpn_v04.png" id="54_1ons2"]
 [ext_resource type="Texture2D" uid="uid://cxf1lkauwpj3n" path="res://Entities/Characters/Visuals/Roupa/char_a_p1_1out_pfpn_v05.png" id="55_lji6m"]
+[ext_resource type="Shader" uid="uid://lonxm4l2y37w" path="res://Entities/Characters/cliente.gdshader" id="59_t5oay"]
 
 [sub_resource type="Animation" id="Animation_qafmv"]
 length = 0.001
@@ -571,9 +572,9 @@ _data = {
 }
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8y8jn"]
-content_margin_left = 2.0
+content_margin_left = 4.0
 content_margin_top = 2.0
-content_margin_right = 2.0
+content_margin_right = 4.0
 content_margin_bottom = 2.0
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
@@ -581,6 +582,15 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g4v7s"]
+resource_local_to_scene = true
+shader = ExtResource("59_t5oay")
+shader_parameter/progresso = 0.0
+shader_parameter/resolucao_pixels = 15
+shader_parameter/cor_fundo = Color(0.96, 0.96, 0.92, 1)
+shader_parameter/cor_vermelho = Color(0.9, 0.18, 0.18, 1)
+shader_parameter/cor_borda = Color(0.12, 0.12, 0.15, 1)
 
 [node name="Cliente" type="CharacterBody2D" unique_id=1174278224]
 script = ExtResource("1_echkx")
@@ -632,11 +642,10 @@ region_enabled = true
 region_rect = Rect2(127.92489, 0, 16.075111, 16)
 
 [node name="BalaoFala" type="Label" parent="." unique_id=1208305751]
-visible = false
-offset_left = 19.0
-offset_top = -49.0
-offset_right = 59.0
-offset_bottom = -29.0
+offset_left = -32.0
+offset_top = -101.0
+offset_right = 35.0
+offset_bottom = -81.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5_qbl01")
 theme_override_font_sizes/font_size = 8
@@ -648,3 +657,14 @@ vertical_alignment = 1
 [node name="SomChegouCaixa" type="AudioStreamPlayer" parent="." unique_id=1620113404]
 stream = ExtResource("6_es1rb")
 volume_db = -12.0
+bus = &"SFX"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1243745766]
+
+[node name="RelogioPaciencia" type="ColorRect" parent="." unique_id=1687177085]
+z_index = 15
+material = SubResource("ShaderMaterial_g4v7s")
+offset_left = -8.0
+offset_top = -78.0
+offset_right = 7.0
+offset_bottom = -63.0

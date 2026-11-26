@@ -9,6 +9,13 @@ class_name BaseCharacter
 @export var _run_speed: float = 256.0
 @export var _acceleration: float = 800.0 # Controla a suavidade da frenagem e arrancada
 
+@onready var camera: Camera2D = $Camera2D
+
+var em_cutscene: bool = false
+var _alvo_camera: Node2D = null
+var _zoom_padrao: Vector2 = Vector2(2, 2)
+var _camera_tween: Tween
+
 # ==========================================
 # --- REFERÊNCIAS VISUAIS E DE ANIMAÇÃO ---
 # ==========================================
@@ -60,6 +67,12 @@ var _intervalo_correndo: float = 0.30 # Segundos entre passos ao correr (mais r�
 # --- INICIALIZAÇÃO ---
 # ==========================================
 func _ready() -> void:
+	
+	add_to_group("jogador")
+	
+	if camera:
+		_zoom_padrao = camera.zoom
+	
 	# Inicializa o estado da interface garantindo que os painéis comecem ocultos
 	notepad.visible = false
 	notificacao_label.visible = false
@@ -71,11 +84,20 @@ func _ready() -> void:
 	# Registra a UI no gerenciador global de clientes
 	CustomerManager.ui_lista_de_itens = get_tree().get_first_node_in_group("lista_de_pedidos")
 
+func _process(delta: float) -> void:
+	if _alvo_camera and is_instance_valid(_alvo_camera) and camera:
+		camera.global_position = camera.global_position.lerp(_alvo_camera.global_position, 7.0 * delta)
 
 # ==========================================
 # --- LOOP FÍSICO PRINCIPAL ---
 # ==========================================
 func _physics_process(delta: float) -> void:
+	
+	if em_cutscene:
+		velocity = Vector2.ZERO
+		_animation.play("idle_" + _last_direction)
+		return
+	
 	_move(delta)
 	_animate()
 	
@@ -152,6 +174,7 @@ func add_to_cart(product: ProductData) -> void:
 	shopping_cart.append(product)
 	mostrar_notificacao("+ " + product.product_name, Color.GREEN)
 	CustomerManager.atualizar_lista_visual(shopping_cart)
+	get_tree().call_group("tutorial", "verificar_coleta", shopping_cart)
 
 func remove_from_cart(product: ProductData) -> void:
 	var index = shopping_cart.find(product)
@@ -160,12 +183,17 @@ func remove_from_cart(product: ProductData) -> void:
 		shopping_cart.remove_at(index)
 		mostrar_notificacao("- " + product.product_name + " (Devolvido)", Color.ORANGE)
 		CustomerManager.atualizar_lista_visual(shopping_cart)
+		get_tree().call_group("tutorial", "verificar_coleta", shopping_cart)
 		
 
 # ==========================================
 # --- INTERFACE: CONTROLES DE INPUT E PRANCHETA ---
 # ==========================================
 func _input(event: InputEvent) -> void:
+	
+	if em_cutscene:
+		return
+	
 	if event.is_action_pressed("toggle_notepad"):
 		alternar_prancheta()
 
@@ -225,3 +253,133 @@ func abrir_prancheta() -> void:
 	# Se já estiver aberta (_prancheta_aberta == true), o código não faz nada e ela continua aberta!
 	if not _prancheta_aberta:
 		alternar_prancheta()
+
+func aumentar_velocidade(bonus: float) -> void:
+	_move_speed += bonus
+	_run_speed += bonus * 1.5
+
+func iniciar_cutscene_camera(alvo: Node2D) -> void:
+	em_cutscene = true
+	velocity = Vector2.ZERO
+
+	# Fecha a prancheta caso estivesse aberta
+	if _prancheta_aberta:
+		alternar_prancheta()
+
+	if not camera or not is_instance_valid(alvo):
+		return
+
+	camera.top_level = true
+	camera.global_position = global_position
+
+	# Desliza a câmera do Kratos até a porta onde o VIP entrou
+	var tween := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(camera, "global_position", alvo.global_position, 0.7)
+	await tween.finished
+
+	# Passa a acompanhar o VIP andando pelo mercado
+	_alvo_camera = alvo
+
+func focar_zoom_cutscene(fator: float = 1.2) -> void:
+	if not camera:
+		return
+	var tween := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(camera, "zoom", _zoom_padrao * fator, 0.4)
+	await tween.finished
+
+func focar_posicao_camera(destino: Vector2, fator_zoom: float = 1.35, duracao: float = 0.7) -> void:
+	em_cutscene = true
+	velocity = Vector2.ZERO
+	_alvo_camera = null
+
+	if _prancheta_aberta:
+		alternar_prancheta()
+
+	if not camera:
+		return
+
+	if _camera_tween and _camera_tween.is_valid():
+		_camera_tween.kill()
+
+	if not camera.top_level:
+		camera.top_level = true
+		camera.global_position = global_position
+
+	_camera_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_camera_tween.tween_property(camera, "global_position", destino, duracao)
+	_camera_tween.tween_property(camera, "zoom", _zoom_padrao * fator_zoom, duracao)
+
+func finalizar_cutscene_camera() -> void:
+	_alvo_camera = null
+
+	if _camera_tween and _camera_tween.is_valid():
+		_camera_tween.kill()
+
+	if camera and camera.top_level:
+		_camera_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_camera_tween.tween_property(camera, "global_position", global_position, 0.55)
+		_camera_tween.tween_property(camera, "zoom", _zoom_padrao, 0.45)
+		await _camera_tween.finished
+
+		camera.top_level = false
+		camera.position = Vector2.ZERO
+
+	em_cutscene = false
+
+func mostrar_setor_desbloqueado(nivel: int) -> void:
+	var grupo_setor: String = ""
+	var nome_setor: String = ""
+
+	match nivel:
+		1:
+			grupo_setor = "setor_cilindros"
+			nome_setor = "Setor de Cilindros"
+		2:
+			grupo_setor = "setor_paralelepipedos"
+			nome_setor = "Setor de Paralelepípedos"
+		_:
+			return
+
+	var setor: Node2D = get_tree().get_first_node_in_group(grupo_setor) as Node2D
+	if not setor:
+		return
+
+	var destino: Vector2 = _calcular_centro_setor(setor)
+
+	# Desliza a câmera até o setor recém-liberado
+	focar_posicao_camera(destino, 1.25, 0.8)
+	if _camera_tween and _camera_tween.is_running():
+		await _camera_tween.finished
+
+	mostrar_notificacao("✨ %s Desbloqueado!" % nome_setor, Color.GOLD)
+
+	# Destaque visual rápido pulsando o brilho das gôndolas novas
+	var brilho: Tween = create_tween()
+	brilho.tween_property(setor, "modulate", Color(1.35, 1.35, 1.15, 1.0), 0.25)
+	brilho.tween_property(setor, "modulate", Color.WHITE, 0.35)
+	brilho.tween_property(setor, "modulate", Color(1.35, 1.35, 1.15, 1.0), 0.25)
+	brilho.tween_property(setor, "modulate", Color.WHITE, 0.35)
+
+	await get_tree().create_timer(1.8).timeout
+
+	# Devolve a câmera suavemente para o Kratos e libera o controle
+	await finalizar_cutscene_camera()
+
+func _calcular_centro_setor(setor: Node2D) -> Vector2:
+	# Se quiser ajustar o enquadramento manualmente, basta adicionar um Marker2D chamado "PontoFoco" dentro do setor
+	var ponto_manual: Node2D = setor.get_node_or_null("PontoFoco") as Node2D
+	if ponto_manual:
+		return ponto_manual.global_position
+
+	# Caso contrário, centraliza automaticamente na média das gôndolas do setor
+	var soma: Vector2 = Vector2.ZERO
+	var quantidade: int = 0
+	for filho in setor.get_children():
+		if filho is Node2D:
+			soma += (filho as Node2D).global_position
+			quantidade += 1
+
+	if quantidade > 0:
+		return soma / float(quantidade)
+
+	return setor.global_position

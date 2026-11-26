@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://crvs7cpgexnln"]
+
+[ext_resource type="FontFile" uid="uid://coa1m8scuc1o4" path="res://Assets/Fonts/RevMiniPixel.ttf" id="1_222y2"]
+[ext_resource type="Script" uid="uid://b6j6jkabvlnps" path="res://UI/tutorial_overlay.gd" id="1_lamng"]
+[ext_resource type="Theme" uid="uid://du5donkx6irnw" path="res://UI/theme_botoes.tres" id="2_lamng"]
+[ext_resource type="Shader" uid="uid://dqur1egjxqvj1" path="res://UI/tutorial_overlay.gdshader" id="2_sg57h"]
+[ext_resource type="AudioStream" uid="uid://bq38gs8uly5jd" path="res://Assets/Audio/SFX/som-clique.wav" id="5_s6ph7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lplcd"]
+shader = ExtResource("2_sg57h")
+shader_parameter/raio = 0.2
+shader_parameter/suavidade = 0.14
+shader_parameter/opacidade = 0.62
+shader_parameter/intensidade_anel = 0.55
+shader_parameter/cor_anel = Color(1, 0.85, 0.25, 1)
+
+[node name="TutorialOverlay" type="CanvasLayer" unique_id=357736755]
+layer = 8
+script = ExtResource("1_lamng")
+
+[node name="Holofote" type="ColorRect" parent="." unique_id=1344335751]
+visible = false
+material = SubResource("ShaderMaterial_lplcd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PainelDialogo" type="PanelContainer" parent="." unique_id=1323503772]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -188.0
+offset_right = 260.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="PainelDialogo" unique_id=1606720804]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PainelDialogo/MarginContainer" unique_id=371175510]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 8
+
+[node name="TituloKratos" type="Label" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=1356526134]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_222y2")
+theme_override_font_sizes/font_size = 19
+text = "PRIMERO DIA DO KRATOS"
+autowrap_mode = 3
+
+[node name="TextoFala" type="Label" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=1665094564]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_222y2")
+theme_override_font_sizes/font_size = 18
+text = "instruções aqui"
+autowrap_mode = 3
+
+[node name="Botoes" type="HBoxContainer" parent="PainelDialogo/MarginContainer/VBoxContainer" unique_id=2092538346]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="BotaoSecundario" type="Button" parent="PainelDialogo/MarginContainer/VBoxContainer/Botoes" unique_id=1274199584]
+custom_minimum_size = Vector2(190, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_lamng")
+theme_override_fonts/font = ExtResource("1_222y2")
+theme_override_font_sizes/font_size = 20
+text = "Pular Tutorial"
+
+[node name="BotaoPrincipal" type="Button" parent="PainelDialogo/MarginContainer/VBoxContainer/Botoes" unique_id=1577543214]
+custom_minimum_size = Vector2(190, 50)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_lamng")
+theme_override_fonts/font = ExtResource("1_222y2")
+theme_override_font_sizes/font_size = 20
+text = "Próximo"
+
+[node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=653019880]
+process_mode = 3
+stream = ExtResource("5_s6ph7")
+bus = &"SFX"
