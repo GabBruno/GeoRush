@@ -86,7 +86,6 @@ stream = ExtResource("2_gl1ya")
 bus = &"SFX"
 
 [node name="PainelControles" type="Panel" parent="PainelPausa" unique_id=2004040021]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -101,6 +100,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="PainelPausa/PainelControles" unique_id=331825499]
+visible = false
 layout_mode = 0
 offset_left = 144.0
 offset_top = -176.0
